@@ -1,21 +1,9 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.time.LocalDate;
 
+public class ProjectDto {
 
-import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Component
-@Entity
-public class Project {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectId;
 	
 	private String title;
@@ -25,9 +13,9 @@ public class Project {
 	private String referenceLink;
 	private String hostedlink;
 	
-	public Project() {}
+	public ProjectDto() {}
 
-	public Project(long projectId, String title, String description, LocalDate startDate, LocalDate endDate,
+	public ProjectDto(long projectId, String title, String description, LocalDate startDate, LocalDate endDate,
 			String referenceLink, String hostedlink) {
 		super();
 		this.projectId = projectId;
@@ -101,6 +89,4 @@ public class Project {
 				+ startDate + ", endDate=" + endDate + ", referenceLink=" + referenceLink + ", hostedlink=" + hostedlink
 				+ "]";
 	}
-	
-	
 }
