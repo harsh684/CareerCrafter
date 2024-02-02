@@ -2,9 +2,8 @@ package com.hexaware.careercrafterfinal.service;
 
 import java.util.List;
 
-import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
-import com.hexaware.careercrafterfinal.dto.ListingDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 
 public class UserServiceImp implements IUserService {
@@ -16,13 +15,13 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public boolean createProfile(JobSeekerDto seeker) {
+	public boolean createProfile(JobSeeker seeker) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateProfile(JobSeekerDto seeker) {
+	public boolean updateProfile(JobSeeker seeker) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,19 +33,19 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public boolean applyForJob(ListingDto listing) {
+	public boolean applyForJob(Listing listing) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<Applications> getAppliedJobs(JobSeekerDto seeker) {
+	public List<Applications> getAppliedJobs(JobSeeker seeker) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String trackStatus(JobSeekerDto seeker) {
+	public String trackStatus(JobSeeker seeker) {
 		// TODO Auto-generated method stub
 		return null;
 	}
