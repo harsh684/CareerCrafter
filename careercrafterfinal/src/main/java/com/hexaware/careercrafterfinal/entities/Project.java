@@ -1,14 +1,19 @@
 package com.hexaware.careercrafterfinal.entities;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
@@ -18,11 +23,23 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectId;
 	
+	@NotBlank
+	@Size(max=255)
 	private String title;
+	@NotBlank
+	@Size(max=1000)
 	private String description;
+	@NotNull
+	@Past
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate startDate;
+	@NotNull
+	@Past
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate endDate;
+	@Size(max=255)
 	private String referenceLink;
+	@Size(max=255)
 	private String hostedlink;
 	
 	public Project() {}
