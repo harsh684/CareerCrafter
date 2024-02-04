@@ -1,40 +1,25 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.time.LocalDate;
 
 
-import org.springframework.stereotype.Component;
+public class CertificationDto {
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-@Component
-@Entity
-public class Certification {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long certificationId;
-	
-	@NotBlank
+
 	private String title;
-	@NotBlank
+	
 	private String description;
-	@NotNull
+	
 	private LocalDate startDate;
-	@NotNull
+	
 	private LocalDate endDate;
 	
-	public Certification() {
+	public CertificationDto() {
 		super();
 	}
 
-	public Certification(long certificationId, String title, String description, LocalDate startDate,
+	public CertificationDto(long certificationId, String title, String description, LocalDate startDate,
 			LocalDate endDate) {
 		super();
 		this.certificationId = certificationId;
@@ -90,5 +75,4 @@ public class Certification {
 				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
-	
 }

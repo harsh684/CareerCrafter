@@ -8,20 +8,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Component
 @Entity
 public class Education {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long educationId;
 	
+	@NotBlank
 	private String collegeName;
+	@NotBlank
 	private String degree;
+	@NotBlank
 	private String specialization;
+	@NotNull
 	private LocalDate startdate;
+	@NotNull
 	private LocalDate endDate;
+	@NotNull
 	private double percentage;
 	
 	public Education() {}

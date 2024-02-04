@@ -1,39 +1,21 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.time.LocalDate;
 
+public class ProjectDto {
 
-import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-
-@Component
-@Entity
-public class Project {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long projectId;
-	@NotBlank
+	
 	private String title;
-	@NotBlank
 	private String description;
-	@NotBlank
 	private LocalDate startDate;
-	@NotBlank
 	private LocalDate endDate;
-	@NotBlank
 	private String referenceLink;
-	@NotBlank
 	private String hostedlink;
 	
-	public Project() {}
+	public ProjectDto() {}
 
-	public Project(long projectId, String title, String description, LocalDate startDate, LocalDate endDate,
+	public ProjectDto(long projectId, String title, String description, LocalDate startDate, LocalDate endDate,
 			String referenceLink, String hostedlink) {
 		super();
 		this.projectId = projectId;
@@ -107,6 +89,4 @@ public class Project {
 				+ startDate + ", endDate=" + endDate + ", referenceLink=" + referenceLink + ", hostedlink=" + hostedlink
 				+ "]";
 	}
-	
-	
 }

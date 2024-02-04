@@ -1,27 +1,16 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
-import org.springframework.stereotype.Component;
+public class ReferenceLinksDto {
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Component
-@Entity
-public class ReferenceLinks {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long linkId;
 	
 	private String link;
 
-	public ReferenceLinks() {
+	public ReferenceLinksDto() {
 		super();
 	}
 
-	public ReferenceLinks(long linkId, String link) {
+	public ReferenceLinksDto(long linkId, String link) {
 		super();
 		this.linkId = linkId;
 		this.link = link;
@@ -47,6 +36,5 @@ public class ReferenceLinks {
 	public String toString() {
 		return "ReferenceLinks [linkId=" + linkId + ", link=" + link + "]";
 	}
-	
 	
 }
