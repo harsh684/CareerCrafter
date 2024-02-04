@@ -1,45 +1,26 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.util.List;
 
+import com.hexaware.careercrafterfinal.entities.Listing;
 
-import org.springframework.stereotype.Component;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+public class EmployerDto {
 
-@Component
-@Entity
-public class Employer {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long employerId;
 	private String name;
-	
-	@Email
 	private String email;
-	@Pattern(regexp="\\d{10}")
 	private String phno;
 	private String address;
 	private String comppanyName;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employerId")
+	
 	private List<Listing> listings;
 	private String token;
 	
-	public Employer() {}
+	public EmployerDto() {}
 
-	public Employer(long employerId, String name, String email, String phno, String address, String comppanyName,
+	public EmployerDto(long employerId, String name, String email, String phno, String address, String comppanyName,
 			List<Listing> listings, String token) {
 		super();
 		this.employerId = employerId;
@@ -121,6 +102,4 @@ public class Employer {
 		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
 				+ ", comppanyName=" + comppanyName + ", listings=" + listings + ", token=" + token + "]";
 	}
-	
-	
 }

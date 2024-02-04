@@ -1,29 +1,16 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
-import org.springframework.stereotype.Component;
+public class LanguagesDto {
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-
-@Component
-@Entity
-public class Languages {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long languageId;
 	
-	@NotBlank
 	private String languageName;
 
-	public Languages() {
+	public LanguagesDto() {
 		super();
 	}
 
-	public Languages(long languageId, String languageName) {
+	public LanguagesDto(long languageId, String languageName) {
 		super();
 		this.languageId = languageId;
 		this.languageName = languageName;
@@ -49,6 +36,5 @@ public class Languages {
 	public String toString() {
 		return "Languages [languageId=" + languageId + ", languageName=" + languageName + "]";
 	}
-	
 	
 }

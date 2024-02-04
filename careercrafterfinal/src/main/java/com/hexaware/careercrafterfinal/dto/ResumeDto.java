@@ -1,68 +1,41 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import com.hexaware.careercrafterfinal.entities.Accomplishments;
+import com.hexaware.careercrafterfinal.entities.Certification;
+import com.hexaware.careercrafterfinal.entities.Education;
+import com.hexaware.careercrafterfinal.entities.Languages;
+import com.hexaware.careercrafterfinal.entities.Project;
+import com.hexaware.careercrafterfinal.entities.ReferenceLinks;
+import com.hexaware.careercrafterfinal.entities.Skills;
+import com.hexaware.careercrafterfinal.entities.WorkExperience;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+public class ResumeDto {
 
-@Component
-@Entity
-public class Resume {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long resumeId;
-	@NotBlank
+	
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Languages> languages;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Skills> skills;
 	
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<ReferenceLinks> referenceLinks;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Accomplishments> accomplishments;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<WorkExperience> experiences;
 	
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Education> education;
 	
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Project> projects;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private List<Certification> certifications;
 	
-	public Resume() {}
+	public ResumeDto() {}
 
-	public Resume(long resumeId, String address, List<Languages> languages, List<Skills> skills,
+	public ResumeDto(long resumeId, String address, List<Languages> languages, List<Skills> skills,
 			List<ReferenceLinks> referenceLinks, List<Accomplishments> accomplishments,
 			List<WorkExperience> experiences, List<Education> education, List<Project> projects,
 			List<Certification> certifications) {
@@ -167,6 +140,4 @@ public class Resume {
 				+ ", certifications=" + certifications + "]";
 	}
 
-	
-	
 }

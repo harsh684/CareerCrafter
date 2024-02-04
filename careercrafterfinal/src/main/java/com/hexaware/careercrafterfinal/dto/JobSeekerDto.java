@@ -1,59 +1,34 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Resume;
 
-import org.springframework.stereotype.Component;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+public class JobSeekerDto {
 
-@Component
-@Entity
-public class JobSeeker {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotBlank
 	private String name;
-	@NotBlank
 	private String tagline;
-	@NotBlank
 	private String email;
 	private String summary;
-	@NotNull
 	private LocalDate dateOfBirth;
-	@NotBlank
 	private String phno;
-	@NotBlank
 	private String address;
-	@NotBlank
 	private String country;
 	private double ctc;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resumeId")
 	private Resume resume;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "seekerId")
 	private List<Applications> applications;
 	private String token;
 	
-	public JobSeeker() {}
+	public JobSeekerDto() {}
 	
-	public JobSeeker(long id, String name, String tagline, String email, String summary, LocalDate dateOfBirth,
+	public JobSeekerDto(long id, String name, String tagline, String email, String summary, LocalDate dateOfBirth,
 			String phno, String address, String country, double ctc, Resume resume,
 			List<Applications> applications, String token) {
 		super();
@@ -156,6 +131,4 @@ public class JobSeeker {
 				+ country + ", ctc=" + ctc + ", resume=" + resume + ", applications=" + applications + ", token="
 				+ token + "]";
 	}
-	
-	
 }

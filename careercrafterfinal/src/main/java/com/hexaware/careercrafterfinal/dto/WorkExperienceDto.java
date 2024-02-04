@@ -1,37 +1,20 @@
-package com.hexaware.careercrafterfinal.entities;
+package com.hexaware.careercrafterfinal.dto;
 
 import java.time.LocalDate;
 
+public class WorkExperienceDto {
 
-import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-@Component
-@Entity
-public class WorkExperience {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long experienceId;
 	
 	private String companyName;
-	
 	private LocalDate startDate;
-	
 	private LocalDate endDate;
-	
 	private double salary;
 	private String description;
 	
-	public WorkExperience() {}
+	public WorkExperienceDto() {}
 
-	public WorkExperience(long experienceId, String companyName, LocalDate startDate, LocalDate endDate, double salary,
+	public WorkExperienceDto(long experienceId, String companyName, LocalDate startDate, LocalDate endDate, double salary,
 			String description) {
 		super();
 		this.experienceId = experienceId;
@@ -95,7 +78,4 @@ public class WorkExperience {
 		return "WorkExperience [experienceId=" + experienceId + ", companyName=" + companyName + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", salary=" + salary + ", description=" + description + "]";
 	}
-	
-	
-
 }

@@ -2,10 +2,8 @@ package com.hexaware.careercrafterfinal.service;
 
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
-import com.hexaware.careercrafterfinal.entities.Employer;
-import com.hexaware.careercrafterfinal.entities.JobSeeker;
 
-public class RegistrationServiceImp implements IRegisterationAuthService {
+public class RegistrationAutoServiceImp implements IRegisterationAuthService {
 
 	@Override
 	public boolean registerUser(JobSeekerDto seeker) {
