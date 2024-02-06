@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,17 +28,25 @@ public class JobSeeker {
 	
 	@NotBlank
 	private String name;
+	
 	@NotBlank
 	private String tagline;
+	
 	@NotBlank
+	@Email
 	private String email;
+	
 	private String summary;
+	
 	@NotNull
 	private LocalDate dateOfBirth;
+	
 	@NotBlank
 	private String phno;
+	
 	@NotBlank
 	private String address;
+	
 	@NotBlank
 	private String country;
 	private double ctc;

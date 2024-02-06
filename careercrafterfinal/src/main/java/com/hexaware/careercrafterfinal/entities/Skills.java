@@ -24,6 +24,11 @@ public class Skills {
 		super();
 	}
 
+	public Skills(String skillName) {
+		super();
+		this.skillName = skillName;
+	}
+	
 	public Skills(long skillId, String skillName) {
 		super();
 		this.skillId = skillId;
