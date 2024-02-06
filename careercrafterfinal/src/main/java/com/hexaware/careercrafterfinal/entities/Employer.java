@@ -30,7 +30,7 @@ public class Employer {
 	@Pattern(regexp="\\d{10}")
 	private String phno;
 	private String address;
-	private String comppanyName;
+	private String companyName;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employerId")
@@ -39,7 +39,7 @@ public class Employer {
 	
 	public Employer() {}
 
-	public Employer(long employerId, String name, String email, String phno, String address, String comppanyName,
+	public Employer(long employerId, String name, String email, String phno, String address, String companyName,
 			List<Listing> listings, String token) {
 		super();
 		this.employerId = employerId;
@@ -47,7 +47,7 @@ public class Employer {
 		this.email = email;
 		this.phno = phno;
 		this.address = address;
-		this.comppanyName = comppanyName;
+		this.companyName = companyName;
 		this.listings = listings;
 		this.token = token;
 	}
@@ -92,12 +92,12 @@ public class Employer {
 		this.address = address;
 	}
 
-	public String getComppanyName() {
-		return comppanyName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setComppanyName(String comppanyName) {
-		this.comppanyName = comppanyName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public List<Listing> getListings() {
@@ -119,7 +119,7 @@ public class Employer {
 	@Override
 	public String toString() {
 		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", comppanyName=" + comppanyName + ", listings=" + listings + ", token=" + token + "]";
+				+ ", comppanyName=" + companyName + ", listings=" + listings + ", token=" + token + "]";
 	}
 	
 	

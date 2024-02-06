@@ -5,6 +5,7 @@ import java.util.List;
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.dto.ListingDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 
 
@@ -14,9 +15,9 @@ public interface IEmployerService {
 	
 	public boolean updateProfile(EmployerDto employer);
 
-	public boolean postListing(ListingDto listing);
+	public boolean postListing(Listing listing);
 	
-	public boolean updateListing(ListingDto listing);
+	public boolean updateListing(long listingId, Listing listing);
 
 	public boolean deleteListing(long listingId);
 	

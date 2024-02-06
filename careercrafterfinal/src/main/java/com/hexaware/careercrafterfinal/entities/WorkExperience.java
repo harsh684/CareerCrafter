@@ -20,10 +20,13 @@ public class WorkExperience {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long experienceId;
 	
+	@NotBlank
 	private String companyName;
 	
+	@NotNull
 	private LocalDate startDate;
 	
+	@NotNull
 	private LocalDate endDate;
 	
 	private double salary;
