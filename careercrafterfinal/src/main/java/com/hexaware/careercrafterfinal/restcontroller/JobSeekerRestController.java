@@ -2,6 +2,8 @@ package com.hexaware.careercrafterfinal.restcontroller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +33,12 @@ public class JobSeekerRestController {
 	@Autowired
 	IUserService userService;
 	
+	Logger logger=LoggerFactory.getLogger(JobSeekerRestController.class);
+	
 	@PostMapping("/createprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+        logger.info("Creating profile for job seeker: {}");
 		if(!userService.createProfile(seeker)) {
 			throw new ProfileUpdateException();
 		}
@@ -52,6 +57,7 @@ public class JobSeekerRestController {
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String updateProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+        logger.info("Updating profile for seeker with ID: {}");
 		if(!userService.updateProfile(seeker)) {
 			throw new ProfileUpdateException();
 		}
@@ -67,11 +73,15 @@ public class JobSeekerRestController {
 	@GetMapping("/searchjobs")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public List<Listing> searchJobs(){
+        logger.info("Searching for jobs");
+
 		return userService.searchJobs();
 	}
 	
 	@PostMapping("/apply/{listingId}")
 	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException {
+        logger.info("Applying for job with listing ID: {}", listingId);
+
 		if(userService.applyForJob(listingId,application)) {
 			throw new ApplicationException("Could not send application for this Job listing");
 		}
@@ -81,12 +91,16 @@ public class JobSeekerRestController {
 	@GetMapping("/getyourapplications")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public List<Applications> getAppliedJobs(JobSeekerDto seeker){
+        logger.info("Fetching applied jobs for seeker: {}");
+
 		return userService.getAppliedJobs();
 	}
 	
 	@GetMapping("/trackStatus/{applicationId}")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String trackStatus(@PathVariable @Valid long applicationId) throws ApplicationException {
+        logger.info("Tracking status for application with ID: {}", applicationId);
+
 		String result = userService.trackStatus(applicationId);
 		if(result==null) {
 			throw new ApplicationException("Application Status could not be fetched");
