@@ -20,6 +20,7 @@ import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
+import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
 import com.hexaware.careercrafterfinal.service.IUserService;
 
@@ -79,10 +80,10 @@ public class JobSeekerRestController {
 	}
 	
 	@PostMapping("/apply/{listingId}")
-	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException {
+	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException, ListingNotFoundException {
         logger.info("Applying for job with listing ID: {}", listingId);
 
-		if(userService.applyForJob(listingId,application)) {
+		if(!userService.applyForJob(listingId,application)) {
 			throw new ApplicationException("Could not send application for this Job listing");
 		}
 		return "Applied!!"; 
