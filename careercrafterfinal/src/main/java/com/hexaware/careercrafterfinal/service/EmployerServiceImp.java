@@ -2,6 +2,8 @@ package com.hexaware.careercrafterfinal.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +43,9 @@ public class EmployerServiceImp implements IEmployerService {
 	@Autowired
 	ResumeRepository resumeRepository;
 	
+	private static final Logger logger = LoggerFactory.getLogger(EmployerServiceImp.class);
+
+	
 	@Override
 	public boolean createProfile(EmployerDto emp) {
 		
@@ -54,6 +59,8 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setListings(emp.getListings());
 		employer.setemployerId(emp.getemployerId());
 		
+		logger.info("Creating profile for employer: ", employer.getemployerId());
+
 		Employer temp = employerRepo.save(employer);
 		
 		if(temp == null)
@@ -64,6 +71,8 @@ public class EmployerServiceImp implements IEmployerService {
 			userInfo = getCurrentUserInfo();
 			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
 				userInfo.setRoleId(temp.getemployerId());
+				logger.info("Connecting profile for employer with current active user account: ", employer.getemployerId());
+
 				userInfoRepository.save(userInfo);
 			}
 		} catch (Exception e) {
@@ -75,6 +84,7 @@ public class EmployerServiceImp implements IEmployerService {
 
 	@Override
 	public boolean updateProfile(EmployerDto emp) {
+		
 		Employer employer = new Employer();
 		employer.setName(emp.getName());
 		employer.setAddress(emp.getAddress());
@@ -93,9 +103,12 @@ public class EmployerServiceImp implements IEmployerService {
 				employer.setemployerId(userInfo.getRoleId());
 			}
 		} catch (Exception e) {
+	        logger.error("Error occurred while retrieving current user info.", e);
 			e.printStackTrace();
 		}
 		
+		logger.info("Updating profile for employer: ", employer.getemployerId());
+
 		return employerRepo.save(employer) != null;
 	}
 
@@ -110,38 +123,62 @@ public class EmployerServiceImp implements IEmployerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		logger.info("Posting listing with ID: {}", listing.getJd());
+
 		return listingRepository.save(listing)!=null;
 	}
 
 	@Override
 	public boolean updateListing(long listingId, Listing listing) {
+        logger.info("Updating Listing with ID: {}", listingId);
+
 		return listingRepository.save(listing)!=null;
 	}
 
 	@Override
 	public boolean deleteListing(long listingId) {
+		
+	    logger.info("Deleting listing with ID: {}", listingId);
+
 		listingRepository.deleteById(listingId);
 		return true;
 	}
 
 	@Override
+	public List<Applications> viewApplicationsForListing(long listingId) {
+	    logger.info("Fetching all applications for listing id:"+listingId);
+
+	    Listing listing = listingRepository.findById(listingId).orElse(null);
+	    
+		return listing.getApplications();
+	}
+	
+	@Override
 	public List<Applications> viewApplications() {
+	    logger.info("Fetching all applications");
+
 		return applicationRepo.findAll();
 	}
 
 	@Override
 	public boolean changeApplicationStatus(long applicationId, String status) {
+	    logger.info("Changing status of application with ID: {} to {}", applicationId, status);
+
 		return applicationRepo.updateStatus(status,applicationId)>0;
 	}
 
 	@Override
 	public List<Resume> manageResumeDb() {
+	    logger.info("Fetching all resumes");
+
 		return resumeRepository.findAll();
 	}
 	
 	private UserInfo getCurrentUserInfo() throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
+			logger.info("Could not authenticated");
+
 			throw new Exception();
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();

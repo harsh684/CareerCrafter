@@ -26,7 +26,10 @@ public interface IEmployerService {
 	
 	public List<Applications> viewApplications();
 	
+	public List<Applications> viewApplicationsForListing(long listingId);
+	
 	public boolean changeApplicationStatus(long applicationId, String status) throws ApplicationException;
 	
 	public List<Resume> manageResumeDb();
+	
 }

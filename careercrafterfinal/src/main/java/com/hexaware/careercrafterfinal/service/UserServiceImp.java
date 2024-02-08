@@ -2,6 +2,8 @@ package com.hexaware.careercrafterfinal.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,12 +42,13 @@ public class UserServiceImp implements IUserService {
 	
 	String compareRole = "Seeker";
 	
+	Logger logger =LoggerFactory.getLogger(UserServiceImp.class);
 	
 	@Override
 	public boolean createProfile(JobSeeker seeker) {
 		
-		System.out.println("before insert "+seeker);
-
+		logger.info("Jobseeker profile creating for: {}",seeker.getSeekerName());
+		
 //		JobSeeker jobSeeker = new JobSeeker();
 //		jobSeeker.setName(seeker.getName());
 //		jobSeeker.setEmail(seeker.getEmail());
@@ -59,6 +62,7 @@ public class UserServiceImp implements IUserService {
 //		jobSeeker.setSummary(seeker.getSummary());
 //		jobSeeker.setTagline(seeker.getTagline());
 		
+		logger.info("Saving Seeker profile to database: ");
 		JobSeeker temp = seekerRepository.save(seeker);
 		
 		UserInfo currentUser;
@@ -67,9 +71,11 @@ public class UserServiceImp implements IUserService {
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				currentUser.setRoleId(temp.getSeekerId());
 				userInfoRepository.save(currentUser);
+				logger.info("Linking user Info with seeker profile: ",seeker.getSeekerName());
+
 			}
 		} catch (Exception e) {
-			
+	        logger.error("Error occurred while creating profile for job seeker", e);
 			e.printStackTrace();
 		}
 		return temp!=null;
@@ -80,12 +86,14 @@ public class UserServiceImp implements IUserService {
 		try {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
+				logger.info("Getting Seeker id from current active user id");
 				seeker.setSeekerId(currentUser.getRoleId());
 			}
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
+	    logger.info("Updating profile for job seeker with ID: {}");
 		return seekerRepository.save(seeker) != null;
 	}
 
@@ -108,13 +116,14 @@ public class UserServiceImp implements IUserService {
 	
 	@Override
 	public List<Listing> searchJobs() {
-		
+	    logger.info("Searching for jobs from database");
 		return listingRepository.findAll();
 	}
 
 	@Override
 	public boolean applyForJob(long listingId, Applications application) {
-		
+		//get listing object and add application to application list
+		//also add application object to listing object application list
 		return false;
 	}
 
@@ -127,9 +136,11 @@ public class UserServiceImp implements IUserService {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				seeker  = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+			    logger.info("Fetching applied jobs for current job seeker");
 				return seeker.getApplications();
 			}
 		} catch (Exception e) {
+	        logger.error("Error occurred while fetching applied jobs for job seeker", e);
 			e.printStackTrace();
 		}
 		return null;
@@ -142,11 +153,18 @@ public class UserServiceImp implements IUserService {
 			UserInfo currentUser = getCurrentUserInfo();
 			//also check applications seeker id == getRoleId()
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
-				seeker  = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
-				//change logic
-				return seeker.getApplications().get(1).getStatus();
+			    
+				logger.info("Tracking status for application with ID: {}", applicationId);
+				
+			    seeker  = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+
+				List<Applications> applicationList = seeker.getApplications();
+				return applicationList.stream()
+						.filter(application -> application.getApplicationId() == applicationId)
+						.findFirst().orElse(null).getStatus();
 			}
 		} catch (Exception e) {
+	        logger.error("Error occurred while fetching status for job seeker", e);
 			e.printStackTrace();
 		}
 		return null;
@@ -155,6 +173,9 @@ public class UserServiceImp implements IUserService {
 	private UserInfo getCurrentUserInfo() throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
+			
+			logger.info("Could not authenticated");
+
 			throw new Exception();
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();

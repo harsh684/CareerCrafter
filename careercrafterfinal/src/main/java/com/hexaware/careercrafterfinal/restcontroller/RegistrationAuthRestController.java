@@ -1,5 +1,7 @@
 package com.hexaware.careercrafterfinal.restcontroller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +30,18 @@ public class RegistrationAuthRestController {
 	@Autowired
 	ClientService clientService;
 	
+	Logger logger=LoggerFactory.getLogger(RegistrationAuthRestController.class);
+
+	
 	@PostMapping("/user")
 	public String registerUser(@RequestBody UserInfo userInfo) {
+		logger.info("Hitting API to register user info for job seeker");
 		return clientService.addUser(userInfo);
 	}
 
 	@PostMapping("/employer")
 	public String registerEmployer(@RequestBody UserInfo employerInfo) {
+		logger.info("Hitting API to register user info for employr");
 		return clientService.addUser(employerInfo);
 	}
 
@@ -46,6 +53,7 @@ public class RegistrationAuthRestController {
 		String token = null;
 		
 		if(authentication.isAuthenticated()) {
+			logger.info("Generating jwt auth token");
 			token = jwtService.generateToken(authRequest.getUsername());
 		}else {
 			throw new UsernameNotFoundException("Username or Password is invalid");
