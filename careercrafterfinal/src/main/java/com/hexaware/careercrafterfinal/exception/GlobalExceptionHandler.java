@@ -10,7 +10,7 @@ public class GlobalExceptionHandler extends Exception {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handler(Exception e) {
-		return new ResponseEntity<String>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
 	}
 	
 }

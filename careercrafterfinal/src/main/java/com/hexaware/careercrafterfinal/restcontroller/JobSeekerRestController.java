@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +16,12 @@ import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
+import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
 import com.hexaware.careercrafterfinal.service.IUserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,20 +33,35 @@ public class JobSeekerRestController {
 	
 	@PostMapping("/createprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String createProfile(JobSeekerDto seeker) throws ProfileUpdateException {
+	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
 		if(!userService.createProfile(seeker)) {
 			throw new ProfileUpdateException();
 		}
 		return "Profile created!!";
 	}
 
+	@PostMapping("/createprofile/resume")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public String editResume(@RequestBody @Valid Resume resume) throws ProfileUpdateException {
+		if(!userService.editResume(resume)) {
+			throw new ProfileUpdateException();
+		}
+		return "Resume Updated";
+	}
+	
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String updateProfile(JobSeeker seeker) throws ProfileUpdateException {
+	public String updateProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
 		if(!userService.updateProfile(seeker)) {
 			throw new ProfileUpdateException();
 		}
 		return "Profile updated!!";
+	}
+	
+	@GetMapping("/getallusers")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public List<JobSeeker> getAll(){
+		return userService.getAll();
 	}
 	
 	@GetMapping("/searchjobs")
@@ -67,9 +84,9 @@ public class JobSeekerRestController {
 		return userService.getAppliedJobs();
 	}
 	
-	@GetMapping("/trackStatus")
+	@GetMapping("/trackStatus/{applicationId}")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String trackStatus(long applicationId) throws ApplicationException {
+	public String trackStatus(@PathVariable @Valid long applicationId) throws ApplicationException {
 		String result = userService.trackStatus(applicationId);
 		if(result==null) {
 			throw new ApplicationException("Application Status could not be fetched");
