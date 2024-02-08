@@ -1,17 +1,13 @@
 package com.hexaware.careercrafterfinal.service;
 
-import com.hexaware.careercrafterfinal.dto.EmployerDto;
-import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
-import com.hexaware.careercrafterfinal.entities.Employer;
-import com.hexaware.careercrafterfinal.entities.JobSeeker;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.hexaware.careercrafterfinal.dto.AuthRequest;
+import com.hexaware.careercrafterfinal.entities.UserInfo;
 
 public interface IRegisterationAuthService {
 
-	public boolean registerUser(JobSeekerDto seeker);
+	public boolean registerUser(UserInfo userInfo);
 	
-	public boolean registerEmployer(EmployerDto employer);
-	
-	public boolean authenticateUser(String username,String password);
-	
-	public boolean authenticateEmployer(String username,String password);
+	public boolean registerEmployer(UserInfo userInfo);
 }
