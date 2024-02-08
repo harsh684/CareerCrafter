@@ -17,6 +17,7 @@ import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeRepository;
@@ -121,10 +122,34 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public boolean applyForJob(long listingId, Applications application) {
-		//get listing object and add application to application list
+	public boolean applyForJob(long listingId, Applications application) throws ListingNotFoundException {
 		//also add application object to listing object application list
-		return false;
+		JobSeeker seeker = null;
+		Listing listing = listingRepository.findById(listingId).orElse(null);
+		if(listing==null) 
+			throw new ListingNotFoundException();
+		
+		List<Applications> appList = listing.getApplications();
+		appList.add(application);
+		listing.setApplications(appList);
+		appList=null;
+		try {
+			UserInfo currentUser = getCurrentUserInfo();
+			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
+				seeker = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+				appList = seeker.getApplications();
+				appList.add(application);
+				seeker.setApplications(appList);
+				seeker = seekerRepository.save(seeker);
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		if(seeker==null)
+			return false;
+		
+		return true;
 	}
 
 	@Override
