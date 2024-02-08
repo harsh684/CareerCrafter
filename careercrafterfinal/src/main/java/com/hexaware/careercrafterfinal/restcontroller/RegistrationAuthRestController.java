@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.AuthRequest;
-import com.hexaware.careercrafterfinal.dto.EmployerDto;
-import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.service.ClientService;
 import com.hexaware.careercrafterfinal.service.JwtService;
@@ -32,13 +30,11 @@ public class RegistrationAuthRestController {
 	
 	@PostMapping("/user")
 	public String registerUser(@RequestBody UserInfo userInfo) {
-		// TODO Auto-generated method stub
 		return clientService.addUser(userInfo);
 	}
 
 	@PostMapping("/employer")
 	public String registerEmployer(@RequestBody UserInfo employerInfo) {
-		// TODO Auto-generated method stub
 		return clientService.addUser(employerInfo);
 	}
 
