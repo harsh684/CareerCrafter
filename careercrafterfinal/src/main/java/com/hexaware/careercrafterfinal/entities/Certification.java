@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 public class Certification {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long certificationId;
 	
 	@NotBlank

@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
@@ -21,7 +22,7 @@ import jakarta.validation.constraints.NotNull;
 public class Applications {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long applicationId;
 	
 	@NotBlank
@@ -38,7 +39,7 @@ public class Applications {
 	
 	private String coverLetter;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "resumeId")
 	private Resume resume;
 	//listingid
@@ -56,6 +57,18 @@ public class Applications {
 		this.appliedDate = appliedDate;
 		this.status = status;
 		this.coverLetter = coverLetter;
+	}
+
+	
+	public Applications(@NotBlank String companyName, @NotBlank String profile, @NotNull LocalDate appliedDate,
+			@NotBlank String status, String coverLetter, Resume resume) {
+		super();
+		this.companyName = companyName;
+		this.profile = profile;
+		this.appliedDate = appliedDate;
+		this.status = status;
+		this.coverLetter = coverLetter;
+		this.resume = resume;
 	}
 
 	public long getApplicationId() {
@@ -106,11 +119,21 @@ public class Applications {
 		this.coverLetter = coverLetter;
 	}
 
+	public Resume getResume() {
+		return resume;
+	}
+
+	public void setResume(Resume resume) {
+		this.resume = resume;
+	}
+
 	@Override
 	public String toString() {
 		return "Applications [applicationId=" + applicationId + ", companyName=" + companyName + ", profile=" + profile
-				+ ", appliedDate=" + appliedDate + ", status=" + status + ", coverLetter=" + coverLetter + "]";
+				+ ", appliedDate=" + appliedDate + ", status=" + status + ", coverLetter=" + coverLetter + ", resume="
+				+ resume + "]";
 	}
+
 	
 	
 	

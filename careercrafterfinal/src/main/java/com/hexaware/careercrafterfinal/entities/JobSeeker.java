@@ -51,11 +51,11 @@ public class JobSeeker {
 	
 	private double currentSalary;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private Resume resume;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "seekerId")
 	private List<Applications> applications;
 

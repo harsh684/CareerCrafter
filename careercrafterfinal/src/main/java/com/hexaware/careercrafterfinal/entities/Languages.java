@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Languages {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long languageId;
 	
 	@NotBlank

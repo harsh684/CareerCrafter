@@ -1,5 +1,6 @@
 package com.hexaware.careercrafterfinal.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,12 +18,16 @@ import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
+import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeRepository;
 import com.hexaware.careercrafterfinal.repository.UserInfoRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -41,9 +46,12 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	ResumeRepository resumeRepository;
 	
+	@PersistenceContext
+	EntityManager entityManager;
+	
 	String compareRole = "Seeker";
 	
-	Logger logger =LoggerFactory.getLogger(UserServiceImp.class);
+	Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 	
 	@Override
 	public boolean createProfile(JobSeeker seeker) {
@@ -64,6 +72,7 @@ public class UserServiceImp implements IUserService {
 //		jobSeeker.setTagline(seeker.getTagline());
 		
 		logger.info("Saving Seeker profile to database: ");
+		entityManager.merge(seeker);
 		JobSeeker temp = seekerRepository.save(seeker);
 		
 		UserInfo currentUser;
@@ -84,8 +93,10 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public boolean updateProfile(JobSeeker seeker) {
+		UserInfo currentUser;
+		JobSeeker seekerTemp = null;
 		try {
-			UserInfo currentUser = getCurrentUserInfo();
+			currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				logger.info("Getting Seeker id from current active user id");
 				seeker.setSeekerId(currentUser.getRoleId());
@@ -105,49 +116,86 @@ public class UserServiceImp implements IUserService {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				temp = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+				logger.info("Updating resume for job seeker in database: {}"+resume);
 				temp.setResume(resume);
-				temp = seekerRepository.save(temp);
+				seekerRepository.save(temp);
 			}
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
+		logger.info("Seeker after updating resume"+temp);
 		return temp!=null;
+		//return resumeRepository.save(resume)!=null;
 	}
 	
 	@Override
 	public List<Listing> searchJobs() {
 	    logger.info("Searching for jobs from database");
-		return listingRepository.findAll();
+	    List<Listing> original = listingRepository.findAll();
+        Listing temp=null;
+        List<Listing> abstractList = new ArrayList<>();
+        for(Listing e:original) {
+        	temp=new Listing();
+        	temp.setListingId(e.getListingId());
+        	temp.setProfile(e.getProfile());
+        	temp.setDepartment(e.getDepartment());
+        	temp.setLocation(e.getLocation());
+        	temp.setExperienceReqFrom(e.getExperienceReqFrom());
+        	temp.setExperienceReqTo(e.getExperienceReqTo());
+        	temp.setSalary(e.getSalary());
+        	temp.setPostDate(e.getPostDate());
+        	temp.setReqSkills(e.getReqSkills());
+        	temp.setJd(e.getJd());
+        	temp.setBenefitsProvided(e.getBenefitsProvided());
+        	abstractList.add(temp);
+        }
+	    return abstractList;
 	}
 
 	@Override
-	public boolean applyForJob(long listingId, Applications application) throws ListingNotFoundException {
+	public boolean applyForJob(long listingId, Applications application) throws ListingNotFoundException,ProfileNotFoundException, ApplicationException {
 		//also add application object to listing object application list
 		JobSeeker seeker = null;
+		
 		Listing listing = listingRepository.findById(listingId).orElse(null);
 		if(listing==null) 
 			throw new ListingNotFoundException();
 		
-		List<Applications> appList = listing.getApplications();
-		appList.add(application);
-		listing.setApplications(appList);
-		appList=null;
+		List<Applications> appList = null;
 		try {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				seeker = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+				logger.info("Getting job seeker details from database: {}"+seeker);
+
+				if(seeker==null) 
+					throw new ProfileNotFoundException("Profile Not Found in the database");
+				
+				application.setResume(seeker.getResume());
+				logger.info("Setting job seeker resume to application: {}"+application.getResume());
+
 				appList = seeker.getApplications();
 				appList.add(application);
 				seeker.setApplications(appList);
+				logger.info("Setting application list with new application: {}"+seeker.getApplications());
+				entityManager.merge(seeker);
 				seeker = seekerRepository.save(seeker);
+				logger.info("After saving job seeker data in database: {}"+seeker);
 			}
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
+		
+		appList = listing.getApplications();
+		appList.add(application);
+		listing.setApplications(appList);
+		entityManager.merge(listing);
+		logger.info("After saving listing with applications: "+listingRepository.save(listing));
+		
 		if(seeker==null)
-			return false;
+			throw new ApplicationException("Could not send application for this Job listing");
 		
 		return true;
 	}

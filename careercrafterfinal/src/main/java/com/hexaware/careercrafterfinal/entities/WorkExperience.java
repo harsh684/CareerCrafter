@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotNull;
 public class WorkExperience {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long experienceId;
 	
 	@NotBlank

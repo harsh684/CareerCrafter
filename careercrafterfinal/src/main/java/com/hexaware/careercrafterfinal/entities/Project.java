@@ -10,21 +10,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Component
 @Entity
 public class Project {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectId;
 	@NotBlank
 	private String title;
 	@NotBlank
 	private String description;
-	@NotBlank
+	@NotNull
 	private LocalDate startDate;
-	@NotBlank
+	@NotNull
 	private LocalDate endDate;
 	@NotBlank
 	private String referenceLink;

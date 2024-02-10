@@ -21,7 +21,7 @@ import jakarta.validation.constraints.Pattern;
 public class Employer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long employerId;
 	private String name;
 	
@@ -32,15 +32,14 @@ public class Employer {
 	private String address;
 	private String companyName;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "employerId")
 	private List<Listing> listings;
-	private String token;
 	
 	public Employer() {}
 
 	public Employer(long employerId, String name, String email, String phno, String address, String companyName,
-			List<Listing> listings, String token) {
+			List<Listing> listings) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
@@ -49,7 +48,6 @@ public class Employer {
 		this.address = address;
 		this.companyName = companyName;
 		this.listings = listings;
-		this.token = token;
 	}
 
 	public long getemployerId() {
@@ -108,18 +106,10 @@ public class Employer {
 		this.listings = listings;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
 	@Override
 	public String toString() {
 		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", comppanyName=" + companyName + ", listings=" + listings + ", token=" + token + "]";
+				+ ", comppanyName=" + companyName + ", listings=" + listings + ", token=" + "]";
 	}
 	
 	

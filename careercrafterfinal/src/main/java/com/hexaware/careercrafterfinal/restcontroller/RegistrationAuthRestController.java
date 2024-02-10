@@ -36,12 +36,14 @@ public class RegistrationAuthRestController {
 	@PostMapping("/user")
 	public String registerUser(@RequestBody UserInfo userInfo) {
 		logger.info("Hitting API to register user info for job seeker");
+		userInfo.setRole("SEEKER");
 		return clientService.addUser(userInfo);
 	}
 
 	@PostMapping("/employer")
 	public String registerEmployer(@RequestBody UserInfo employerInfo) {
 		logger.info("Hitting API to register user info for employr");
+		employerInfo.setRole("EMPLOYER");
 		return clientService.addUser(employerInfo);
 	}
 
