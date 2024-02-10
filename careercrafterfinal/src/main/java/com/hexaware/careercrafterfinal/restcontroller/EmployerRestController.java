@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,7 +69,7 @@ public class EmployerRestController {
 		return "Listing updated!!";
 	}
 
-	@GetMapping("/delete/{listingId}")
+	@DeleteMapping("/delete/{listingId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String deleteListing(@PathVariable long listingId) throws ListingNotUpdatedException {
 		if(!employerService.deleteListing(listingId)) {
@@ -81,6 +82,12 @@ public class EmployerRestController {
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Applications> viewApplications(){
 		return employerService.viewApplications();
+	}
+	
+	@GetMapping("/viewforlisting/{listingId}")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public List<Applications> viewApplicationsForListing(@PathVariable long listingId){
+		return employerService.viewApplicationsForListing(listingId);
 	}
 	
 	@PutMapping("/changeapplicationstatus/{applicationId}")

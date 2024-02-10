@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Min;
 public class Accomplishments {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long accomplishmentId;
 	
 	private String description;

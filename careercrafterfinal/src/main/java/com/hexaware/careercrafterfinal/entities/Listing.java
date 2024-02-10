@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Min;
@@ -23,7 +24,7 @@ import jakarta.validation.constraints.NotNull;
 public class Listing {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long listingId;
 	@NotBlank
 	private String profile;
@@ -40,17 +41,17 @@ public class Listing {
 	@NotNull
 	private LocalDate postDate;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "listingId")
 	private List<Skills> reqSkills;
 	private String jd;
 	private String benefitsProvided;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "listingId")
 	private List<Applications> applications;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="employerId")
 	private Employer employer;
 	

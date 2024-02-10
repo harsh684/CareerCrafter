@@ -1,5 +1,6 @@
 package com.hexaware.careercrafterfinal.restcontroller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
+import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
 import com.hexaware.careercrafterfinal.service.IUserService;
 
@@ -46,9 +48,10 @@ public class JobSeekerRestController {
 		return "Profile created!!";
 	}
 
-	@PostMapping("/createprofile/resume")
+	@PutMapping("/createprofile/resume")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String editResume(@RequestBody @Valid Resume resume) throws ProfileUpdateException {
+		logger.info("Updating resume for job seeker: {}"+resume);
 		if(!userService.editResume(resume)) {
 			throw new ProfileUpdateException();
 		}
@@ -75,17 +78,15 @@ public class JobSeekerRestController {
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public List<Listing> searchJobs(){
         logger.info("Searching for jobs");
-
 		return userService.searchJobs();
 	}
 	
 	@PostMapping("/apply/{listingId}")
-	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException, ListingNotFoundException {
+	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException, ListingNotFoundException, ProfileNotFoundException {
         logger.info("Applying for job with listing ID: {}", listingId);
 
-		if(!userService.applyForJob(listingId,application)) {
-			throw new ApplicationException("Could not send application for this Job listing");
-		}
+        userService.applyForJob(listingId,application);
+		
 		return "Applied!!"; 
 	}
 

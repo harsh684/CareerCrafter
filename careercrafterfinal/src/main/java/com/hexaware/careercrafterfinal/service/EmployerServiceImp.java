@@ -53,7 +53,6 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setName(emp.getName());
 		employer.setAddress(emp.getAddress());
 		employer.setEmail(emp.getEmail());
-		employer.setToken(emp.getToken());
 		employer.setCompanyName(emp.getCompanyName());
 		employer.setPhno(emp.getPhno());
 		employer.setListings(emp.getListings());
@@ -89,7 +88,6 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setName(emp.getName());
 		employer.setAddress(emp.getAddress());
 		employer.setEmail(emp.getEmail());
-		employer.setToken(emp.getToken());
 		employer.setCompanyName(emp.getCompanyName());
 		employer.setPhno(emp.getPhno());
 		employer.setListings(emp.getListings());
@@ -130,7 +128,17 @@ public class EmployerServiceImp implements IEmployerService {
 
 	@Override
 	public boolean updateListing(long listingId, Listing listing) {
-        logger.info("Updating Listing with ID: {}", listingId);
+		UserInfo userInfo;
+		listing.setListingId(listingId);
+		try {
+			userInfo = getCurrentUserInfo();
+			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
+				listing.setEmployer(employerRepo.findById(userInfo.getRoleId()).orElse(null));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		logger.info("Updating Listing with ID: {}", listingId);
 
 		return listingRepository.save(listing)!=null;
 	}

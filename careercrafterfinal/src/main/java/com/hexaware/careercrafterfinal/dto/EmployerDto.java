@@ -16,12 +16,11 @@ public class EmployerDto {
 	
 	
 	private List<Listing> listings;
-	private String token;
 	
 	public EmployerDto() {}
 
 	public EmployerDto(long employerId, String name, String email, String phno, String address, String companyName,
-			List<Listing> listings, String token) {
+			List<Listing> listings) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
@@ -30,7 +29,6 @@ public class EmployerDto {
 		this.address = address;
 		this.companyName = companyName;
 		this.listings = listings;
-		this.token = token;
 	}
 
 	public long getemployerId() {
@@ -89,17 +87,10 @@ public class EmployerDto {
 		this.listings = listings;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
 
 	@Override
 	public String toString() {
 		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", companyName=" + companyName + ", listings=" + listings + ", token=" + token + "]";
+				+ ", companyName=" + companyName + ", listings=" + listings + ", token=" + "]";
 	}
 }

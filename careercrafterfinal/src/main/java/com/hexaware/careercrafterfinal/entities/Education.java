@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
 public class Education {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long educationId;
 	
 	@NotBlank

@@ -9,6 +9,7 @@ import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
+import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
 
 public interface IUserService {
@@ -19,7 +20,7 @@ public interface IUserService {
 	
 	public List<Listing> searchJobs();
 	
-	public boolean applyForJob(long listingId, Applications application) throws ApplicationException, ListingNotFoundException ;
+	public boolean applyForJob(long listingId, Applications application) throws ApplicationException, ListingNotFoundException, ProfileNotFoundException ;
 	
 	public List<Applications> getAppliedJobs();
 	

@@ -109,27 +109,24 @@ class EmployerServiceImpTest {
 	@Test
 	void testPostListing() throws ListingNotCreatedException {
 		
-//		List<Skills> skillsList1 = new ArrayList<>();
-//	    skillsList1.add(new Skills("Java"));
-//	    skillsList1.add(new Skills("Spring Boot"));
-//		
-//	    List<Applications> applicationsList2 = new ArrayList<>();
-//	    applicationsList2.add(new Applications(3, "ABC Company", "Java Developer", LocalDate.now(), "Pending", "Cover Letter"));
-//	    
-//		Listing listing1 = new Listing();
-//		listing1.setProfile("Software Engineer");
-//		listing1.setDepartment("IT");
-//		listing1.setLocation("Location1");
-//		listing1.setExperienceReqFrom(2);
-//		listing1.setExperienceReqTo(5);
-//		listing1.setSalary(80000);
-//		listing1.setPostDate(LocalDate.now());
-//		listing1.setReqSkills(null);
-//		listing1.setJd("Job Description 1");
-//		listing1.setBenefitsProvided("Benefits 1");
-//		listing1.setApplications(null);
-//		
-//		assertTrue(employerService.postListing(listing1));
+		List<Skills> skillsList1 = new ArrayList<>();
+	    skillsList1.add(new Skills("Java"));
+	    skillsList1.add(new Skills("Spring Boot"));
+	    
+		Listing listing1 = new Listing();
+		listing1.setProfile("Software Engineer");
+		listing1.setDepartment("IT");
+		listing1.setLocation("Location1");
+		listing1.setExperienceReqFrom(2);
+		listing1.setExperienceReqTo(5);
+		listing1.setSalary(80000);
+		listing1.setPostDate(LocalDate.now());
+		listing1.setReqSkills(skillsList1);
+		listing1.setJd("Job Description 1");
+		listing1.setBenefitsProvided("Benefits 1");
+		listing1.setApplications(null);
+		
+		assertTrue(employerService.postListing(listing1));
 	}
 
 	@Test

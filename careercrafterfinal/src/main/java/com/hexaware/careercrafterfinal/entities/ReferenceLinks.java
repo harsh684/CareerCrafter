@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 public class ReferenceLinks {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long linkId;
 	
 	private String link;
