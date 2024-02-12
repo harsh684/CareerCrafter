@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
-import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.dto.ListingDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;

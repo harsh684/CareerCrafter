@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Component
@@ -23,13 +23,16 @@ public class Employer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long employerId;
+	@NotBlank
 	private String name;
 	
 	@Email
 	private String email;
 	@Pattern(regexp="\\d{10}")
 	private String phno;
+	@NotBlank
 	private String address;
+	@NotBlank
 	private String companyName;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
