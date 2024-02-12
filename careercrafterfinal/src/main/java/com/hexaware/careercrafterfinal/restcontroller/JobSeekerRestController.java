@@ -3,6 +3,7 @@ package com.hexaware.careercrafterfinal.restcontroller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import jakarta.validation.Valid;
 public class JobSeekerRestController {
 
 	@Autowired
+	@Lazy
 	IUserService userService;
 	
 	Logger logger=LoggerFactory.getLogger(JobSeekerRestController.class);
@@ -82,6 +84,7 @@ public class JobSeekerRestController {
 	}
 	
 	@PostMapping("/apply/{listingId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
 	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException, ListingNotFoundException, ProfileNotFoundException {
         logger.info("Applying for job with listing ID: {}", listingId);
 

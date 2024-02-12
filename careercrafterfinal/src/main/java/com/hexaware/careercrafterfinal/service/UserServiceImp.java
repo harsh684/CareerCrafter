@@ -46,6 +46,7 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	ResumeRepository resumeRepository;
 	
+	@Autowired
 	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -192,7 +193,7 @@ public class UserServiceImp implements IUserService {
 		appList.add(application);
 		listing.setApplications(appList);
 		entityManager.merge(listing);
-		logger.info("After saving listing with applications: "+listingRepository.save(listing));
+		logger.info("After saving listing with applications: ");
 		
 		if(seeker==null)
 			throw new ApplicationException("Could not send application for this Job listing");
