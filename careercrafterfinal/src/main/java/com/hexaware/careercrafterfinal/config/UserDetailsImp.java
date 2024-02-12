@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 
-import io.jsonwebtoken.lang.Collections;
 
 public class UserDetailsImp implements UserDetails {
 
@@ -45,34 +44,23 @@ public class UserDetailsImp implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	
-//	public long getAuthorityId() {
-//		return authorityId;
-//	}
-//
-//	public void setAuthorityId(long authorityId) {
-//		this.authorityId = authorityId;
-//	}
 
 }

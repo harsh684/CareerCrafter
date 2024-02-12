@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
-import com.hexaware.careercrafterfinal.dto.ListingDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;

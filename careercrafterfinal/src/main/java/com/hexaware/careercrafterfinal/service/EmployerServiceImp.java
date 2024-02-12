@@ -58,7 +58,7 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setListings(emp.getListings());
 		employer.setemployerId(emp.getemployerId());
 		
-		logger.info("Creating profile for employer: ", employer.getemployerId());
+		logger.info("Creating profile for employer: ",employer.getemployerId());
 
 		Employer temp = employerRepo.save(employer);
 		

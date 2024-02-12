@@ -1,6 +1,5 @@
 package com.hexaware.careercrafterfinal.dto;
 
-import jakarta.persistence.Id;
 
 public class ReferenceLinksDto {
 
