@@ -98,7 +98,9 @@ public class EmployerServiceImp implements IEmployerService {
 		try {
 			userInfo = getCurrentUserInfo();
 			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
-				employer.setemployerId(userInfo.getRoleId());
+				long roleId = userInfo.getRoleId();
+				employer.setemployerId(roleId);
+				employer.setListings((employerRepo.findById(userInfo.getRoleId()).orElse(null).getListings()));
 			}
 		} catch (Exception e) {
 	        logger.error("Error occurred while retrieving current user info.", e);
