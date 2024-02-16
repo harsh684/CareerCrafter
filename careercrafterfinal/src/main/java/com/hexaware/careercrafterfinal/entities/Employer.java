@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
@@ -36,10 +37,14 @@ public class Employer {
 	@JoinColumn(name = "employerId")
 	private List<Listing> listings;
 	
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "pictureId")
+	private ProfilePic profilePic;
+	
 	public Employer() {}
 
-	public Employer(long employerId, String name, String email, String phno, String address, String companyName,
-			List<Listing> listings) {
+	public Employer(long employerId, String name, @Email String email, @Pattern(regexp = "\\d{10}") String phno,
+			String address, String companyName, List<Listing> listings, ProfilePic profilePic) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
@@ -48,13 +53,14 @@ public class Employer {
 		this.address = address;
 		this.companyName = companyName;
 		this.listings = listings;
+		this.profilePic = profilePic;
 	}
 
-	public long getemployerId() {
+	public long getEmployerId() {
 		return employerId;
 	}
 
-	public void setemployerId(long employerId) {
+	public void setEmployerId(long employerId) {
 		this.employerId = employerId;
 	}
 
@@ -106,11 +112,21 @@ public class Employer {
 		this.listings = listings;
 	}
 
+	public ProfilePic getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
+	}
+
 	@Override
 	public String toString() {
-		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", comppanyName=" + companyName + ", listings=" + listings + ", token=" + "]";
+		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno
+				+ ", address=" + address + ", companyName=" + companyName + ", listings=" + listings + ", profilePic="
+				+ profilePic + "]";
 	}
+
 	
 	
 }

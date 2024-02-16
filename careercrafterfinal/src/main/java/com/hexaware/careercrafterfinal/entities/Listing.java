@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,13 +40,15 @@ public class Listing {
 	@NotNull
 	private LocalDate postDate;
 	
+	private String listingStatus;
+	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "listingId")
 	private List<Skills> reqSkills;
 	private String jd;
 	private String benefitsProvided;
 	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "listingId")
 	private List<Applications> applications;
 	
@@ -59,8 +60,8 @@ public class Listing {
 
 	public Listing(long listingId, @NotBlank String profile, @NotBlank String department, @NotBlank String location,
 			@Min(0) int experienceReqFrom, @Min(0) int experienceReqTo, double salary, @NotNull LocalDate postDate,
-			List<Skills> reqSkills, String jd, String benefitsProvided, List<Applications> applications,
-			Employer employer) {
+			String listingStatus, List<Skills> reqSkills, String jd, String benefitsProvided,
+			List<Applications> applications, Employer employer) {
 		super();
 		this.listingId = listingId;
 		this.profile = profile;
@@ -70,6 +71,7 @@ public class Listing {
 		this.experienceReqTo = experienceReqTo;
 		this.salary = salary;
 		this.postDate = postDate;
+		this.listingStatus = listingStatus;
 		this.reqSkills = reqSkills;
 		this.jd = jd;
 		this.benefitsProvided = benefitsProvided;
@@ -141,6 +143,14 @@ public class Listing {
 		this.postDate = postDate;
 	}
 
+	public String getListingStatus() {
+		return listingStatus;
+	}
+
+	public void setListingStatus(String listingStatus) {
+		this.listingStatus = listingStatus;
+	}
+
 	public List<Skills> getReqSkills() {
 		return reqSkills;
 	}
@@ -185,11 +195,10 @@ public class Listing {
 	public String toString() {
 		return "Listing [listingId=" + listingId + ", profile=" + profile + ", department=" + department + ", location="
 				+ location + ", experienceReqFrom=" + experienceReqFrom + ", experienceReqTo=" + experienceReqTo
-				+ ", salary=" + salary + ", postDate=" + postDate + ", reqSkills=" + reqSkills + ", jd=" + jd
-				+ ", benefitsProvided=" + benefitsProvided + ", applications=" + applications + ", employer=" + employer
-				+ "]";
+				+ ", salary=" + salary + ", postDate=" + postDate + ", listingStatus=" + listingStatus + ", reqSkills="
+				+ reqSkills + ", jd=" + jd + ", benefitsProvided=" + benefitsProvided + ", applications=" + applications
+				+ ", employer=" + employer + "]";
 	}
 
-	
 	
 }

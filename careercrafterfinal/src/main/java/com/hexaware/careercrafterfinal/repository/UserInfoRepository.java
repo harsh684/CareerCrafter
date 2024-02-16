@@ -8,4 +8,6 @@ import com.hexaware.careercrafterfinal.entities.UserInfo;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 	public Optional<UserInfo> findByName(String name);
+	
+	public Optional<UserInfo> findByEmail(String email);
 }
