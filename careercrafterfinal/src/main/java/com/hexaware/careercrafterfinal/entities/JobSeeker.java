@@ -31,8 +31,6 @@ public class JobSeeker {
 	@NotBlank
 	private String tagline;
 	
-	@NotBlank
-	@Email
 	private String email;
 	
 	private String summary;
@@ -59,6 +57,10 @@ public class JobSeeker {
 	@JoinColumn(name = "seekerId")
 	private List<Applications> applications;
 
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "pictureId")
+	private ProfilePic profilePic;
+	
 	public JobSeeker() {
 		super();
 	}
@@ -66,7 +68,7 @@ public class JobSeeker {
 	public JobSeeker(long seekerId, @NotBlank String seekerName, @NotBlank String tagline,
 			@NotBlank @Email String email, String summary, @NotNull LocalDate dateOfBirth, @NotBlank String phoneNumber,
 			@NotBlank String address, @NotBlank String country, double currentSalary, Resume resume,
-			List<Applications> applications) {
+			List<Applications> applications, ProfilePic profilePic) {
 		super();
 		this.seekerId = seekerId;
 		this.seekerName = seekerName;
@@ -80,6 +82,7 @@ public class JobSeeker {
 		this.currentSalary = currentSalary;
 		this.resume = resume;
 		this.applications = applications;
+		this.profilePic = profilePic;
 	}
 
 	public long getSeekerId() {
@@ -178,14 +181,22 @@ public class JobSeeker {
 		this.applications = applications;
 	}
 
+	public ProfilePic getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
+	}
+
 	@Override
 	public String toString() {
 		return "JobSeeker [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline + ", email="
 				+ email + ", summary=" + summary + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", country=" + country + ", currentSalary=" + currentSalary + ", resume="
-				+ resume + ", applications=" + applications + "]";
+				+ resume + ", applications=" + applications + ", profilePic=" + profilePic + "]";
 	}
 
-	
+
 	
 }

@@ -1,5 +1,6 @@
 package com.hexaware.careercrafterfinal.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.repository.ApplicationRepository;
 import com.hexaware.careercrafterfinal.repository.EmployerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
@@ -45,40 +47,43 @@ public class EmployerServiceImp implements IEmployerService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmployerServiceImp.class);
 
+	String compareRole = "Employer";
 	
 	@Override
 	public boolean createProfile(EmployerDto emp) {
-		
-		Employer employer = new Employer();
-		employer.setName(emp.getName());
-		employer.setAddress(emp.getAddress());
-		employer.setEmail(emp.getEmail());
-		employer.setCompanyName(emp.getCompanyName());
-		employer.setPhno(emp.getPhno());
-		employer.setListings(emp.getListings());
-		employer.setemployerId(emp.getemployerId());
-		
-		logger.info("Creating profile for employer: ",employer.getemployerId());
-
-		Employer temp = employerRepo.save(employer);
-		
-		if(temp == null)
-			return false;
-		
 		UserInfo userInfo;
 		try {
 			userInfo = getCurrentUserInfo();
-			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
-				userInfo.setRoleId(temp.getemployerId());
-				logger.info("Connecting profile for employer with current active user account: ", employer.getemployerId());
+			
+			Employer employer = new Employer();
+			employer.setName(emp.getName());
+			employer.setAddress(emp.getAddress());
+			employer.setEmail(userInfo.getEmail());
+			employer.setCompanyName(emp.getCompanyName());
+			employer.setPhno(emp.getPhno());
+			employer.setListings(emp.getListings());
+			employer.setEmployerId(emp.getEmployerId());
+			
+			logger.info("Creating profile for employer: ", employer.getName());
+	
+			Employer temp = employerRepo.save(employer);
+			
+			if(temp == null)
+				return false;
+			
+			
+			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
+				userInfo.setRoleId(temp.getEmployerId());
+				logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
 
 				userInfoRepository.save(userInfo);
 			}
+			return temp!=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return temp!=null;
+		return false;
 	}
 
 	@Override
@@ -91,24 +96,26 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setCompanyName(emp.getCompanyName());
 		employer.setPhno(emp.getPhno());
 		employer.setListings(emp.getListings());
-		employer.setemployerId(emp.getemployerId());
+		employer.setEmployerId(emp.getEmployerId());
 		
 		
 		UserInfo userInfo;
 		try {
 			userInfo = getCurrentUserInfo();
-			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
+			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
 				long roleId = userInfo.getRoleId();
-				employer.setemployerId(roleId);
+				employer.setEmployerId(roleId);
+				userInfo.setEmail(employer.getEmail());
 				employer.setListings((employerRepo.findById(userInfo.getRoleId()).orElse(null).getListings()));
+				userInfoRepository.save(userInfo);
 			}
 		} catch (Exception e) {
 	        logger.error("Error occurred while retrieving current user info.", e);
 			e.printStackTrace();
 		}
 		
-		logger.info("Updating profile for employer: ", employer.getemployerId());
-
+		logger.info("Updating profile for employer: ", employer.getEmployerId());
+		
 		return employerRepo.save(employer) != null;
 	}
 
@@ -117,8 +124,9 @@ public class EmployerServiceImp implements IEmployerService {
 		UserInfo userInfo;
 		try {
 			userInfo = getCurrentUserInfo();
-			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
+			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
 				listing.setEmployer(employerRepo.findById(userInfo.getRoleId()).orElse(null));
+				listing.setListingStatus("Open");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,8 +142,9 @@ public class EmployerServiceImp implements IEmployerService {
 		listing.setListingId(listingId);
 		try {
 			userInfo = getCurrentUserInfo();
-			if(userInfo.getRole().equalsIgnoreCase("Employer")) {
+			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
 				listing.setEmployer(employerRepo.findById(userInfo.getRoleId()).orElse(null));
+				listing.setApplications((listingRepository.findById(listingId).orElse(null)).getApplications());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,12 +155,13 @@ public class EmployerServiceImp implements IEmployerService {
 	}
 
 	@Override
-	public boolean deleteListing(long listingId) {
+	public boolean changeListingStatus(long listingId,String status) {
 		
 	    logger.info("Deleting listing with ID: {}", listingId);
 
-		listingRepository.deleteById(listingId);
-		return true;
+		Listing listing = listingRepository.findById(listingId).orElse(null);
+		listing.setListingStatus(status);
+		return listingRepository.save(listing)!=null;
 	}
 
 	@Override
@@ -180,16 +190,32 @@ public class EmployerServiceImp implements IEmployerService {
 	@Override
 	public List<Resume> manageResumeDb() {
 	    logger.info("Fetching all resumes");
-
-		return resumeRepository.findAll();
+	    List<Resume> originalList = resumeRepository.findAll();
+		List<Resume> resultList = new ArrayList<>();
+		Resume resume = null;
+		for(Resume r:originalList) {
+			resume = new Resume();
+			resume.setAccomplishments(r.getAccomplishments());
+			resume.setAddress(r.getAddress());
+			resume.setCertifications(r.getCertifications());
+			resume.setEducation(r.getEducation());
+			resume.setExperiences(r.getExperiences());
+			resume.setLanguages(r.getLanguages());
+			resume.setProjects(r.getProjects());
+			resume.setReferenceLinks(r.getReferenceLinks());
+			resume.setResumeId(r.getResumeId());
+			resume.setSkills(r.getSkills());
+			resultList.add(resume);
+		}
+		return resultList;
 	}
 	
-	private UserInfo getCurrentUserInfo() throws Exception {
+	private UserInfo getCurrentUserInfo() throws AuthenticationException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
 			logger.info("Could not authenticated");
 
-			throw new Exception();
+			throw new AuthenticationException();
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);

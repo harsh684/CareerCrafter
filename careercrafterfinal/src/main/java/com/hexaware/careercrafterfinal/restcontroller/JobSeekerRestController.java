@@ -2,7 +2,6 @@ package com.hexaware.careercrafterfinal.restcontroller;
 
 import java.util.List;
 
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
@@ -34,7 +35,6 @@ import jakarta.validation.Valid;
 public class JobSeekerRestController {
 
 	@Autowired
-	@Lazy
 	IUserService userService;
 	
 	Logger logger=LoggerFactory.getLogger(JobSeekerRestController.class);

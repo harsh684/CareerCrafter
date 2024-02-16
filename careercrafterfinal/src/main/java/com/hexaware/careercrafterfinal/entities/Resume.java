@@ -20,6 +20,7 @@ public class Resume {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long resumeId;
+	
 	@NotBlank
 	private String address;
 	
@@ -58,12 +59,16 @@ public class Resume {
 	@JoinColumn(name = "resumeId")
 	private List<Certification> certifications;
 	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "resumeDocId")
+	private ResumeDoc resumeFile;
+	
 	public Resume() {}
 
-	public Resume(long resumeId, String address, List<Languages> languages, List<Skills> skills,
+	public Resume(long resumeId, @NotBlank String address, List<Languages> languages, List<Skills> skills,
 			List<ReferenceLinks> referenceLinks, List<Accomplishments> accomplishments,
 			List<WorkExperience> experiences, List<Education> education, List<Project> projects,
-			List<Certification> certifications) {
+			List<Certification> certifications, ResumeDoc resumeFile) {
 		super();
 		this.resumeId = resumeId;
 		this.address = address;
@@ -75,6 +80,7 @@ public class Resume {
 		this.education = education;
 		this.projects = projects;
 		this.certifications = certifications;
+		this.resumeFile = resumeFile;
 	}
 
 	public long getResumeId() {
@@ -157,14 +163,21 @@ public class Resume {
 		this.certifications = certifications;
 	}
 
+	public ResumeDoc getResumeFile() {
+		return resumeFile;
+	}
+
+	public void setResumeFile(ResumeDoc resumeFile) {
+		this.resumeFile = resumeFile;
+	}
+
 	@Override
 	public String toString() {
 		return "Resume [resumeId=" + resumeId + ", address=" + address + ", languages=" + languages + ", skills="
 				+ skills + ", referenceLinks=" + referenceLinks + ", accomplishments=" + accomplishments
 				+ ", experiences=" + experiences + ", education=" + education + ", projects=" + projects
-				+ ", certifications=" + certifications + "]";
+				+ ", certifications=" + certifications + ", resumeFile=" + resumeFile +"]";
 	}
 
-	
 	
 }

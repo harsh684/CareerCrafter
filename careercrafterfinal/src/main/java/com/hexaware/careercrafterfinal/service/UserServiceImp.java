@@ -11,13 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
-import com.hexaware.careercrafterfinal.dto.ListingDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
@@ -45,7 +45,6 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	ResumeRepository resumeRepository;
 	
-	@Autowired
 	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -55,51 +54,45 @@ public class UserServiceImp implements IUserService {
 	
 	@Override
 	public boolean createProfile(JobSeeker seeker) {
-		
-		logger.info("Jobseeker profile creating for: {}",seeker.getSeekerName());
-		
-//		JobSeeker jobSeeker = new JobSeeker();
-//		jobSeeker.setName(seeker.getName());
-//		jobSeeker.setEmail(seeker.getEmail());
-//		jobSeeker.setAddress(seeker.getAddress());
-//		jobSeeker.setCountry(seeker.getCountry());
-//		jobSeeker.setPhno(seeker.getPhno());
-//		jobSeeker.setCtc(seeker.getCtc());
-//		jobSeeker.setDateOfBirth(seeker.getDateOfBirth());
-//		jobSeeker.setApplications(seeker.getApplications());
-//		jobSeeker.setResume(seeker.getResume());
-//		jobSeeker.setSummary(seeker.getSummary());
-//		jobSeeker.setTagline(seeker.getTagline());
-		
-		logger.info("Saving Seeker profile to database: ");
-		entityManager.merge(seeker);
-		JobSeeker temp = seekerRepository.save(seeker);
-		
 		UserInfo currentUser;
 		try {
+			
 			currentUser = getCurrentUserInfo();
+			
+			logger.info("Jobseeker profile creating for: {}",seeker.getSeekerName());
+	
+			logger.info("Saving Seeker profile to database: ");
+			seeker.setEmail(currentUser.getEmail());
+			entityManager.merge(seeker);
+			JobSeeker temp = seekerRepository.save(seeker);
+			
+		
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				currentUser.setRoleId(temp.getSeekerId());
 				userInfoRepository.save(currentUser);
 				logger.info("Linking user Info with seeker profile: ",seeker.getSeekerName());
 
 			}
+			
+			return temp!=null;
+			
 		} catch (Exception e) {
 	        logger.error("Error occurred while creating profile for job seeker", e);
 			e.printStackTrace();
 		}
-		return temp!=null;
+		return false;
 	}
 
 	@Override
 	public boolean updateProfile(JobSeeker seeker) {
 		UserInfo currentUser;
-		JobSeeker seekerTemp = null;
 		try {
 			currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				logger.info("Getting Seeker id from current active user id");
 				seeker.setSeekerId(currentUser.getRoleId());
+				currentUser.setEmail(seeker.getEmail());
+				userInfoRepository.save(currentUser);
 			}
 		} catch (Exception e) {
 			
@@ -136,19 +129,22 @@ public class UserServiceImp implements IUserService {
         Listing temp=null;
         List<Listing> abstractList = new ArrayList<>();
         for(Listing e:original) {
-        	temp=new Listing();
-        	temp.setListingId(e.getListingId());
-        	temp.setProfile(e.getProfile());
-        	temp.setDepartment(e.getDepartment());
-        	temp.setLocation(e.getLocation());
-        	temp.setExperienceReqFrom(e.getExperienceReqFrom());
-        	temp.setExperienceReqTo(e.getExperienceReqTo());
-        	temp.setSalary(e.getSalary());
-        	temp.setPostDate(e.getPostDate());
-        	temp.setReqSkills(e.getReqSkills());
-        	temp.setJd(e.getJd());
-        	temp.setBenefitsProvided(e.getBenefitsProvided());
-        	abstractList.add(temp);
+        	if(e.getListingStatus().equalsIgnoreCase("Open")) {
+        		temp=new Listing();
+            	temp.setListingId(e.getListingId());
+            	temp.setProfile(e.getProfile());
+            	temp.setDepartment(e.getDepartment());
+            	temp.setLocation(e.getLocation());
+            	temp.setExperienceReqFrom(e.getExperienceReqFrom());
+            	temp.setExperienceReqTo(e.getExperienceReqTo());
+            	temp.setSalary(e.getSalary());
+            	temp.setPostDate(e.getPostDate());
+            	temp.setReqSkills(e.getReqSkills());
+            	temp.setJd(e.getJd());
+            	temp.setListingStatus(e.getListingStatus());
+            	temp.setBenefitsProvided(e.getBenefitsProvided());
+            	abstractList.add(temp);
+        	}
         }
 	    return abstractList;
 	}
@@ -243,13 +239,13 @@ public class UserServiceImp implements IUserService {
 		return null;
 	}
 
-	private UserInfo getCurrentUserInfo() throws Exception {
+	private UserInfo getCurrentUserInfo() throws AuthenticationException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
 			
 			logger.info("Could not authenticated");
 
-			throw new Exception();
+			throw new AuthenticationException();
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);

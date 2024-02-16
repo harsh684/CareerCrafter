@@ -32,7 +32,7 @@ public class EmployerRestController {
 	@Autowired
 	IEmployerService employerService;
 	
-	@PostMapping("/createprofile")
+	@PostMapping("/v1/createprofile")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String createProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException {
 		if(!employerService.createProfile(employer)) {
@@ -41,7 +41,7 @@ public class EmployerRestController {
 		return "Profile  created!!";
 	}
 	
-	@PutMapping("/updateprofile")
+	@PutMapping("/v1/updateprofile")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String updateProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException {
 		if(!employerService.updateProfile(employer)) {
@@ -50,7 +50,7 @@ public class EmployerRestController {
 		return "Profile updated!!";
 	}
 
-	@PostMapping("/postlisting")
+	@PostMapping("/v1/postlisting")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String postListing(@RequestBody @Valid Listing listing) throws ListingNotCreatedException {
 		if(!employerService.postListing(listing)) {
@@ -59,7 +59,7 @@ public class EmployerRestController {
 		return "Listing posted!!";
 	}
 	
-	@PutMapping("/updatelisting/{listingId}")
+	@PutMapping("/v1/updatelisting/{listingId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String updateListing(@PathVariable long listingId, @RequestBody @Valid Listing listing) throws ListingNotUpdatedException {
 		if(!employerService.updateListing(listingId,listing)) {
@@ -68,28 +68,28 @@ public class EmployerRestController {
 		return "Listing updated!!";
 	}
 
-	@DeleteMapping("/delete/{listingId}")
+	@PutMapping("/v1/changelistingstatus/{listingId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
-	public String deleteListing(@PathVariable long listingId) throws ListingNotUpdatedException {
-		if(!employerService.deleteListing(listingId)) {
+	public String changeListingStatus(@PathVariable long listingId,@RequestBody String status) throws ListingNotUpdatedException {
+		if(!employerService.changeListingStatus(listingId, status)) {
 			throw new ListingNotUpdatedException();
 		}
-		return "Listing Deleted!!";
+		return "Listing Status Changed!!";
 	}
 	
-	@GetMapping("/viewapplications")
+	@GetMapping("/v1/viewapplications")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Applications> viewApplications(){
 		return employerService.viewApplications();
 	}
 	
-	@GetMapping("/viewforlisting/{listingId}")
+	@GetMapping("/v1/viewforlisting/{listingId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Applications> viewApplicationsForListing(@PathVariable long listingId){
 		return employerService.viewApplicationsForListing(listingId);
 	}
 	
-	@PutMapping("/changeapplicationstatus/{applicationId}")
+	@PutMapping("/v1/changeapplicationstatus/{applicationId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String changeApplicationStatus(@PathVariable long applicationId,@RequestBody String status) throws ApplicationException {
 		if(!employerService.changeApplicationStatus(applicationId, status)) {
@@ -98,7 +98,7 @@ public class EmployerRestController {
 		return "Application status changed";
 	}
 	
-	@GetMapping("/manageresume")
+	@GetMapping("/v1/managecrafterresume")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Resume> manageResumeDb(){
 		return employerService.manageResumeDb();

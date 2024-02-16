@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.AuthRequest;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.ClientService;
 import com.hexaware.careercrafterfinal.service.JwtService;
 
@@ -34,14 +35,14 @@ public class RegistrationAuthRestController {
 
 	
 	@PostMapping("/user")
-	public String registerUser(@RequestBody UserInfo userInfo) {
+	public String registerUser(@RequestBody UserInfo userInfo) throws UserAlreadyExistsException {
 		logger.info("Hitting API to register user info for job seeker");
 		userInfo.setRole("SEEKER");
 		return clientService.addUser(userInfo);
 	}
 
 	@PostMapping("/employer")
-	public String registerEmployer(@RequestBody UserInfo employerInfo) {
+	public String registerEmployer(@RequestBody UserInfo employerInfo) throws UserAlreadyExistsException {
 		logger.info("Hitting API to register user info for employr");
 		employerInfo.setRole("EMPLOYER");
 		return clientService.addUser(employerInfo);

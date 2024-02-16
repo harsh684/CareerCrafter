@@ -31,11 +31,11 @@ public class EmployerDto {
 		this.listings = listings;
 	}
 
-	public long getemployerId() {
+	public long getEmployerId() {
 		return employerId;
 	}
 
-	public void setemployerId(long employerId) {
+	public void setEmployerId(long employerId) {
 		this.employerId = employerId;
 	}
 
