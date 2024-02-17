@@ -33,6 +33,7 @@ public class EmployerDto {
 		this.listings = listings;
 	}
 
+
 	public String getEmployerGender() {
 		return employerGender;
 	}

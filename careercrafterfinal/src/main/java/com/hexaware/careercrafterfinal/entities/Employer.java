@@ -41,6 +41,7 @@ public class Employer {
 	@JoinColumn(name = "employerId")
 	private List<Listing> listings;
 
+
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "pictureId")
 	private ProfilePic profilePic;
@@ -51,6 +52,17 @@ public class Employer {
 	public Employer(long employerId, @NotBlank String name, @NotBlank String employerGender, @Email String email,
 			@Pattern(regexp = "\\d{10}") String phno, @NotBlank String address, @NotBlank String companyName,
 			List<Listing> listings, ProfilePic profilePic) {
+
+	
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "pictureId")
+	private ProfilePic profilePic;
+	
+	public Employer() {}
+
+	public Employer(long employerId, String name, @Email String email, @Pattern(regexp = "\\d{10}") String phno,
+			String address, String companyName, List<Listing> listings, ProfilePic profilePic) {
+
 		super();
 		this.employerId = employerId;
 		this.name = name;
@@ -137,9 +149,20 @@ public class Employer {
 
 	@Override
 	public String toString() {
+
 		return "Employer [employerId=" + employerId + ", name=" + name + ", employerGender=" + employerGender
 				+ ", email=" + email + ", phno=" + phno + ", address=" + address + ", companyName=" + companyName
 				+ ", listings=" + listings + ", profilePic=" + profilePic + "]";
 	}
 
 }
+
+		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno
+				+ ", address=" + address + ", companyName=" + companyName + ", listings=" + listings + ", profilePic="
+				+ profilePic + "]";
+	}
+
+	
+	
+}
+
