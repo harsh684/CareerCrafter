@@ -29,9 +29,13 @@ public class JobSeeker {
 	private String seekerName;
 	
 	@NotBlank
+	private String seekerGender;
+	
+	@NotBlank
 	private String tagline;
 	
 	private String email;
+
 	
 	private String summary;
 	
@@ -65,13 +69,14 @@ public class JobSeeker {
 		super();
 	}
 
-	public JobSeeker(long seekerId, @NotBlank String seekerName, @NotBlank String tagline,
+	public JobSeeker(long seekerId, @NotBlank String seekerName,@NotBlank String seekerGender, @NotBlank String tagline,
 			@NotBlank @Email String email, String summary, @NotNull LocalDate dateOfBirth, @NotBlank String phoneNumber,
 			@NotBlank String address, @NotBlank String country, double currentSalary, Resume resume,
 			List<Applications> applications, ProfilePic profilePic) {
 		super();
 		this.seekerId = seekerId;
 		this.seekerName = seekerName;
+		this.seekerGender=seekerGender;
 		this.tagline = tagline;
 		this.email = email;
 		this.summary = summary;
@@ -95,6 +100,14 @@ public class JobSeeker {
 
 	public String getSeekerName() {
 		return seekerName;
+	}
+
+	public String getSeekerGender() {
+		return seekerGender;
+	}
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
 	}
 
 	public void setSeekerName(String seekerName) {

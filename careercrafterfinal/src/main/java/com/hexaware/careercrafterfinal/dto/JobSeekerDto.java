@@ -17,6 +17,8 @@ public class JobSeekerDto {
 	
 	private String seekerName;
 	
+	private String seekerGender;
+	
 	private String tagline;
 	
 	private String email;
@@ -24,6 +26,7 @@ public class JobSeekerDto {
 	private String summary;
 	
 	private LocalDate dateOfBirth;
+	
 	
 	private String phoneNumber;
 	
@@ -41,24 +44,16 @@ public class JobSeekerDto {
 		super();
 	}
 
-	public JobSeekerDto(long seekerId, @NotBlank String seekerName, @NotBlank String tagline,
-			@NotBlank @Email String email, String summary, @NotNull LocalDate dateOfBirth, @NotBlank String phoneNumber,
-			@NotBlank String address, @NotBlank String country, double currentSalary, Resume resume,
-			List<Applications> applications) {
-		super();
-		this.seekerId = seekerId;
-		this.seekerName = seekerName;
-		this.tagline = tagline;
-		this.email = email;
-		this.summary = summary;
-		this.dateOfBirth = dateOfBirth;
-		this.phoneNumber = phoneNumber;
-		this.address = address;
-		this.country = country;
-		this.currentSalary = currentSalary;
-		this.resume = resume;
-		this.applications = applications;
+
+	public String getSeekerGender() {
+		return seekerGender;
 	}
+
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
+	}
+
 
 	public long getSeekerId() {
 		return seekerId;
