@@ -29,11 +29,13 @@ public class JobSeeker {
 	private String seekerName;
 	
 	@NotBlank
-	private String tagline;
+	private String seekerGender;
 	
 	@NotBlank
-	@Email
+	private String tagline;
+	
 	private String email;
+
 	
 	private String summary;
 	
@@ -59,17 +61,22 @@ public class JobSeeker {
 	@JoinColumn(name = "seekerId")
 	private List<Applications> applications;
 
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "pictureId")
+	private ProfilePic profilePic;
+	
 	public JobSeeker() {
 		super();
 	}
 
-	public JobSeeker(long seekerId, @NotBlank String seekerName, @NotBlank String tagline,
+	public JobSeeker(long seekerId, @NotBlank String seekerName,@NotBlank String seekerGender, @NotBlank String tagline,
 			@NotBlank @Email String email, String summary, @NotNull LocalDate dateOfBirth, @NotBlank String phoneNumber,
 			@NotBlank String address, @NotBlank String country, double currentSalary, Resume resume,
-			List<Applications> applications) {
+			List<Applications> applications, ProfilePic profilePic) {
 		super();
 		this.seekerId = seekerId;
 		this.seekerName = seekerName;
+		this.seekerGender=seekerGender;
 		this.tagline = tagline;
 		this.email = email;
 		this.summary = summary;
@@ -80,6 +87,7 @@ public class JobSeeker {
 		this.currentSalary = currentSalary;
 		this.resume = resume;
 		this.applications = applications;
+		this.profilePic = profilePic;
 	}
 
 	public long getSeekerId() {
@@ -92,6 +100,14 @@ public class JobSeeker {
 
 	public String getSeekerName() {
 		return seekerName;
+	}
+
+	public String getSeekerGender() {
+		return seekerGender;
+	}
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
 	}
 
 	public void setSeekerName(String seekerName) {
@@ -178,14 +194,22 @@ public class JobSeeker {
 		this.applications = applications;
 	}
 
+	public ProfilePic getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
+	}
+
 	@Override
 	public String toString() {
 		return "JobSeeker [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline + ", email="
 				+ email + ", summary=" + summary + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", country=" + country + ", currentSalary=" + currentSalary + ", resume="
-				+ resume + ", applications=" + applications + "]";
+				+ resume + ", applications=" + applications + ", profilePic=" + profilePic + "]";
 	}
 
-	
+
 	
 }

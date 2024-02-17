@@ -22,7 +22,7 @@ public interface IEmployerService {
 	
 	public boolean updateListing(long listingId, Listing listing) throws ListingNotUpdatedException;
 
-	public boolean deleteListing(long listingId) throws ListingNotUpdatedException;
+	public boolean changeListingStatus(long listingId,String status) throws ListingNotUpdatedException;
 	
 	public List<Applications> viewApplications();
 	

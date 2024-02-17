@@ -45,7 +45,7 @@ public class AppConfig {
     			.requestMatchers("/swagger-ui/**","/api/register/**")
     			.permitAll()
     			.and()
-    			.authorizeHttpRequests().requestMatchers("/api/seeker/**","/api/employer/**")
+    			.authorizeHttpRequests().requestMatchers("/api/seeker/**","/api/employer/**","/api/profilepic/**","/api/resumedoc/**")
     			.authenticated().and() 
     			.sessionManagement()
     			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

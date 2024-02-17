@@ -10,6 +10,7 @@ public class EmployerDto {
 	private long employerId;
 	private String name;
 	private String email;
+	private String employerGender;
 	private String phno;
 	private String address;
 	private String companyName;
@@ -19,11 +20,12 @@ public class EmployerDto {
 	
 	public EmployerDto() {}
 
-	public EmployerDto(long employerId, String name, String email, String phno, String address, String companyName,
+	public EmployerDto(long employerId, String name,String employerGender, String email, String phno, String address, String companyName,
 			List<Listing> listings) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
+		this.employerGender=employerGender;
 		this.email = email;
 		this.phno = phno;
 		this.address = address;
@@ -31,11 +33,23 @@ public class EmployerDto {
 		this.listings = listings;
 	}
 
-	public long getemployerId() {
+	public String getEmployerGender() {
+		return employerGender;
+	}
+
+	public void setEmployerGender(String employerGender) {
+		this.employerGender = employerGender;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public long getEmployerId() {
 		return employerId;
 	}
 
-	public void setemployerId(long employerId) {
+	public void setEmployerId(long employerId) {
 		this.employerId = employerId;
 	}
 

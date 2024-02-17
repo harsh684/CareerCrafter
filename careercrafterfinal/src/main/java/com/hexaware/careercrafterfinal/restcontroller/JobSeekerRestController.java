@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
@@ -81,6 +83,7 @@ public class JobSeekerRestController {
 	}
 	
 	@PostMapping("/apply/{listingId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
 	public String applyForJob(@PathVariable long listingId,@RequestBody @Valid Applications application) throws ApplicationException, ListingNotFoundException, ProfileNotFoundException {
         logger.info("Applying for job with listing ID: {}", listingId);
 

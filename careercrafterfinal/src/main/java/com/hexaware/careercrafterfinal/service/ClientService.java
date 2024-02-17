@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.repository.UserInfoRepository;
 
 @Service
@@ -19,7 +20,12 @@ public class ClientService {
 	
     private static final Logger logger=LoggerFactory.getLogger(ClientService.class); 
 	
-	public String addUser(UserInfo userInfo) {
+	public String addUser(UserInfo userInfo) throws UserAlreadyExistsException {
+		UserInfo temp = repository.findByEmail(userInfo.getEmail()).orElse(null);
+		if(temp!=null ) {
+			throw new UserAlreadyExistsException("Account already Exists");
+		}
+		
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         repository.save(userInfo);
         logger.info("User added to system");
