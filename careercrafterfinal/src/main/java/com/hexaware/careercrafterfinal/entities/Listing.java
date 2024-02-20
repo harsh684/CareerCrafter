@@ -12,7 +12,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Component
 @Entity
@@ -21,16 +25,24 @@ public class Listing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long listingId;
-	
+	@NotBlank
 	private String profile;
+	@NotBlank
 	private String department;
+	@NotBlank
 	private String location;
+	@Min(0)
 	private int experienceReqFrom;
+	@Min(0)
 	private int experienceReqTo;
+	
 	private double salary;
+	@NotNull
 	private LocalDate postDate;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	private String listingStatus;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "listingId")
 	private List<Skills> reqSkills;
 	private String jd;
@@ -40,11 +52,16 @@ public class Listing {
 	@JoinColumn(name = "listingId")
 	private List<Applications> applications;
 	
+	@ManyToOne
+	@JoinColumn(name="employerId")
+	private Employer employer;
+	
 	public Listing() {}
 
-	public Listing(long listingId, String profile, String department, String location, int experienceReqFrom,
-			int experienceReqTo, double salary, LocalDate postDate, List<Skills> reqSkills, String jd,
-			String benefitsProvided) {
+	public Listing(long listingId, @NotBlank String profile, @NotBlank String department, @NotBlank String location,
+			@Min(0) int experienceReqFrom, @Min(0) int experienceReqTo, double salary, @NotNull LocalDate postDate,
+			String listingStatus, List<Skills> reqSkills, String jd, String benefitsProvided,
+			List<Applications> applications, Employer employer) {
 		super();
 		this.listingId = listingId;
 		this.profile = profile;
@@ -54,9 +71,12 @@ public class Listing {
 		this.experienceReqTo = experienceReqTo;
 		this.salary = salary;
 		this.postDate = postDate;
+		this.listingStatus = listingStatus;
 		this.reqSkills = reqSkills;
 		this.jd = jd;
 		this.benefitsProvided = benefitsProvided;
+		this.applications = applications;
+		this.employer = employer;
 	}
 
 	public long getListingId() {
@@ -123,6 +143,14 @@ public class Listing {
 		this.postDate = postDate;
 	}
 
+	public String getListingStatus() {
+		return listingStatus;
+	}
+
+	public void setListingStatus(String listingStatus) {
+		this.listingStatus = listingStatus;
+	}
+
 	public List<Skills> getReqSkills() {
 		return reqSkills;
 	}
@@ -155,16 +183,22 @@ public class Listing {
 		this.applications = applications;
 	}
 
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
+	}
+
 	@Override
 	public String toString() {
 		return "Listing [listingId=" + listingId + ", profile=" + profile + ", department=" + department + ", location="
 				+ location + ", experienceReqFrom=" + experienceReqFrom + ", experienceReqTo=" + experienceReqTo
-				+ ", salary=" + salary + ", postDate=" + postDate + ", reqSkills=" + reqSkills + ", jd=" + jd
-				+ ", benefitsProvided=" + benefitsProvided + ", applications=" + applications + "]";
+				+ ", salary=" + salary + ", postDate=" + postDate + ", listingStatus=" + listingStatus + ", reqSkills="
+				+ reqSkills + ", jd=" + jd + ", benefitsProvided=" + benefitsProvided + ", applications=" + applications
+				+ ", employer=" + employer + "]";
 	}
 
-	
-	
-	
 	
 }

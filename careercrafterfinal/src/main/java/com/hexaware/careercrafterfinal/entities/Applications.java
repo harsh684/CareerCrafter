@@ -2,12 +2,19 @@ package com.hexaware.careercrafterfinal.entities;
 
 import java.time.LocalDate;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.stereotype.Component;
 
+import com.hexaware.careercrafterfinal.message.ResponseFile;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +26,6 @@ public class Applications {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Min(1)
 	private long applicationId;
 	
 	@NotBlank
@@ -29,7 +35,6 @@ public class Applications {
 	private String profile;
 	
 	@NotNull
-	@Future
 	private LocalDate appliedDate;
 	
 	@NotBlank
@@ -37,14 +42,22 @@ public class Applications {
 	
 	private String coverLetter;
 	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "resumeId")
+	private Resume resume;
 	//listingid
+	
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "resumeDocId")
+//	private ResponseFile responseFile;
 	
 	public Applications() {
 		
 	}
 
-	public Applications(long applicationId, String companyName, String profile, LocalDate appliedDate, String status,
-			String coverLetter) {
+	public Applications(long applicationId, @NotBlank String companyName, @NotBlank String profile,
+			@NotNull LocalDate appliedDate, @NotBlank String status, String coverLetter, Resume resume
+			) {
 		super();
 		this.applicationId = applicationId;
 		this.companyName = companyName;
@@ -52,6 +65,7 @@ public class Applications {
 		this.appliedDate = appliedDate;
 		this.status = status;
 		this.coverLetter = coverLetter;
+		this.resume = resume;
 	}
 
 	public long getApplicationId() {
@@ -102,12 +116,21 @@ public class Applications {
 		this.coverLetter = coverLetter;
 	}
 
+	public Resume getResume() {
+		return resume;
+	}
+
+	public void setResume(Resume resume) {
+		this.resume = resume;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Applications [applicationId=" + applicationId + ", companyName=" + companyName + ", profile=" + profile
-				+ ", appliedDate=" + appliedDate + ", status=" + status + ", coverLetter=" + coverLetter + "]";
+				+ ", appliedDate=" + appliedDate + ", status=" + status + ", coverLetter=" + coverLetter + ", resume="
+				+ resume + ", responseFile=" + "]";
 	}
-	
 	
 	
 }

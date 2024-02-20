@@ -6,8 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
@@ -17,14 +17,18 @@ public class Skills {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long skillId;
 	
-	@NotNull
-	@Size(max=50)
+	@NotBlank
 	private String skillName;
 
 	public Skills() {
 		super();
 	}
 
+	public Skills(String skillName) {
+		super();
+		this.skillName = skillName;
+	}
+	
 	public Skills(long skillId, String skillName) {
 		super();
 		this.skillId = skillId;

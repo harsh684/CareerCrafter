@@ -12,6 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Component
 @Entity
@@ -21,36 +26,46 @@ public class Employer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long employerId;
 	private String name;
+	
+	@NotBlank 
+	private String employerGender;
+	@Email
 	private String email;
+	@Pattern(regexp="\\d{10}")
 	private String phno;
 	private String address;
-	private String comppanyName;
+	private String companyName;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "employerId")
 	private List<Listing> listings;
-	private String token;
+	
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "pictureId")
+	private ProfilePic profilePic;
 	
 	public Employer() {}
 
-	public Employer(long employerId, String name, String email, String phno, String address, String comppanyName,
-			List<Listing> listings, String token) {
+	public Employer(long employerId, String name, @NotBlank String employerGender, @Email String email,
+			@Pattern(regexp = "\\d{10}") String phno, String address, String companyName, List<Listing> listings,
+			ProfilePic profilePic) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
+		this.employerGender = employerGender;
 		this.email = email;
 		this.phno = phno;
 		this.address = address;
-		this.comppanyName = comppanyName;
+		this.companyName = companyName;
 		this.listings = listings;
-		this.token = token;
+		this.profilePic = profilePic;
 	}
 
-	public long getemployerId() {
+	public long getEmployerId() {
 		return employerId;
 	}
 
-	public void setemployerId(long employerId) {
+	public void setEmployerId(long employerId) {
 		this.employerId = employerId;
 	}
 
@@ -60,6 +75,14 @@ public class Employer {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmployerGender() {
+		return employerGender;
+	}
+
+	public void setEmployerGender(String employerGender) {
+		this.employerGender = employerGender;
 	}
 
 	public String getEmail() {
@@ -86,12 +109,12 @@ public class Employer {
 		this.address = address;
 	}
 
-	public String getComppanyName() {
-		return comppanyName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setComppanyName(String comppanyName) {
-		this.comppanyName = comppanyName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public List<Listing> getListings() {
@@ -102,19 +125,20 @@ public class Employer {
 		this.listings = listings;
 	}
 
-	public String getToken() {
-		return token;
+	public ProfilePic getProfilePic() {
+		return profilePic;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
 	}
 
 	@Override
 	public String toString() {
-		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", comppanyName=" + comppanyName + ", listings=" + listings + ", token=" + token + "]";
+		return "Employer [employerId=" + employerId + ", name=" + name + ", employerGender=" + employerGender
+				+ ", email=" + email + ", phno=" + phno + ", address=" + address + ", companyName=" + companyName
+				+ ", listings=" + listings + ", profilePic=" + profilePic + "]";
 	}
-	
+
 	
 }

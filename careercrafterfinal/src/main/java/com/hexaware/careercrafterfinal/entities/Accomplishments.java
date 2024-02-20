@@ -14,7 +14,6 @@ public class Accomplishments {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Min(1)
 	private long accomplishmentId;
 	
 	private String description;

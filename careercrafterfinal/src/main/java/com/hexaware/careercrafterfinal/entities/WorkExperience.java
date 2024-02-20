@@ -2,10 +2,8 @@ package com.hexaware.careercrafterfinal.entities;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,9 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
@@ -24,21 +19,17 @@ public class WorkExperience {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long experienceId;
+	
 	@NotBlank
-	@Size(max=50)
 	private String companyName;
+	
 	@NotNull
-	@Past
-	@DateTimeFormat(pattern ="dd-MM-yyyy")
 	private LocalDate startDate;
+	
 	@NotNull
-	@Past
-	@DateTimeFormat(pattern ="dd-MM-yyyy")
 	private LocalDate endDate;
-	@NotNull
-	@Pattern(regexp = "^[0-9]*$")
+	
 	private double salary;
-	@Size(max = 200)
 	private String description;
 	
 	public WorkExperience() {}

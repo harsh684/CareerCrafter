@@ -1,15 +1,11 @@
 package com.hexaware.careercrafterfinal.service;
 
-import com.hexaware.careercrafterfinal.entities.Employer;
-import com.hexaware.careercrafterfinal.entities.JobSeeker;
+
+import com.hexaware.careercrafterfinal.entities.UserInfo;
 
 public interface IRegisterationAuthService {
 
-	public boolean registerUser(JobSeeker seeker);
+	public boolean registerUser(UserInfo userInfo);
 	
-	public boolean registerEmployer(Employer employer);
-	
-	public boolean authenticateUser(String username,String password);
-	
-	public boolean authenticateEmployer(String username,String password);
+	public boolean registerEmployer(UserInfo userInfo);
 }

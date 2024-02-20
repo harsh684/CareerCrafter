@@ -11,6 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Component
 @Entity
@@ -20,46 +23,54 @@ public class Resume {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long resumeId;
 	
+	@NotBlank
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Languages> languages;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Skills> skills;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<ReferenceLinks> referenceLinks;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Accomplishments> accomplishments;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<WorkExperience> experiences;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Education> education;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Project> projects;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "resumeId")
 	private List<Certification> certifications;
 	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "resumeDocId")
+	private ResumeDoc resumeFile;
+	
 	public Resume() {}
 
-	public Resume(long resumeId, String address, List<Languages> languages, List<Skills> skills,
+	public Resume(long resumeId, @NotBlank String address, List<Languages> languages, List<Skills> skills,
 			List<ReferenceLinks> referenceLinks, List<Accomplishments> accomplishments,
 			List<WorkExperience> experiences, List<Education> education, List<Project> projects,
-			List<Certification> certifications) {
+			List<Certification> certifications, ResumeDoc resumeFile) {
 		super();
 		this.resumeId = resumeId;
 		this.address = address;
@@ -71,6 +82,7 @@ public class Resume {
 		this.education = education;
 		this.projects = projects;
 		this.certifications = certifications;
+		this.resumeFile = resumeFile;
 	}
 
 	public long getResumeId() {
@@ -153,14 +165,21 @@ public class Resume {
 		this.certifications = certifications;
 	}
 
+	public ResumeDoc getResumeFile() {
+		return resumeFile;
+	}
+
+	public void setResumeFile(ResumeDoc resumeFile) {
+		this.resumeFile = resumeFile;
+	}
+
 	@Override
 	public String toString() {
 		return "Resume [resumeId=" + resumeId + ", address=" + address + ", languages=" + languages + ", skills="
 				+ skills + ", referenceLinks=" + referenceLinks + ", accomplishments=" + accomplishments
 				+ ", experiences=" + experiences + ", education=" + education + ", projects=" + projects
-				+ ", certifications=" + certifications + "]";
+				+ ", certifications=" + certifications + ", resumeFile=" + resumeFile +"]";
 	}
 
-	
 	
 }

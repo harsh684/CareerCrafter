@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Component
 @Entity
@@ -15,6 +16,7 @@ public class Languages {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long languageId;
 	
+	@NotBlank
 	private String languageName;
 
 	public Languages() {
