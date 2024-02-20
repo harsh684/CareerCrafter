@@ -1,6 +1,5 @@
 package com.hexaware.careercrafterfinal.restcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -65,7 +64,7 @@ public class JobSeekerRestController {
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String updateProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
-        logger.info("Updating profile for seeker with ID: {}");
+        logger.info("Updating profile for seeker with ID: {}",seeker.getSeekerId());
 		if(!userService.updateProfile(seeker)) {
 			throw new ProfileUpdateException();
 		}

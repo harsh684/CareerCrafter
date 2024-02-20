@@ -2,7 +2,6 @@ package com.hexaware.careercrafterfinal.service;
 
 import java.util.List;
 
-import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;

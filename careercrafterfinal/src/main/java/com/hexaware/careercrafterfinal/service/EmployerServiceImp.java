@@ -58,6 +58,7 @@ public class EmployerServiceImp implements IEmployerService {
 			
 			Employer employer = new Employer();
 			employer.setName(emp.getName());
+			employer.setEmployerGender(emp.getEmployerGender());
 			employer.setAddress(emp.getAddress());
 			employer.setEmployerGender(emp.getEmployerGender());
 			employer.setCompanyName(emp.getCompanyName());
@@ -94,6 +95,7 @@ public class EmployerServiceImp implements IEmployerService {
 		
 		Employer employer = new Employer();
 		employer.setName(emp.getName());
+		employer.setEmployerGender(emp.getEmployerGender());
 		employer.setAddress(emp.getAddress());
 		employer.setEmployerGender(emp.getEmployerGender());
 		employer.setEmail(emp.getEmail());

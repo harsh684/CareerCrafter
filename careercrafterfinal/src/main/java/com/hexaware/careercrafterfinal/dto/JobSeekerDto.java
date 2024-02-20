@@ -17,6 +17,8 @@ public class JobSeekerDto {
 	
 	private String seekerName;
 	
+	private String seekerGender;
+	
 	private String tagline;
 	
 	private String seekerGender;
@@ -26,6 +28,7 @@ public class JobSeekerDto {
 	private String summary;
 	
 	private LocalDate dateOfBirth;
+	
 	
 	private String phoneNumber;
 	
@@ -60,7 +63,18 @@ public class JobSeekerDto {
 		this.currentSalary = currentSalary;
 		this.resume = resume;
 		this.applications = applications;
+
+
+	public String getSeekerGender() {
+		return seekerGender;
+
 	}
+
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
+	}
+
 
 	public long getSeekerId() {
 		return seekerId;
