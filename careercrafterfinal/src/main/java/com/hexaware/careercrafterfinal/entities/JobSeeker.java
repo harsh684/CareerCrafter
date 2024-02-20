@@ -31,6 +31,9 @@ public class JobSeeker {
 	@NotBlank
 	private String tagline;
 	
+	@NotBlank
+	private String seekerGender;
+	
 	private String email;
 	
 	private String summary;
@@ -66,13 +69,14 @@ public class JobSeeker {
 	}
 
 	public JobSeeker(long seekerId, @NotBlank String seekerName, @NotBlank String tagline,
-			@NotBlank @Email String email, String summary, @NotNull LocalDate dateOfBirth, @NotBlank String phoneNumber,
-			@NotBlank String address, @NotBlank String country, double currentSalary, Resume resume,
-			List<Applications> applications, ProfilePic profilePic) {
+			@NotBlank String seekerGender, String email, String summary, @NotNull LocalDate dateOfBirth,
+			@NotBlank String phoneNumber, @NotBlank String address, @NotBlank String country, double currentSalary,
+			Resume resume, List<Applications> applications, ProfilePic profilePic) {
 		super();
 		this.seekerId = seekerId;
 		this.seekerName = seekerName;
 		this.tagline = tagline;
+		this.seekerGender = seekerGender;
 		this.email = email;
 		this.summary = summary;
 		this.dateOfBirth = dateOfBirth;
@@ -107,6 +111,14 @@ public class JobSeeker {
 
 	public void setTagline(String tagline) {
 		this.tagline = tagline;
+	}
+
+	public String getSeekerGender() {
+		return seekerGender;
+	}
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
 	}
 
 	public String getEmail() {
@@ -191,12 +203,12 @@ public class JobSeeker {
 
 	@Override
 	public String toString() {
-		return "JobSeeker [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline + ", email="
-				+ email + ", summary=" + summary + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", country=" + country + ", currentSalary=" + currentSalary + ", resume="
-				+ resume + ", applications=" + applications + ", profilePic=" + profilePic + "]";
+		return "JobSeeker [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline
+				+ ", seekerGender=" + seekerGender + ", email=" + email + ", summary=" + summary + ", dateOfBirth="
+				+ dateOfBirth + ", phoneNumber=" + phoneNumber + ", address=" + address + ", country=" + country
+				+ ", currentSalary=" + currentSalary + ", resume=" + resume + ", applications=" + applications
+				+ ", profilePic=" + profilePic + "]";
 	}
-
 
 	
 }

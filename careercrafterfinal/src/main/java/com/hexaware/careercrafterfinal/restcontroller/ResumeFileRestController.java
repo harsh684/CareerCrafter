@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.message.ResponseFile;
 import com.hexaware.careercrafterfinal.service.IResumeStorageService;
 
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/resumedoc")
 public class ResumeFileRestController {
@@ -48,28 +49,7 @@ public class ResumeFileRestController {
 	  @GetMapping("/employer/manageresumedocs")
 	  @PreAuthorize("hasAuthority('EMPLOYER')")
 	  public List<ResponseFile> getResumeFilesList()  {
-	    List<ResponseFile> files = storageService.getAllFiles().map(dbFile -> {
-	      String fileDownloadUri = ServletUriComponentsBuilder
-	          .fromCurrentContextPath()
-	          .path("/files/")
-	          .path(dbFile.getdocId())
-	          .toUriString();
-
-	      long blobLength = 0;
-          try {
-              blobLength = dbFile.getData().length();
-          } catch (SQLException e) {
-              e.printStackTrace();
-          } 
-
-          return new ResponseFile(
-                  dbFile.getName(),
-                  fileDownloadUri,
-                  dbFile.getType(),
-                  blobLength);
-      }).collect(Collectors.toList());
-
-      return files;
+	    return storageService.getListFiles();
 	  }
 
 	  @GetMapping("/employer/get/{docId}")
@@ -85,13 +65,5 @@ public class ResumeFileRestController {
 		  return storageService.downloadFile(docId);
 	  }
 	  
-//	  @GetMapping("/downloadAll")
-//	  public ResponseEntity<List<ByteArrayResource>> downloadFile() throws Exception{
-//		  return storageService.downloadAllFiles();
-//	  }
-//	  @GetMapping("/downloadAll")
-//	  public ResponseEntity<List<byte[]>> downloadFile() throws Exception{
-//		  return storageService.downloadAllFiles();
-//	  }
 	  
 }

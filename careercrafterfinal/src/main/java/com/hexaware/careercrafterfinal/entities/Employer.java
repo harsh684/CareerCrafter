@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Component
@@ -26,6 +27,8 @@ public class Employer {
 	private long employerId;
 	private String name;
 	
+	@NotBlank 
+	private String employerGender;
 	@Email
 	private String email;
 	@Pattern(regexp="\\d{10}")
@@ -43,11 +46,13 @@ public class Employer {
 	
 	public Employer() {}
 
-	public Employer(long employerId, String name, @Email String email, @Pattern(regexp = "\\d{10}") String phno,
-			String address, String companyName, List<Listing> listings, ProfilePic profilePic) {
+	public Employer(long employerId, String name, @NotBlank String employerGender, @Email String email,
+			@Pattern(regexp = "\\d{10}") String phno, String address, String companyName, List<Listing> listings,
+			ProfilePic profilePic) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
+		this.employerGender = employerGender;
 		this.email = email;
 		this.phno = phno;
 		this.address = address;
@@ -70,6 +75,14 @@ public class Employer {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmployerGender() {
+		return employerGender;
+	}
+
+	public void setEmployerGender(String employerGender) {
+		this.employerGender = employerGender;
 	}
 
 	public String getEmail() {
@@ -122,11 +135,10 @@ public class Employer {
 
 	@Override
 	public String toString() {
-		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno
-				+ ", address=" + address + ", companyName=" + companyName + ", listings=" + listings + ", profilePic="
-				+ profilePic + "]";
+		return "Employer [employerId=" + employerId + ", name=" + name + ", employerGender=" + employerGender
+				+ ", email=" + email + ", phno=" + phno + ", address=" + address + ", companyName=" + companyName
+				+ ", listings=" + listings + ", profilePic=" + profilePic + "]";
 	}
 
-	
 	
 }

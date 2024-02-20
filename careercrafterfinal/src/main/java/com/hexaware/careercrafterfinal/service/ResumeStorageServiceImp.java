@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
@@ -30,6 +32,7 @@ import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
+import com.hexaware.careercrafterfinal.message.ResponseFile;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeDocRepository;
 import com.hexaware.careercrafterfinal.repository.UserInfoRepository;
@@ -88,6 +91,61 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 	      }
 	  }
 
+	  public List<ResponseFile> getListFiles()  {
+		    List<ResponseFile> files = getAllFiles().map(dbFile -> {
+		      String fileDownloadUri = ServletUriComponentsBuilder
+		          .fromCurrentContextPath()
+		          .path("/files/")
+		          .path(dbFile.getdocId())
+		          .toUriString();
+
+		      long blobLength = 0;
+	          byte[] data = null;
+	          try {
+	              blobLength = dbFile.getData().length();
+	          } catch (SQLException e) {
+	              e.printStackTrace();
+	          } 
+
+	          return new ResponseFile(
+	                  dbFile.getName(),
+	                  fileDownloadUri,
+	                  dbFile.getType(),
+	                  blobLength);
+	      }).collect(Collectors.toList());
+
+	      return files;
+		  }
+	  
+	  public ResponseFile getSingleResumeResponse(String docId) {
+		  
+		  ResumeDoc resumeFile = getFile(docId);
+
+		  String fileDownloadUri = ServletUriComponentsBuilder
+				    .fromCurrentContextPath()
+				    .path("/files/")
+				    .path(resumeFile.getdocId()) // Assuming getDocId() method exists in the resumeFile object
+				    .toUriString();
+		  
+		  long blobLength = 0;
+		  byte[] data = null;
+		  try {
+		      blobLength = resumeFile.getData().length(); // Assuming getData() method exists in the resumeFile object
+		  } catch (SQLException e) {
+		      e.printStackTrace();
+		  }
+		  
+		  ResponseFile responseFile = new ResponseFile(
+				    resumeFile.getName(),
+				    fileDownloadUri,
+				    resumeFile.getType(),
+				    blobLength
+				);
+		  
+		  return responseFile;
+		  
+	  }
+	  
 	  public ResumeDoc getFile(String id) {
 	    return resumeDocRepository.findById(id).get();
 	  }

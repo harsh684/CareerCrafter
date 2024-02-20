@@ -16,6 +16,7 @@ import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
+import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.repository.ApplicationRepository;
@@ -58,21 +59,23 @@ public class EmployerServiceImp implements IEmployerService {
 			Employer employer = new Employer();
 			employer.setName(emp.getName());
 			employer.setAddress(emp.getAddress());
-			employer.setEmail(userInfo.getEmail());
+			employer.setEmployerGender(emp.getEmployerGender());
 			employer.setCompanyName(emp.getCompanyName());
 			employer.setPhno(emp.getPhno());
 			employer.setListings(emp.getListings());
 			employer.setEmployerId(emp.getEmployerId());
 			
 			logger.info("Creating profile for employer: ", employer.getName());
-	
-			Employer temp = employerRepo.save(employer);
 			
-			if(temp == null)
-				return false;
-			
-			
+			Employer temp = null;
 			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
+				
+				employer.setEmail(userInfo.getEmail());
+				temp = employerRepo.save(employer);
+				
+				if(temp == null)
+					return false;
+				
 				userInfo.setRoleId(temp.getEmployerId());
 				logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
 
@@ -92,6 +95,7 @@ public class EmployerServiceImp implements IEmployerService {
 		Employer employer = new Employer();
 		employer.setName(emp.getName());
 		employer.setAddress(emp.getAddress());
+		employer.setEmployerGender(emp.getEmployerGender());
 		employer.setEmail(emp.getEmail());
 		employer.setCompanyName(emp.getCompanyName());
 		employer.setPhno(emp.getPhno());
@@ -169,15 +173,64 @@ public class EmployerServiceImp implements IEmployerService {
 	    logger.info("Fetching all applications for listing id:"+listingId);
 
 	    Listing listing = listingRepository.findById(listingId).orElse(null);
+
+	    List<Applications> res = new ArrayList<>();
+
+	    Applications temp;
 	    
-		return listing.getApplications();
+	    for(Applications app:listing.getApplications()) {
+	    	temp=new Applications();
+	    	temp.setApplicationId(app.getApplicationId());
+	    	temp.setAppliedDate(app.getAppliedDate());
+	    	temp.setCompanyName(app.getCompanyName());
+	    	temp.setCoverLetter(app.getCoverLetter());
+	    	temp.setProfile(app.getProfile());
+	    	
+	    	Resume resume = app.getResume();
+	    	ResumeDoc tempDoc =  resume.getResumeFile();
+	    	if(tempDoc!=null) {
+	    		tempDoc.setData(null);
+	    	}
+	    	resume.setResumeFile(tempDoc);
+	    	temp.setResume(resume);
+	    	//temp.setResponseFile(app.getResponseFile());
+	    	temp.setStatus(app.getStatus());
+	    	
+	    	res.add(temp);
+	    }
+	    
+		return res;
 	}
 	
 	@Override
 	public List<Applications> viewApplications() {
 	    logger.info("Fetching all applications");
+	    List<Applications> res = new ArrayList<>();
 
-		return applicationRepo.findAll();
+	    Applications temp;
+	    
+	    for(Applications app:applicationRepo.findAll()) {
+	    	temp=new Applications();
+	    	temp.setApplicationId(app.getApplicationId());
+	    	temp.setAppliedDate(app.getAppliedDate());
+	    	temp.setCompanyName(app.getCompanyName());
+	    	temp.setCoverLetter(app.getCoverLetter());
+	    	temp.setProfile(app.getProfile());
+	    	
+	    	Resume resume = app.getResume();
+	    	ResumeDoc tempDoc =  resume.getResumeFile();
+	    	if(tempDoc!=null) {
+	    		tempDoc.setData(null);
+	    	}
+	    	resume.setResumeFile(tempDoc);
+	    	temp.setResume(resume);
+	    	//temp.setResponseFile(app.getResponseFile());
+	    	temp.setStatus(app.getStatus());
+	    	
+	    	res.add(temp);
+	    }
+
+		return res;
 	}
 
 	@Override
