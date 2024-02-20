@@ -1,0 +1,48 @@
+.myForm{
+    width: 30%;
+    border-radius: 10px;
+}
+.labels{
+    margin: 2px 5px;
+    font-weight: 500 ;
+}
+
+@media only screen and (min-width:993px) and (max-width:1200px) {
+    .myForm{
+        width: 50%;
+    }
+    .labels{
+        font-size: 0.90rem;
+    }
+    .other-options{
+        font-size: 0.90em;
+    }
+}
+@media only screen and (min-width:769px) and (max-width:992px) {
+    .myForm{
+        width: 60%;
+    }
+    .labels{
+        font-size: 0.90rem;
+    }
+    .other-options{
+        font-size: 0.90em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .myForm{
+        width: 90%;
+    }
+    .labels{
+        font-size: 0.90em;
+        margin: 2px 5px;
+        font-weight: 500 ;
+    }
+    .input-fields{
+        height: 50%;
+    }
+    .other-options{
+        font-size: 0.87em;
+    }
+}

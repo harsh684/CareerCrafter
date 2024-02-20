@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="container border border-1 p-3 mx-auto w-50">
+        <form [formGroup]="registerForm" (ngSubmit)="createProfile()">
+            <div class="form-group">
+                <div class="d-flex">
+                    <div class="d-flex">
+                        <!-- pre defined name here -->
+                        <input class="form-control" type="text" disabled value="Harsh" >
+                    
+                        <input class="form-control" type="email" disabled value="harsh@gmail.com">
+                    </div>
+                </div>
+            <div class="">
+              
+                <div class="form-group d-flex">
+                    <div class="d-flex flex-column">
+                        <input class="form-control" type="text" placeholder="Phone number"  formControlName="phoneNumber" [ngClass]="{'is-invalid': submitted && f['phoneNumber'].errors, 'is-valid': !f['phoneNumber'].errors}" />
+                        <div *ngIf="submitted && f['phoneNumber'].errors" class="invalid-feedback"></div>
+                        <div class="valid-feedback" *ngIf="!f['phoneNumber'].errors">phone number is valid</div>
+                        <div *ngIf="f['phoneNumber'].errors?.['required']" class="text-danger mx-1">phone number is required</div>
+                        <div *ngIf="f['phoneNumber'].errors?.['pattern']" class="text-danger">phone number is invalid</div>
+                    </div>
+                
+                    <div class="d-flex flex-column">
+                        <input class="form-control" type="text" placeholder="Address" formControlName="address" [ngClass]="{'is-invalid':submitted && f['address'].errors, 'is-valid': !f['address'].errors}" >   
+                        <div *ngIf="submitted && f['address'].errors" class="invalid-feedback"></div>
+                        <div class="valid-feedback" *ngIf="!f['address'].errors">address is valid</div>
+                        <div *ngIf="f['address'].errors?.['required']" class="text-danger mx-1">address is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group d-flex">
+                <div>
+                    <input class="form-control" type="text" placeholder="Company Name" formControlName="companyName" [ngClass]="{'is-invalid':submitted && f['companyName'].errors, 'is-valid': !f['companyName'].errors}" >    
+                    <div *ngIf="submitted && f['companyName'].errors" class="invalid-feedback"></div>
+                    <div class="valid-feedback" *ngIf="!f['companyName'].errors">company name is valid</div>
+                    <div *ngIf="f['companyName'].errors?.['required']" class="text-danger mx-1">company name is required</div>
+                </div>
+
+                <div class="dropdown-container">
+                    <select class="dropdown" name="gander" id="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Prefer Not To Say">Prefer Not To Say</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    
+</div>

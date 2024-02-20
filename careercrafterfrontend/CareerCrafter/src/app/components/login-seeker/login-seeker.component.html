@@ -1,0 +1,23 @@
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+    <h2>Login Seeker</h2>
+    <div class="container myForm d-flex flex-column justify-content-center align-items-center border border-1 p-3">
+        <form class="container" #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" >
+            <div class="form-group">
+                <label class="labels" for="username">Username</label>
+                <br>
+                <input class="form-control" type="text" name="username" ngModel required #uid="ngModel">
+                <div *ngIf="uid.touched && uid.invalid" class="text-danger">username is required</div>
+            </div>
+            <div>
+                <label class="labels" for="password">Password</label>
+                <br>
+                <input class="form-control" type="password" name="password" ngModel required #pid="ngModel">
+                <div *ngIf="pid.touched && pid.invalid" class="text-danger">password is required</div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Login</button>
+        </form>
+    </div>
+    <div class="other-options">
+        Register as an <a routerLink="/register-seeker">Job Seeker</a>
+    </div>
+</div>
