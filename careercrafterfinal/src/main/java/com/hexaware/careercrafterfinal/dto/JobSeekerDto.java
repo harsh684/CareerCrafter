@@ -21,6 +21,8 @@ public class JobSeekerDto {
 	
 	private String tagline;
 	
+	private String seekerGender;
+	
 	private String email;
 	
 	private String summary;
@@ -44,9 +46,28 @@ public class JobSeekerDto {
 		super();
 	}
 
+	public JobSeekerDto(long seekerId, String seekerName, String tagline, String seekerGender, String email,
+			String summary, LocalDate dateOfBirth, String phoneNumber, String address, String country,
+			double currentSalary, Resume resume, List<Applications> applications) {
+		super();
+		this.seekerId = seekerId;
+		this.seekerName = seekerName;
+		this.tagline = tagline;
+		this.seekerGender = seekerGender;
+		this.email = email;
+		this.summary = summary;
+		this.dateOfBirth = dateOfBirth;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.country = country;
+		this.currentSalary = currentSalary;
+		this.resume = resume;
+		this.applications = applications;
+
 
 	public String getSeekerGender() {
 		return seekerGender;
+
 	}
 
 
@@ -77,6 +98,14 @@ public class JobSeekerDto {
 
 	public void setTagline(String tagline) {
 		this.tagline = tagline;
+	}
+
+	public String getSeekerGender() {
+		return seekerGender;
+	}
+
+	public void setSeekerGender(String seekerGender) {
+		this.seekerGender = seekerGender;
 	}
 
 	public String getEmail() {
@@ -153,11 +182,12 @@ public class JobSeekerDto {
 
 	@Override
 	public String toString() {
-		return "JobSeeker [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline + ", email="
-				+ email + ", summary=" + summary + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", country=" + country + ", currentSalary=" + currentSalary + ", resume="
-				+ resume + ", applications=" + applications + "]";
+		return "JobSeekerDto [seekerId=" + seekerId + ", seekerName=" + seekerName + ", tagline=" + tagline
+				+ ", seekerGender=" + seekerGender + ", email=" + email + ", summary=" + summary + ", dateOfBirth="
+				+ dateOfBirth + ", phoneNumber=" + phoneNumber + ", address=" + address + ", country=" + country
+				+ ", currentSalary=" + currentSalary + ", resume=" + resume + ", applications=" + applications + "]";
 	}
 
+	
 	
 }

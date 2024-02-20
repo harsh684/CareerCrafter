@@ -9,6 +9,7 @@ public class EmployerDto {
 
 	private long employerId;
 	private String name;
+	private String employerGender;
 	private String email;
 	private String employerGender;
 	private String phno;
@@ -20,12 +21,13 @@ public class EmployerDto {
 	
 	public EmployerDto() {}
 
-	public EmployerDto(long employerId, String name,String employerGender, String email, String phno, String address, String companyName,
-			List<Listing> listings) {
+
+	public EmployerDto(long employerId, String name, String employerGender, String email, String phno, String address,
+			String companyName, List<Listing> listings) {
 		super();
 		this.employerId = employerId;
 		this.name = name;
-		this.employerGender=employerGender;
+		this.employerGender = employerGender;
 		this.email = email;
 		this.phno = phno;
 		this.address = address;
@@ -62,6 +64,14 @@ public class EmployerDto {
 		this.name = name;
 	}
 
+	public String getEmployerGender() {
+		return employerGender;
+	}
+
+	public void setEmployerGender(String employerGender) {
+		this.employerGender = employerGender;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -90,7 +100,7 @@ public class EmployerDto {
 		return companyName;
 	}
 
-	public void setComppanyName(String companyName) {
+	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
 
@@ -102,10 +112,12 @@ public class EmployerDto {
 		this.listings = listings;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Employer [employerId=" + employerId + ", name=" + name + ", email=" + email + ", phno=" + phno + ", address=" + address
-				+ ", companyName=" + companyName + ", listings=" + listings + ", token=" + "]";
+		return "EmployerDto [employerId=" + employerId + ", name=" + name + ", employerGender=" + employerGender
+				+ ", email=" + email + ", phno=" + phno + ", address=" + address + ", companyName=" + companyName
+				+ ", listings=" + listings + "]";
 	}
+
+	
 }

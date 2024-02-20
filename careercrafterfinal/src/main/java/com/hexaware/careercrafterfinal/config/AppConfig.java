@@ -1,5 +1,7 @@
 package com.hexaware.careercrafterfinal.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hexaware.careercrafterfinal.filter.JwtAuthFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 
 @Configuration
@@ -40,7 +45,7 @@ public class AppConfig {
     public  SecurityFilterChain   getSecurityFilterChain(HttpSecurity http) throws Exception {
     	
     	
-    		return http.csrf().disable()
+    		return http.cors().and().csrf().disable()
     			.authorizeHttpRequests()
     			.requestMatchers("/swagger-ui/**","/api/register/**")
     			.permitAll()
@@ -57,6 +62,20 @@ public class AppConfig {
     	
     }
 	
+	 @Bean
+	 public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        
+        return new CorsFilter(source);
+    }
+
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();

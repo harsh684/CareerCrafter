@@ -45,6 +45,9 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	ResumeRepository resumeRepository;
 	
+	@Autowired
+	IResumeStorageService storageService;
+	
 	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -169,6 +172,10 @@ public class UserServiceImp implements IUserService {
 					throw new ProfileNotFoundException("Profile Not Found in the database");
 				
 				application.setResume(seeker.getResume());
+//				if(seeker.getResume().getResumeFile()!=null) {
+//					application.setResponseFile(storageService.getSingleResumeResponse(
+//							seeker.getResume().getResumeFile().getdocId()));
+//				}
 				logger.info("Setting job seeker resume to application: {}"+application.getResume());
 
 				appList = seeker.getApplications();
