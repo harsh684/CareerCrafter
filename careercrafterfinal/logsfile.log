@@ -1,0 +1,93 @@
+2024-02-20T17:41:21.237+05:30  INFO 36364 --- [main] c.h.c.CareercrafterfinalApplication      : Starting CareercrafterfinalApplication using Java 17.0.9 with PID 36364 (D:\Hexaware Last Phase\CareerCrafter\CareerCrafter\careercrafterfinal\target\classes started by harsh in D:\Hexaware Last Phase\CareerCrafter\CareerCrafter\careercrafterfinal)
+2024-02-20T17:41:21.246+05:30  INFO 36364 --- [main] c.h.c.CareercrafterfinalApplication      : No active profile set, falling back to 1 default profile: "default"
+2024-02-20T17:41:22.897+05:30  INFO 36364 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-20T17:41:22.973+05:30  INFO 36364 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 8 JPA repository interfaces.
+2024-02-20T17:41:23.726+05:30  INFO 36364 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-02-20T17:41:23.746+05:30  INFO 36364 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-02-20T17:41:23.747+05:30  INFO 36364 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-20T17:41:23.949+05:30  INFO 36364 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-02-20T17:41:23.949+05:30  INFO 36364 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2644 ms
+2024-02-20T17:41:23.979+05:30  INFO 36364 --- [main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.OncePerRequestFilter.doFilter(jakarta.servlet.ServletRequest,jakarta.servlet.ServletResponse,jakarta.servlet.FilterChain) throws jakarta.servlet.ServletException,java.io.IOException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2024-02-20T17:41:23.981+05:30  INFO 36364 --- [main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(jakarta.servlet.FilterConfig) throws jakarta.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2024-02-20T17:41:24.131+05:30  INFO 36364 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-20T17:41:24.183+05:30  INFO 36364 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.20.Final
+2024-02-20T17:41:24.186+05:30  INFO 36364 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-02-20T17:41:24.433+05:30  INFO 36364 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-20T17:41:24.458+05:30  INFO 36364 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-02-20T17:41:24.782+05:30  INFO 36364 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5599dc60
+2024-02-20T17:41:24.785+05:30  INFO 36364 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-02-20T17:41:24.828+05:30  WARN 36364 --- [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-20T17:41:24.829+05:30  WARN 36364 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-02-20T17:41:26.213+05:30  INFO 36364 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-20T17:41:26.606+05:30  INFO 36364 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-20T17:41:27.073+05:30  INFO 36364 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-20T17:41:27.774+05:30  WARN 36364 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-20T17:41:28.089+05:30  INFO 36364 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1a02063a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@29483d10, org.springframework.security.web.context.SecurityContextHolderFilter@303d2485, org.springframework.security.web.header.HeaderWriterFilter@7a337217, org.springframework.security.web.authentication.logout.LogoutFilter@2531049f, com.hexaware.careercrafterfinal.filter.JwtAuthFilter@28901fe7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5205b2e5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3ed7fc6f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ca67657, org.springframework.security.web.session.SessionManagementFilter@19b89a23, org.springframework.security.web.access.ExceptionTranslationFilter@13b012, org.springframework.security.web.access.intercept.AuthorizationFilter@13b409bb]
+2024-02-20T17:41:28.366+05:30  INFO 36364 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-02-20T17:41:28.374+05:30  INFO 36364 --- [main] c.h.c.CareercrafterfinalApplication      : Started CareercrafterfinalApplication in 7.635 seconds (process running for 8.441)
+2024-02-20T17:41:28.550+05:30  INFO 36364 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-02-20T17:41:28.566+05:30  INFO 36364 --- [RMI TCP Connection(2)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-02-20T17:41:28.569+05:30  WARN 36364 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.9/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.9/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.9/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.9/java.lang.Thread.run(Thread.java:840)
+2024-02-20T17:41:28.569+05:30  WARN 36364 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 connection adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.9/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.9/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.9/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.9/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1061)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.9/java.lang.Thread.run(Thread.java:840)
+2024-02-20T17:41:28.576+05:30  INFO 36364 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-20T17:41:28.580+05:30  INFO 36364 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-02-20T17:41:28.588+05:30  INFO 36364 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-02-20T18:25:29.223+05:30  INFO 16908 --- [main] c.h.c.CareercrafterfinalApplication      : Starting CareercrafterfinalApplication using Java 17.0.9 with PID 16908 (D:\Hexaware Last Phase\CareerCrafter\CareerCrafter\careercrafterfinal\target\classes started by harsh in D:\Hexaware Last Phase\CareerCrafter\CareerCrafter\careercrafterfinal)
+2024-02-20T18:25:29.226+05:30  INFO 16908 --- [main] c.h.c.CareercrafterfinalApplication      : No active profile set, falling back to 1 default profile: "default"
+2024-02-20T18:25:30.395+05:30  INFO 16908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-20T18:25:30.467+05:30  INFO 16908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 8 JPA repository interfaces.
+2024-02-20T18:25:31.163+05:30  INFO 16908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-02-20T18:25:31.172+05:30  INFO 16908 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-02-20T18:25:31.173+05:30  INFO 16908 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-02-20T18:25:31.287+05:30  INFO 16908 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-02-20T18:25:31.287+05:30  INFO 16908 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2009 ms
+2024-02-20T18:25:31.315+05:30  INFO 16908 --- [main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.OncePerRequestFilter.doFilter(jakarta.servlet.ServletRequest,jakarta.servlet.ServletResponse,jakarta.servlet.FilterChain) throws jakarta.servlet.ServletException,java.io.IOException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2024-02-20T18:25:31.315+05:30  INFO 16908 --- [main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(jakarta.servlet.FilterConfig) throws jakarta.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2024-02-20T18:25:31.507+05:30  INFO 16908 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-20T18:25:31.595+05:30  INFO 16908 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.20.Final
+2024-02-20T18:25:31.599+05:30  INFO 16908 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-02-20T18:25:31.999+05:30  INFO 16908 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-20T18:25:32.033+05:30  INFO 16908 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-02-20T18:25:32.443+05:30  INFO 16908 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@457692cb
+2024-02-20T18:25:32.446+05:30  INFO 16908 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-02-20T18:25:32.497+05:30  WARN 16908 --- [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-20T18:25:32.498+05:30  WARN 16908 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-02-20T18:25:33.831+05:30  INFO 16908 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-20T18:25:34.011+05:30  INFO 16908 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-20T18:25:34.367+05:30  INFO 16908 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-20T18:25:34.826+05:30  WARN 16908 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-20T18:25:35.060+05:30  INFO 16908 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1e3f0c5c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1476e447, org.springframework.security.web.context.SecurityContextHolderFilter@5fe1b8d2, org.springframework.security.web.header.HeaderWriterFilter@27df971b, org.springframework.security.web.authentication.logout.LogoutFilter@2c2f4769, com.hexaware.careercrafterfinal.filter.JwtAuthFilter@33f3ebfc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1af6cd73, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2baf2c6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@666033b1, org.springframework.security.web.session.SessionManagementFilter@15c27b65, org.springframework.security.web.access.ExceptionTranslationFilter@6999dca2, org.springframework.security.web.access.intercept.AuthorizationFilter@2e8488f4]
+2024-02-20T18:25:35.299+05:30  INFO 16908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-02-20T18:25:35.306+05:30  INFO 16908 --- [main] c.h.c.CareercrafterfinalApplication      : Started CareercrafterfinalApplication in 6.516 seconds (process running for 7.495)
+2024-02-20T18:25:40.775+05:30  INFO 16908 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-02-20T18:25:40.787+05:30  INFO 16908 --- [RMI TCP Connection(2)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-02-20T18:25:40.789+05:30  WARN 16908 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.9/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.9/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.9/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.9/java.lang.Thread.run(Thread.java:840)
+2024-02-20T18:25:40.795+05:30  INFO 16908 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-20T18:25:40.797+05:30  INFO 16908 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-02-20T18:25:40.804+05:30  INFO 16908 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
