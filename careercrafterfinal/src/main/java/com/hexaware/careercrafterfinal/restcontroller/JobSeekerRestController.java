@@ -27,6 +27,7 @@ import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.IUserService;
 
 
@@ -44,7 +45,7 @@ public class JobSeekerRestController {
 	
 	@PostMapping("/createprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException, UserAlreadyExistsException {
         logger.info("Creating profile for job seeker: {}");
 		if(!userService.createProfile(seeker)) {
 			throw new ProfileUpdateException();
