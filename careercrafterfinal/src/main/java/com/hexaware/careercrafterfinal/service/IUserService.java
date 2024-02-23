@@ -11,10 +11,11 @@ import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 
 public interface IUserService {
 
-	public boolean createProfile(JobSeeker seeker) throws ProfileUpdateException;
+	public boolean createProfile(JobSeeker seeker) throws ProfileUpdateException, UserAlreadyExistsException;
 
 	public boolean updateProfile(JobSeeker seeker) throws ProfileUpdateException;
 	

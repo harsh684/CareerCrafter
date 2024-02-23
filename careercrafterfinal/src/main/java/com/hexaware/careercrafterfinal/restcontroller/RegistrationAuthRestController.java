@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.AuthRequest;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.ClientService;
+import com.hexaware.careercrafterfinal.service.IClientService;
 import com.hexaware.careercrafterfinal.service.JwtService;
 
 @CrossOrigin("http://localhost:4200")
@@ -31,7 +34,7 @@ public class RegistrationAuthRestController {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	ClientService clientService;
+	IClientService clientService;
 	
 	Logger logger=LoggerFactory.getLogger(RegistrationAuthRestController.class);
 
@@ -63,6 +66,14 @@ public class RegistrationAuthRestController {
 		}else {
 			throw new UsernameNotFoundException("Username or Password is invalid");
 		}
+		logger.info("Returning jwt token "+token);
 		return token;
 	}
+	
+	@GetMapping("/getCurrentUser")
+	public UserInfo getCurrentUserInfo() throws AuthenticationException {
+		logger.info("Sending current user Info");
+		return clientService.getCurrentUserInfo();
+	}
+	
 }
