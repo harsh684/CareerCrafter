@@ -49,6 +49,7 @@ public class ClientService implements IClientService {
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
 		UserInfo currentUser = userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);
 		currentUser.setPassword(null);
+
 		return currentUser;
 	}
 }
