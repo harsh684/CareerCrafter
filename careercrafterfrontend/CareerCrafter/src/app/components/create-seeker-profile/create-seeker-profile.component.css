@@ -20,14 +20,14 @@
     font-size: large;
 }
 .profile-pic{
-    width: 29%;
-    margin: 10px auto 0 auto;
+    width: 32%;
+    margin: 10px auto;
     border-radius: 50%;
 }
 .profile-pic-btn{
     width: fit-content;
     background-color: aliceblue;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 @media only screen and (min-width: 1201px){
     .dropdown-container{

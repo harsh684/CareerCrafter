@@ -20,6 +20,8 @@ export class CreateSeekerProfileComponent {
   isGenderSelected: boolean = false;
   isValidGender=false;
   pictureUrlLink="assets/default-user-profile-img.png";
+  pictureFile:any;
+
   currentUser:UserInfo={
     id:0,
     name:"",
@@ -133,6 +135,14 @@ export class CreateSeekerProfileComponent {
         response=res;
       });
 
+      this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
+        response=res;
+      },
+      (err)=>{
+        alert(`Error occured`);
+        console.log(err);
+      })
+
       if(response!=""){
         alert( `Profile created`);
         this.route.navigate(['/edit-resume']);
@@ -148,8 +158,16 @@ export class CreateSeekerProfileComponent {
 
   }
 
-  selectFile(data:any){
-
+  selectFile(event: any){
+    if(event.target.files){
+      var reader = new FileReader();
+      this.pictureFile=event.target.files[0];
+      console.log(this.pictureFile)
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload=(event: any)=>{
+        this.pictureUrlLink=event.target.result;
+      }
+    }
   }
 
 }
