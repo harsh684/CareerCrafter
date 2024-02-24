@@ -18,6 +18,9 @@ import { StoreModule } from '@ngrx/store';
 import { SearchJobsComponent } from './components/search-jobs/search-jobs.component';
 import { ApplyForJobComponent } from './components/apply-for-job/apply-for-job.component';
 import { PostListingComponent } from './components/post-listing/post-listing.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { CurrentUserReducer } from './store/reducers/current-user.reducer';
+import { EditResumeComponent } from './components/edit-resume/edit-resume.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { PostListingComponent } from './components/post-listing/post-listing.com
     CreateSeekerProfileComponent,
     SearchJobsComponent,
     ApplyForJobComponent,
-    PostListingComponent
+    PostListingComponent,
+    NavBarComponent,
+    EditResumeComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +45,7 @@ import { PostListingComponent } from './components/post-listing/post-listing.com
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
+    StoreModule.forRoot({currentUsers: CurrentUserReducer}),
     HttpClientModule
   ],
   providers: [],

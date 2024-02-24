@@ -264,8 +264,9 @@ public class UserServiceImp implements IUserService {
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);
 	}
 	
-	public List<JobSeeker> getAll(){
-		return seekerRepository.findAll();
+	public JobSeeker getUserProfile(long seekerId){
+		return seekerRepository.findById(seekerId).orElse(null);
 	}
+
 
 }

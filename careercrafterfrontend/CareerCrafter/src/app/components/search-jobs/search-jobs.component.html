@@ -1,1 +1,38 @@
-<p>search-jobs works!</p>
+<div class="container border border-1">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Profile</th>
+            <th scope="col">Department</th>
+            <th scope="col">Location</th>
+            <th scope="col">Experience</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Posted Date</th>
+            <th scope="col">Required Skills</th>
+            <th scope="col">Job Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Benefits provided</th>
+            <th scope="col">Apply</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let listing of jobsList">
+                <td>1</td>
+                <td>{{ listing.profile }}</td>
+                <td>{{ listing.department }}</td>
+                <td>{{ listing.location }}</td>
+                <td>{{ listing.experienceReqFrom }} - {{listing.experienceReqTo}} yrs</td>
+                <td>{{ listing.salary }}</td>
+                <td>{{ listing.postDate }}</td>
+                <td>
+                  <span *ngFor="let skill of listing.reqSkills">{{ skill.skillName }}, </span>
+                </td>
+                <td>{{ listing.jd }}</td>
+                <td>{{ listing.listingStatus }}</td>
+                <td>{{ listing.benefitsProvided }}</td>
+                <td><button (click)="apply(listing)" class="btn btn-primary">Apply</button></td>
+            </tr>
+        </tbody>
+      </table>        
+</div>

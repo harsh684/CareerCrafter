@@ -6,4 +6,3 @@ export interface ResumeDoc {
     type: string;
     data: Blob;
   }
-  

@@ -18,10 +18,12 @@ export class RegisterEmployerComponent {
   strongPassword=false;
 
   user:UserInfo={
+    id:0,
     name:"",
     email:"",
     password:"",
-    role:""
+    role:"",
+    roleId:0
   }
 
   constructor(private formBuilder:FormBuilder,private route:Router){
@@ -55,7 +57,8 @@ export class RegisterEmployerComponent {
       this.user.password=this.f['password'].value;
       this.user.role='EMPLOYER';
       console.log(this.user);
-      alert(this.registrationService.register(this.user));
+      this.registrationService.register(this.user)
+      alert("Account Created!");
       this.route.navigate(['/create-employer-profile']);
     }else{
       this.submitted=false;

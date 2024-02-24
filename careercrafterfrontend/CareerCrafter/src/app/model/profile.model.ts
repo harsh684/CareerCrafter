@@ -7,4 +7,3 @@ export interface ProfilePic {
     data: Blob;
     role: string;
   }
-  

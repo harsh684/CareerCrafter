@@ -60,9 +60,17 @@ public class ResumeFileRestController {
 	    return storageService.extractTextFromPdf(fileDB.getData().getBytes(1, (int) fileDB.getData().length()));
 	  }
 	  
-	  @GetMapping("/employer/download/{docId}")
-	  public ResponseEntity<ByteArrayResource> downloadResumeFile(@PathVariable String docId) throws Exception{
-		  return storageService.downloadFile(docId);
+//	  @GetMapping("/download/{docId}")
+////	  @PreAuthorize("hasAuthority('EMPLOYER')")
+//	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
+//	  public ResponseEntity<ByteArrayResource> downloadResumeFile(@PathVariable String docId) throws Exception{
+//		  return storageService.downloadFile(docId);
+//	  }
+	  
+	  @GetMapping("/download/{docId}")
+	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
+	  public ResponseFile downloadResumeFile(@PathVariable String docId) throws Exception{
+		  return storageService.getSingleResumeResponse(docId);
 	  }
 	  
 	  

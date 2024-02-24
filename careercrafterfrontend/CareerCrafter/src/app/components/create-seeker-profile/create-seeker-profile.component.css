@@ -1,0 +1,114 @@
+.dropdown-container{
+    background: transparent;
+    height: fit-content;
+    width: 100%;
+}
+.dropdown{
+    width: 100%;
+}
+.disabled-fields,.enabled-fields{
+    gap: 8%;
+}
+.form-control{
+    width: 80%;
+}
+.dropdown{
+    background: transparent;
+    border: none;
+}
+.submit-button button{
+    font-size: large;
+}
+.profile-pic{
+    width: 29%;
+    margin: 10px auto 0 auto;
+    border-radius: 50%;
+}
+.profile-pic-btn{
+    width: fit-content;
+    background-color: aliceblue;
+    margin: 0 auto;
+}
+@media only screen and (min-width: 1201px){
+    .dropdown-container{
+        width: 97%;
+        height: fit-content;
+    }
+    .form-parent{
+        width: 40%;
+    }
+    
+}
+@media only screen and (max-width: 1200px){
+    .disabled-fields, .enabled-fields{
+        gap: 8%;
+        margin: 10px 0;
+    }
+    .dropdown-container{
+        width: 97%;
+    }
+    .submit-button button{
+        font-size: larger;
+    }
+}
+@media only screen and (max-width: 992px){
+    .disabled-fields,.enabled-fields{
+        gap: 8%;
+    }
+    .form-control{
+        width: 80%;
+    }
+    .dropdown-container{
+        width: 97%;
+    }
+}
+@media only screen and (max-width: 768px){
+    .disabled-fields,.enabled-fields{
+        gap: 8%;
+    }
+    .dropdown-container{
+        width: 94%;
+    }
+    .submit-button button{
+        font-size: medium;
+    }
+}
+@media only screen and (max-width: 576px){
+    .disabled-fields,.enabled-fields{
+        gap: 3%;
+    }
+    .form-control{
+        font-size: small;
+    }
+    .heading{
+        font-size: 25px;
+    }
+    .warnings{
+        font-size: x-small;
+    }
+    .dropdown-container{
+        width: 89%;
+        height: fit-content;
+    }
+    .dropdown{
+        width: 100%;
+    }
+    .btn-container{
+        display: flex;
+        justify-content: end;
+        align-items: end;
+    }
+    .btn-container{
+        width: 100%;
+    }
+    .submit-button{
+        width: 100%;
+    }
+    .submit-button button{
+        font-size: small;
+        width: 100%;
+    }
+    .profile-pic-btn{
+        font-size: x-small;
+    }
+}

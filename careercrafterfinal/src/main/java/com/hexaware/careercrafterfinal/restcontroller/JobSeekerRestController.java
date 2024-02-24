@@ -73,10 +73,10 @@ public class JobSeekerRestController {
 		return "Profile updated!!";
 	}
 	
-	@GetMapping("/getallusers")
+	@GetMapping("/getuser/{seekerId}")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public List<JobSeeker> getAll(){
-		return userService.getAll();
+	public JobSeeker getUserProfile(@PathVariable long seekerID){
+		return userService.getUserProfile(seekerID);
 	}
 	
 	@GetMapping("/searchjobs")

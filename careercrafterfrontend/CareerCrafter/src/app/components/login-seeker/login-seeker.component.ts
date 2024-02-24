@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthInfo } from 'src/app/model/AuthRequest';
+import { UserInfo } from 'src/app/model/UserInfo';
 import { LoginService } from 'src/app/services/LoginService/login.service';
 
 @Component({
@@ -14,12 +16,12 @@ export class LoginSeekerComponent {
 
   constructor(private router:Router){}
 
-
-  login(userData:AuthInfo){
-    this.loginService.loginUser(userData);
-    if(localStorage.getItem("token")!=null){
+  async login(userData:AuthInfo){
+    await this.loginService.loginUser(userData);
+    if(localStorage.getItem("token")!==''){
       alert(`logged in`);
-      this.router.navigate(['/home']);
+      // this.router.navigate(['/home']);
+      this.router.navigate(['/search-jobs'],{ replaceUrl: true });
       console.log(localStorage.getItem("token"));
     }else{
       alert(`Wrong credentials`);
