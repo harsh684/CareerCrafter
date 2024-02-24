@@ -1,1 +1,13 @@
-<p>edit-resume works!</p>
+<div class="">
+    <div class="">
+
+    </div>
+</div>
+<form (ngSubmit)="onSubmit()">
+    <input type="text" [(ngModel)]="newLanguage" >
+    <button type="button" (click)="addLanguage()">Add Language</button>
+    <ul>
+      <li *ngFor="let language of languages">{{ language }}</li>
+    </ul>
+    <button type="submit">Submit</button>
+  </form>
