@@ -18,10 +18,13 @@ import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
+import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AccountNotCreatedException;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotCreatedException;
 import com.hexaware.careercrafterfinal.exception.ListingNotUpdatedException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.IEmployerService;
 
 import jakarta.validation.Valid;
@@ -36,7 +39,7 @@ public class EmployerRestController {
 	
 	@PostMapping("/v1/createprofile")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
-	public String createProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException {
+	public String createProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException, UserAlreadyExistsException {
 		if(!employerService.createProfile(employer)) {
 			throw new AccountNotCreatedException();
 		}
@@ -105,4 +108,5 @@ public class EmployerRestController {
 	public List<Resume> manageResumeDb(){
 		return employerService.manageResumeDb();
 	}
+	
 }

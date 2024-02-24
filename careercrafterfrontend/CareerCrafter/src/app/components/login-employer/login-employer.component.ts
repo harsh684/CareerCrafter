@@ -16,10 +16,12 @@ export class LoginEmployerComponent {
 
   res!:string;
 
-  login(userData:AuthInfo){
-    if(localStorage.getItem("token")!=null){
+  async login(userData:AuthInfo){
+    await this.loginService.loginUser(userData);
+    if(localStorage.getItem("token")!==''){
       alert(`logged in`);
-      this.router.navigate(['/home']);
+      // this.router.navigate(['/home']);
+      this.router.navigate(['/create-employer-profile']);
       console.log(localStorage.getItem("token"));
     }else{
       alert(`Wrong credentials`);

@@ -20,6 +20,7 @@ import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeRepository;
@@ -56,33 +57,37 @@ public class UserServiceImp implements IUserService {
 	Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 	
 	@Override
-	public boolean createProfile(JobSeeker seeker) {
-		UserInfo currentUser;
-		try {
-			
-			currentUser = getCurrentUserInfo();
-			
-			logger.info("Jobseeker profile creating for: {}",seeker.getSeekerName());
-	
-			logger.info("Saving Seeker profile to database: ");
-			seeker.setSeekerName(currentUser.getName());
-			seeker.setEmail(currentUser.getEmail());
-			entityManager.merge(seeker);
-			JobSeeker temp = seekerRepository.save(seeker);
-			
+	public boolean createProfile(JobSeeker seeker) throws UserAlreadyExistsException {
+		if(seekerRepository.findByPhoneNumber(seeker.getPhoneNumber()).orElse(null)==null) {
+			UserInfo currentUser;
+			try {
+				
+				currentUser = getCurrentUserInfo();
+				
+				logger.info("Jobseeker profile creating for: {}",seeker.getSeekerName());
 		
-			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
-				currentUser.setRoleId(temp.getSeekerId());
-				userInfoRepository.save(currentUser);
-				logger.info("Linking user Info with seeker profile: ",seeker.getSeekerName());
+				logger.info("Saving Seeker profile to database: ");
+				seeker.setSeekerName(currentUser.getName());
+				seeker.setEmail(currentUser.getEmail());
+				entityManager.merge(seeker);
+				JobSeeker temp = seekerRepository.save(seeker);
+				
+			
+				if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
+					currentUser.setRoleId(temp.getSeekerId());
+					userInfoRepository.save(currentUser);
+					logger.info("Linking user Info with seeker profile: ",seeker.getSeekerName());
 
+				}
+				
+				return temp!=null;
+				
+			} catch (Exception e) {
+		        logger.error("Error occurred while creating profile for job seeker", e);
+				e.printStackTrace();
 			}
-			
-			return temp!=null;
-			
-		} catch (Exception e) {
-	        logger.error("Error occurred while creating profile for job seeker", e);
-			e.printStackTrace();
+		}else {
+			throw new UserAlreadyExistsException("Profile already Exists");
 		}
 		return false;
 	}
@@ -259,8 +264,9 @@ public class UserServiceImp implements IUserService {
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);
 	}
 	
-	public List<JobSeeker> getAll(){
-		return seekerRepository.findAll();
+	public JobSeeker getUserProfile(long seekerId){
+		return seekerRepository.findById(seekerId).orElse(null);
 	}
+
 
 }

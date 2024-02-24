@@ -11,10 +11,11 @@ import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 
 public interface IUserService {
 
-	public boolean createProfile(JobSeeker seeker) throws ProfileUpdateException;
+	public boolean createProfile(JobSeeker seeker) throws ProfileUpdateException, UserAlreadyExistsException;
 
 	public boolean updateProfile(JobSeeker seeker) throws ProfileUpdateException;
 	
@@ -26,7 +27,7 @@ public interface IUserService {
 	
 	public String trackStatus(long applicationId) throws ApplicationException ;
 
-	public List<JobSeeker> getAll();
+	public JobSeeker getUserProfile(long seekerId);
 	
 	public boolean editResume(Resume resume);
 }

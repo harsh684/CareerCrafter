@@ -1,1 +1,139 @@
-<p>create-seeker-profile works!</p>
+<div class="container-fluid pt-2">
+    <div class="container-fluid p-0 m-0 px-lg-5 text-center">
+        <h1 class="heading">Create Profile</h1>
+        <div class="container border border-1 rounded-2 p-3 px-sm-4 px-md-5 col-lg-8 pt-md-5 mx-auto form-parent">
+            <form [formGroup]="createProfileForm" (ngSubmit)="createProfile()">
+                <div class="form-group">
+                    <div class="d-flex container m-0 mb-2 mb-sm-3 mb-md-4 p-0">
+                        <div class="enabled-fields form-group d-flex flex-column justify-content-center container m-0 mb-2 p-0" >
+                            <img class="profile-pic" [src]="pictureUrlLink" alt="">
+                            <input class="btn profile-pic-btn mt-2" type="file" (change)="selectFile($event)">
+                            
+                        </div>
+                       
+                    </div>
+                    <div class="d-flex container m-0 mb-2 mb-sm-3 mb-md-4 p-0 ">
+                        <div class="disabled-fields d-flex flex-row justify-content-between w-100">
+                            <!-- pre defined name here -->
+                            
+                            <input class="form-control" type="text" disabled value="{{this.currentUser.name}}"  >
+                        
+                            <input class="form-control" type="email" disabled value="{{this.currentUser.email}}">
+                        
+                            <!-- <div class="text-start container p-0">
+                                <label class="m-1" for="">Name</label>
+                                <input class="form-control border border-0" type="text" disabled value="{{this.currentUser.name}}"  >
+                            </div>    
+                            
+                            <div class="text-start w-100">
+                                <label class="m-1" for="">Email</label>
+                                <input class="form-control border border-0" type="email" disabled value="{{this.currentUser.email}}">
+                            </div> -->
+
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="enabled-fields form-group d-flex justify-content-between container m-0 mb-2 p-0 ">
+                            <div class="d-flex flex-column w-100">
+                                <input class="form-control w-100" type="text" placeholder="Your Tagline"  formControlName="tagline" [ngClass]="{'is-invalid': submitted && f['tagline'].errors, 'is-valid': !f['tagline'].errors}" />
+                                <div class="warnings">
+                                    <div *ngIf="submitted && f['tagline'].errors" class="invalid-feedback"></div>
+                                    <div class="valid-feedback" *ngIf="!f['tagline'].errors">phone number is valid</div>
+                                    <div *ngIf="f['tagline'].errors?.['required']" class="text-danger mx-1">tagline required</div>
+                                    <div *ngIf="f['tagline'].errors?.['pattern']" class="text-danger">tagline invalid</div>
+                                </div>
+                            </div>
+                        
+                            <div class="d-flex justify-content-between flex-column w-100">
+                                <input class="form-control w-100" type="date" placeholder="Date Of Birth" formControlName="dateOfBirth" [ngClass]="{'is-invalid':submitted && f['dateOfBirth'].errors, 'is-valid': !f['dateOfBirth'].errors}" >   
+                                <div class="warnings">
+                                    <div *ngIf="submitted && f['dateOfBirth'].errors" class="invalid-feedback"></div>
+                                    <div class="valid-feedback" *ngIf="!f['dateOfBirth'].errors">DOB valid</div>
+                                    <div *ngIf="f['dateOfBirth'].errors?.['required']" class="text-danger mx-1">date of birth is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                  
+                    <div class="enabled-fields form-group d-flex justify-content-between container m-0 mb-2 p-0 ">
+                        <div class="d-flex flex-column w-100">
+                            <input class="form-control w-100" type="text" placeholder="Phone number"  formControlName="phoneNumber" [ngClass]="{'is-invalid': submitted && f['phoneNumber'].errors, 'is-valid': !f['phoneNumber'].errors}" />
+                            <div class="warnings">
+                                <div *ngIf="submitted && f['phoneNumber'].errors" class="invalid-feedback"></div>
+                                <div class="valid-feedback" *ngIf="!f['phoneNumber'].errors">phone number is valid</div>
+                                <div *ngIf="f['phoneNumber'].errors?.['required']" class="text-danger mx-1">phone number is required</div>
+                                <div *ngIf="f['phoneNumber'].errors?.['pattern']" class="text-danger">phone number is invalid</div>
+                                <div *ngIf="f['phoneNumber'].errors?.['minlength']" class="text-danger">should be 10 digits</div>
+                            </div>
+                        </div>
+                    
+                        <div class="d-flex justify-content-between flex-column w-100">
+                            <input class="form-control w-100" type="text" placeholder="Address" formControlName="address" [ngClass]="{'is-invalid':submitted && f['address'].errors, 'is-valid': !f['address'].errors}" >   
+                            <div class="warnings">
+                                <div *ngIf="submitted && f['address'].errors" class="invalid-feedback"></div>
+                                <div class="valid-feedback" *ngIf="!f['address'].errors">address is valid</div>
+                                <div *ngIf="f['address'].errors?.['required']" class="text-danger mx-1">address is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="enabled-fields form-group d-flex container justify-content-between mb-2 m-0 p-0 ">
+                    <div class="w-100">
+                        <input class="form-control w-100" type="text" placeholder="Country" formControlName="country" [ngClass]="{'is-invalid':submitted && f['country'].errors, 'is-valid': !f['country'].errors}" >    
+                        <div class="warnings">
+                            <div *ngIf="submitted && f['country'].errors" class="invalid-feedback"></div>
+                           <div class="valid-feedback" *ngIf="!f['country'].errors">valid</div>
+                            <div *ngIf="f['country'].errors?.['required']" class="text-danger mx-1">country required</div>
+                        </div>
+                    </div>
+    
+                    <div class="w-100">
+                        <input class="form-control w-100" type="text" placeholder="Salary in lpa" formControlName="currentSalary" [ngClass]="{'is-invalid':submitted && f['currentSalary'].errors, 'is-valid': !f['currentSalary'].errors}" >    
+                        <div class="warnings">
+                            <div *ngIf="submitted && f['currentSalary'].errors" class="invalid-feedback"></div>
+                            <div class="valid-feedback" *ngIf="!f['currentSalary'].errors">valid</div>
+                            <div *ngIf="f['currentSalary'].errors?.['required']" class="text-danger mx-1">Salary required</div>
+                            <div *ngIf="f['currentSalary'].errors?.['pattern']" class="text-danger">Salary is invalid</div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="dropdown-container form-control">
+                        <select class="dropdown" formControlName="gender" name="gender" id="gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Prefer Not To Say">Prefer Not To Say</option>
+                        </select>
+                    </div> -->
+                </div>
+                <div class="container form-group mb-3 m-0 p-0">
+                    <div class="dropdown-container form-control w-100">
+                        <select class="dropdown" formControlName="seekerGender" name="seekerGender" id="seekerGender" (change)="checkSelectedValue()">
+                            <option value="" [disabled] [selected]="1" hidden>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Prefer Not To Say">Prefer Not To Say</option>
+                        </select>
+                    </div>
+                    <div class="warnings">
+                        <div *ngIf="!isValidGender" class="invalid-feedback"></div>
+                        <div class="valid-feedback" *ngIf="isValidGender">valid</div>
+                        <div *ngIf="!isValidGender" class="text-danger mx-1">Select a valid option</div>
+                    </div>
+                </div>
+                <div class="enabled-fields form-group mb-2 m-0 p-0 w-100">
+                    <textarea class="form-control w-100" placeholder="Enter your summary" formControlName="summary" name="" id="" cols="30" rows="5">
+
+                    </textarea>
+                </div>
+
+            </div>
+                <div class="btn-container mt-3"><div class="submit-button">
+                    <button type="submit" class="btn btn-primary w-100" [disabled]="createProfileForm.invalid">Save</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+</div>

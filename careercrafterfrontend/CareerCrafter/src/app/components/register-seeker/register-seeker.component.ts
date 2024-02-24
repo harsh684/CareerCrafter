@@ -16,7 +16,14 @@ export class RegisterSeekerComponent {
 
   strongPassword=false;
 
-  user!:UserInfo;
+  user:UserInfo={
+    id:0,
+    name:"",
+    email:"",
+    password:"",
+    role:"",
+    roleId:0
+  };
 
   registrationService=inject(RegistrationService);
 
@@ -49,11 +56,12 @@ export class RegisterSeekerComponent {
       this.user.password=this.f['password'].value;
       this.user.role='SEEKER';
       console.log(this.user);
-      alert(this.registrationService.register(this.user));
+      this.registrationService.register(this.user)
+      alert("Account Created!");
       this.route.navigate(['/create-seeker-profile']);
     }else{
       this.submitted=false;
-      window.location.reload();
+      alert("Error occured");
     }
   }
 }

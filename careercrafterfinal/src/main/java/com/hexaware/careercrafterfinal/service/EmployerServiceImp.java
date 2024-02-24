@@ -19,6 +19,7 @@ import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.repository.ApplicationRepository;
 import com.hexaware.careercrafterfinal.repository.EmployerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
@@ -51,40 +52,49 @@ public class EmployerServiceImp implements IEmployerService {
 	String compareRole = "Employer";
 	
 	@Override
-	public boolean createProfile(EmployerDto emp) {
-		UserInfo userInfo;
-		try {
-			userInfo = getCurrentUserInfo();
+	public boolean createProfile(EmployerDto emp) throws UserAlreadyExistsException {
+		
+		if(employerRepo.findByPhno(emp.getPhno()).orElse(null)==null) {
 			
-			Employer employer = new Employer();
-			employer.setAddress(emp.getAddress());
-			employer.setEmployerGender(emp.getEmployerGender());
-			employer.setCompanyName(emp.getCompanyName());
-			employer.setPhno(emp.getPhno());
-			employer.setListings(emp.getListings());
-			employer.setEmployerId(emp.getEmployerId());
-			
-			logger.info("Creating profile for employer: ", employer.getName());
-			
-			Employer temp = null;
-			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
+			UserInfo userInfo;
+			try {
+				userInfo = getCurrentUserInfo();
 				
-				employer.setName(userInfo.getName());
-				employer.setEmail(userInfo.getEmail());
-				temp = employerRepo.save(employer);
+				Employer employer = new Employer();
+				employer.setAddress(emp.getAddress());
+				employer.setEmployerGender(emp.getEmployerGender());
+				employer.setCompanyName(emp.getCompanyName());
+				employer.setPhno(emp.getPhno());
+				employer.setListings(emp.getListings());
+				employer.setEmployerId(emp.getEmployerId());
 				
-				if(temp == null)
-					return false;
+				logger.info("Creating profile for employer: ", employer.getName());
 				
-				userInfo.setRoleId(temp.getEmployerId());
-				logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
+				Employer temp = null;
+				if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
+					
+					employer.setName(userInfo.getName());
+					employer.setEmail(userInfo.getEmail());
+					temp = employerRepo.save(employer);
+					
+					if(temp == null)
+						return false;
+					
+					userInfo.setRoleId(temp.getEmployerId());
+					logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
 
-				userInfoRepository.save(userInfo);
+					userInfoRepository.save(userInfo);
+				}
+				
+				return temp!=null;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			return temp!=null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		}else {
+			throw new UserAlreadyExistsException("Profile already exists");
 		}
+		
 		
 		return false;
 	}
