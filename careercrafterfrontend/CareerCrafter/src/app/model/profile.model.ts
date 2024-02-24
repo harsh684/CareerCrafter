@@ -4,7 +4,7 @@ export interface ProfilePic {
     pictureId: string;
     name: string;
     type: string;
-    data: Blob | null;
+    data: Blob;
     role: string;
   }
   
