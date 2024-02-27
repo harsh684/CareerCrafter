@@ -3,6 +3,7 @@ package com.hexaware.careercrafterfinal.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
@@ -53,6 +55,12 @@ public class EmployerRestController {
 			throw new AccountNotCreatedException();
 		}
 		return "Profile updated!!";
+	}
+	
+	@GetMapping("/v1/getprofile")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public Employer getProfile() {
+		return employerService.getProfile();
 	}
 
 	@PostMapping("/v1/postlisting")
@@ -94,6 +102,19 @@ public class EmployerRestController {
 		return employerService.viewApplicationsForListing(listingId);
 	}
 	
+	@GetMapping("/v1/getemployerListings")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public List<Listing> getEmployerListings(){
+		return employerService.getEmployerListings();
+	}
+	
+//	@GetMapping("/v1/getallListings/")
+//	@PreAuthorize("hasAuthority('EMPLOYER')")
+//	public List<Listing> getAllListings(){
+////		PageRequest pr = PageRequest.of(page, pageSize);
+//		return employerService.getAllListings();
+//	}
+	
 	@PutMapping("/v1/changeapplicationstatus/{applicationId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String changeApplicationStatus(@PathVariable long applicationId,@RequestBody String status) throws ApplicationException {
@@ -101,6 +122,12 @@ public class EmployerRestController {
 			throw new ApplicationException("Application status could not be changed");
 		}
 		return "Application status changed";
+	}
+	
+	@GetMapping("/v1/getresumebyid/{resumeId}")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public Resume getResumeById(@PathVariable long resumeId){
+		return employerService.getResumeById(resumeId);
 	}
 	
 	@GetMapping("/v1/managecrafterresume")

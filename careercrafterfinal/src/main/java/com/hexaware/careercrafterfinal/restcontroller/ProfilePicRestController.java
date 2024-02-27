@@ -32,13 +32,18 @@ public class ProfilePicRestController {
 	@PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
 	public String uploadProfilePic(@RequestParam("profilepic") MultipartFile picture) throws IOException, SerialException, SQLException {
 		String message = "";
-	    try {
-	    	pictureStorageService.uploadProfilePic(picture);
+	    if(picture!=null) {
+	    	try {
+		    	pictureStorageService.uploadProfilePic(picture);
 
-	      message = "Uploaded profile picture successfully: " + picture.getOriginalFilename();
-	    } catch (Exception e) {
-	      message = "Could not upload profile picture: " + picture.getOriginalFilename() + "!";
-	      return message;
+		      message = "Uploaded profile picture successfully: " + picture.getOriginalFilename();
+		    } catch (Exception e) {
+		      message = "Could not upload profile picture: " + picture.getOriginalFilename() + "!";
+		      return message;
+		    }
+	    }else {
+	    	System.out.println("No pic uploaded");
+	    	return "No picture uploaded";
 	    }
 	    return message;
 	}

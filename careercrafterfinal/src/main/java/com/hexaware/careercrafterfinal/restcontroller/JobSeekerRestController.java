@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
@@ -65,7 +66,7 @@ public class JobSeekerRestController {
 	
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String updateProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+	public String updateProfile(@RequestBody JobSeeker seeker) throws ProfileUpdateException {
         logger.info("Updating profile for seeker with ID: {}");
 		if(!userService.updateProfile(seeker)) {
 			throw new ProfileUpdateException();
@@ -73,10 +74,10 @@ public class JobSeekerRestController {
 		return "Profile updated!!";
 	}
 	
-	@GetMapping("/getuser/{seekerId}")
+	@GetMapping("/getseeker")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public JobSeeker getUserProfile(@PathVariable long seekerID){
-		return userService.getUserProfile(seekerID);
+	public JobSeeker getUserProfile(){
+		return userService.getUserProfile();
 	}
 	
 	@GetMapping("/searchjobs")
