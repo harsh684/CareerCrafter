@@ -5,6 +5,6 @@ export interface Applications {
     profile: string;
     appliedDate: Date;
     status: string;
-    coverLetter:String;
+    coverLetter:string;
     resume: Resume;
   }

@@ -1,0 +1,40 @@
+<div class="parent-container">
+    <div class="mx-5 text-center">
+      <h2 class="heading">Applications</h2>
+      <div *ngIf="applications.length>0">
+        <table class="table table-striped shadow">
+          <thead class="table-header">
+            <tr>
+              <th scope="col">S.No</th>
+              <th scope="col">Applicant's Profile</th>
+              <th scope="col">Application Status</th>
+              <th scope="col">Applied Date</th>
+              <th scope="col">Applicant's Current Company</th>
+              <th scope="col">Download Applicant's Resume</th>
+              <th scope="col">Get Crafter Resume</th>
+              <th scope="col">Approve/Reject Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let application of applications; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{application.profile}}</td>
+                <td>{{application.status}}</td>
+                <td>{{application.appliedDate | date}}</td>
+                <td>{{application.companyName}}</td>
+                <td><button (click)="getResumeById(application.resume.resumeId)" class="btn btn-primary">Download</button></td>
+                <td><button (click)="getCrafterResumeById(application.resume.resumeId)" class="btn btn-primary">Resume</button></td>
+                <td class="d-flex gap-1 justify-content-center">
+                  <button (click)="changeApplicationStatus(application.applicationId,'Selected')" class="btn btn-success">Select</button>
+
+                  <button (click)="changeApplicationStatus(application.applicationId,'Rejected')" class="btn btn-danger">Reject</button>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="applications.length===0">
+        <h3>No Applications for this listing</h3>
+      </div>
+  </div>
+  </div>

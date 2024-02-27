@@ -4,21 +4,23 @@ import { updateCurrentUserState } from '../actions/current-user.action';
 import { inject } from '@angular/core';
 import { GetCurrentUserService } from 'src/app/services/GetCurrentUser/get-current-user.service';
 
-export interface CurrentUserState{
+export interface UserState{
 
-    currentUsers: UserInfo[];
+    currentUser: UserInfo | null;
 
 }
 
-export const initialState: CurrentUserState ={
-    currentUsers: [{
-        id: 0,
-        name: "",
-        email: "",
-        password: "",
-        role: "",
-        roleId: 0
-    }]
+export const initialState: UserState ={
+    currentUser: null,
+
+    // {
+    //     id: 0,
+    //     name: "",
+    //     email: "",
+    //     password: "",
+    //     role: "",
+    //     roleId: 0
+    // }
 }
 
 
@@ -26,6 +28,6 @@ export const CurrentUserReducer = createReducer(
     initialState,
     on(updateCurrentUserState, (state,{currentUser}) => ({
         ...state,
-        currentUsers: [currentUser]
+        currentUser: currentUser,
     })
   ));

@@ -1,0 +1,80 @@
+
+<!-- <div class="container-fluid">
+    <div class="container d-flex">
+        <div class="">
+            Apply with Resume Pdf
+            <input type="file" placeholder="Harsh resume">
+        </div>
+        <div class="">
+            Apply with crafter Resume
+        </div>
+    </div>
+</div> -->
+<div class="container-fluid">
+<div class="content-container p-0 pt-3 m-0">
+    <h2 class="w-100 text-center">{{listing.profile}} at {{listing.companyName}}</h2>
+    <div class="border border-1 my-2"></div>
+    <div class="listing-container p-2 px-sm-4 py-lg-3 shadow">
+        <div class="d-flex flex-column justify-content-center">
+            <div class="listing-headers mb-sm-2">
+              <p class="listing-title m-0">{{listing.profile}}</p>
+              <!-- company name -->
+              <p class="listing-companyName m-0">{{listing.companyName}}</p>
+              <p class="listing-department m-0">{{listing.department}}</p>
+            </div>
+            <div class="all-listing-icon-containers mb-sm-1">
+              <div class="listing-icon-container mb-2">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <p class="listing-body-contents my-auto">{{listing.location}}</p>
+              </div>
+                <div class="d-md-flex flex-md-row justify-content-md-between pe-lg-3">
+                  <div class="d-flex justify-content-between">
+                    <div class="listing-icon-container mb-2">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">Date posted: {{listing.postDate}}</p>
+                    </div>
+                    <div class="listing-icon-container d-md-none mb-2">
+                      <i class="fa fa-inr" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">{{listing.salary}}</p>
+                    </div>
+                  </div>
+                    <div class="listing-icon-container mb-2">
+                      <i class="fa fa-briefcase" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">Experience: {{listing.experienceReqFrom}}-{{listing.experienceReqTo}} years</p>
+                    </div>
+                    <div class="listing-icon-container d-none d-md-flex">
+                      <i class="fa fa-inr" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">{{listing.salary}}</p>
+                    </div>
+                </div>
+              </div>
+                <div class="listing-footer mt-2">
+                  <div *ngIf="listing.listingStatus.toLowerCase() ==='open'" class="listing-status-open px-2">Listing {{listing.listingStatus}}</div>
+                  <div *ngIf="listing.listingStatus.toLowerCase() ==='closed'" class="listing-status-closed px-2">Listing {{listing.listingStatus}}</div>
+                </div>
+          </div>
+          <div class="border border-1 my-4"></div>
+          <div class="extra-details">
+            <div class="d-flex flex-column gap-3 gap-lg-4">
+                <div class="">
+                    <h3 class="about-title">About the Job/Internship</h3>
+                    <div>Job Description: </div>
+                    <div class="job-description my-1 mx-2">{{listing.jd}}</div>
+                </div>
+                <div class="">
+                    <h3 class="about-title">Required Skills(s)</h3>
+                    <div class="d-flex">
+                      <div class="cells mx-2 my-1" *ngFor="let skill of requiredSkills">{{skill.skillName}}</div>
+                    </div>
+                    
+                </div>
+                <div class="">
+                    <h3 class="about-title">Perk(s)</h3>
+                    <div class="cells mx-2 my-1">{{listing.benefitsProvided}}</div>
+                </div>
+            </div>
+          </div>
+          <div class="btn-container mt-2 mt-lg-3"><button class="btn btn-primary" routerLink="/apply-for-job" (click)="apply(listing.listingId)">Apply Now</button></div>
+        </div>
+</div>
+</div>

@@ -16,11 +16,17 @@ import { CreateSeekerProfileComponent } from './components/create-seeker-profile
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { SearchJobsComponent } from './components/search-jobs/search-jobs.component';
-import { ApplyForJobComponent } from './components/apply-for-job/apply-for-job.component';
+import { ShowListingDetails } from './components/show-listing-details/show-listing-details.component';
 import { PostListingComponent } from './components/post-listing/post-listing.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CurrentUserReducer } from './store/reducers/current-user.reducer';
 import { EditResumeComponent } from './components/edit-resume/edit-resume.component';
+import { GroupByPipe } from './Custom Pipes/group-by.pipe';
+import { ApplyForJobComponent } from './components/apply-for-job/apply-for-job.component';
+import { ListingManagementComponent } from './components/listing-management/listing-management.component';
+import { ViewApplicationsComponent } from './components/view-applications/view-applications.component';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { DisplayResumeComponent } from './components/display-resume/display-resume.component'
 
 @NgModule({
   declarations: [
@@ -34,10 +40,15 @@ import { EditResumeComponent } from './components/edit-resume/edit-resume.compon
     CreateEmployerProfileComponent,
     CreateSeekerProfileComponent,
     SearchJobsComponent,
-    ApplyForJobComponent,
+    ShowListingDetails,
     PostListingComponent,
     NavBarComponent,
-    EditResumeComponent
+    EditResumeComponent,
+    GroupByPipe,
+    ApplyForJobComponent,
+    ListingManagementComponent,
+    ViewApplicationsComponent,
+    DisplayResumeComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +57,8 @@ import { EditResumeComponent } from './components/edit-resume/edit-resume.compon
     RouterModule,
     FormsModule,
     StoreModule.forRoot({currentUsers: CurrentUserReducer}),
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

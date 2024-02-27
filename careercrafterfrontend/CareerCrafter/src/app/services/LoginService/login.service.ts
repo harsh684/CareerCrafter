@@ -27,7 +27,7 @@ export class LoginService {
 
   loginUser(authInfo: AuthInfo):Promise<string>{
     console.log(authInfo);
-    localStorage.setItem("token","");
+    localStorage.removeItem("token");
     const requestOptions: Object = {
       responseType: 'text'
     }
@@ -37,7 +37,7 @@ export class LoginService {
         localStorage.setItem("token",res);
         resolve(res);
         this.getCurrentUserService.getCurrentUser().subscribe((res)=>{
-          const currentUser:UserInfo={
+          const currentUser$:UserInfo={
             id:res.id,
             email:res.email,
             name:res.name,
@@ -45,8 +45,8 @@ export class LoginService {
             role:res.role,
             roleId:res.roleId
         }
-            localStorage.setItem("currentRole",currentUser.role);
-            this.store.dispatch(updateCurrentUserState({currentUser}));
+            localStorage.setItem("currentRole",currentUser$.role);
+            this.store.dispatch(updateCurrentUserState({currentUser: currentUser$}));
         });
       },
       (err)=>{

@@ -1,9 +1,17 @@
 <div class="container-fluid pt-2">
     <div class="container-fluid p-0 m-0 px-lg-5 text-center">
-        <h1 class="heading">Create Profile</h1>
+        <h1 class="heading">Create/Update Profile</h1>
         <div class="container border border-1 rounded-2 p-3 px-sm-4 px-md-5 col-lg-8 pt-md-5 mx-auto form-parent">
             <form [formGroup]="createProfileForm" (ngSubmit)="createProfile()">
                 <div class="form-group">
+                    <div class="d-flex container m-0 mb-2 mb-sm-3 mb-md-4 p-0">
+                        <div class="enabled-fields form-group d-flex flex-column justify-content-center container m-0 mb-2 p-0" >
+                            <img class="profile-pic" [src]="pictureUrlLink" alt="">
+                            <input class="btn profile-pic-btn mt-2" type="file" (change)="selectFile($event)">
+                            
+                        </div>
+                       
+                    </div>
                     <div class="d-flex container m-0 mb-2 mb-sm-3 mb-md-4 p-0 ">
                         <div class="disabled-fields d-flex flex-row justify-content-between w-100">
                             <!-- pre defined name here -->
@@ -47,6 +55,7 @@
     
                     <div class="dropdown-container form-control">
                         <select class="dropdown" formControlName="gender" name="gender" id="gender">
+                            <option value="" [disabled] [selected]="1" hidden>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Prefer Not To Say">Prefer Not To Say</option>
@@ -54,8 +63,10 @@
                     </div>
                 </div>
             </div>
-                <div class="btn-container mt-3"><div class="submit-button">
+                <div class="btn-container mt-3">
+                    <div class="submit-button">
                     <button type="submit" class="btn btn-primary w-100" [disabled]="createProfileForm.invalid">Save</button>
+                    <button class="btn btn-success w-100 mt-2" (click)="updateProfile()" [disabled]="createProfileForm.invalid">Update</button>
                 </div>
             </div>
             </form>

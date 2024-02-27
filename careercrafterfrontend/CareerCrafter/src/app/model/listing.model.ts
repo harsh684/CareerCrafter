@@ -6,6 +6,7 @@ import { Employer } from "./employer.model";
 export interface Listing {
   listingId: number;
   profile: string;
+  companyName: string;
   department: string;
   location: string;
   experienceReqFrom: number;

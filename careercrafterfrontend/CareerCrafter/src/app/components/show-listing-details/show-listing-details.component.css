@@ -1,8 +1,14 @@
 @import '/node_modules/font-awesome/css/font-awesome.css';
 
+.content-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .listing-container{
     border-radius: 10px;
-    width: 70%;
+    width: 66%;
     border: 1px solid rgb(180, 180, 180);
 }
 .listing-companyName{
@@ -22,7 +28,9 @@
     margin: 3px 0;
     font-size: 17px;
     gap: 7px;
+    color: rgb(91, 91, 91);
 }
+
 .listing-status-open,.listing-status-closed{
     border-radius: 5px;
     width: fit-content;
@@ -34,42 +42,25 @@
 .listing-status-closed{
     background-color: rgb(255, 141, 141);
 }
-.filter-super-container{
-    position: relative;
-}
-.filter-container{
-    border: 1px solid grey;
-    width: 75%;
-    height: fit-content;
-    position: absolute;
-    top: 10px;
-    right: 0;
-    padding: 10px 20px;
-    border-radius: 20px;
-}
-.filter{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 30px 0;
-}
-.departmentFilter,.roleFilter,.locationFilter{
-    width: 270px;
-    margin: 5px 0;
-}
-.filter-icon-container{
+.cells{
+    background-color: rgb(213, 235, 255);
     width: fit-content;
-    font-weight: 500;
-    color: rgb(96, 96, 96);
-    font-size: large;
-}
-.filter select{
-    border: 1px solid rgb(160, 160, 160);
-    height: 35px;
-    width: 100%;
+    padding: 0 5px;
     border-radius: 5px;
-    padding: 0 8px;
+    color: rgb(103, 103, 103);
+    font-size: medium;
+}
+.btn-container{
+    width: 100%;
+    display: flex;
+    padding: 2px 14px;
+    justify-content: center;
+}
+.about-title{
+    font-size: 20px;
+}
+.job-description{
+    font-size: 17px;
 }
 @media only screen and (max-width: 1200px){
     .listing-container{
@@ -85,21 +76,6 @@
         margin: 3px 0;
         font-size: 17px;
         gap: 7px;
-    }
-    .filter-icon-container{
-        font-size: medium;
-    }
-    .filter-container{
-        width: 90%;
-    }
-    .departmentFilter,.roleFilter,.locationFilter{
-        width: 190px;
-        margin: 5px 0;
-    }
-    .apply-btn{
-        font-size: smaller;
-        width: 20%;
-        padding: 4px 0;
     }
 }
 @media only screen and (max-width: 992px){
@@ -117,10 +93,14 @@
         font-size: 17px;
         gap: 7px;
     }
-    .apply-btn{
+    .about-title{
+        font-size: larger;
+    }
+    .job-description{
+        font-size: 16px;
+    }
+    .cells{
         font-size: smaller;
-        width: 20%;
-        padding: 4px 0;
     }
 }
 @media only screen and (max-width: 768px){
@@ -146,16 +126,24 @@
     .listing-footer{
         font-size: medium;
     }
-    .apply-btn{
-        font-size: medium;
-        width: 30%;
-        padding: 2px 0;
+    .btn-container{
+        justify-content: center;
+    }
+    .about-title{
+        font-size: larger;
+    }
+    .job-description{
+        font-size: 17px;
+    }
+    .cells{
+        font-size: smaller;
     }
 }
 @media only screen and (max-width: 576px){
 
     .listing-container{
-        width: 90%;
+        width: 100%;
+        border: none;
         border-radius: 10px;
     }
     .listing-title{
@@ -168,7 +156,8 @@
         color: rgb(123, 123, 123);
     }
     .listing-icon-container{
-        gap: 3px;
+        margin-top: 9px;
+        gap: 4px;
     }
     .listing-body-contents{
         font-size: smaller;
@@ -177,9 +166,13 @@
     .listing-footer{
         font-size: smaller;
     }
-    .apply-btn{
+    .about-title{
+        font-size: large;
+    }
+    .job-description{
+        font-size: 14px;
+    }
+    .cells{
         font-size: smaller;
-        width: 30%;
-        padding: 2px 0;
     }
 }
