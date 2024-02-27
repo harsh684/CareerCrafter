@@ -1,13 +1,33 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Applications } from 'src/app/model/applications.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplyForJobService {
 
-  constructor() { }
+  response:string = '';
 
-  apply(listingId:number){
+  constructor(private http:HttpClient) { }
+
+  apply(listingId:number,application:Applications){
     
+    let tokenString = "Bearer "+localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    this.http.post<any>("http://localhost:8080/api/seeker/apply/"+listingId,application,{headers}).subscribe(
+      (res)=>{
+        alert("Applied");
+        console.log(res.value);
+        this.response=res;
+        return this.response;
+      }
+    );
+      return this.response;
   }
 }

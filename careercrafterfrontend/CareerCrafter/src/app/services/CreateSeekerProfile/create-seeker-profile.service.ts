@@ -14,22 +14,28 @@ export class CreateSeekerProfileService {
   constructor(private http:HttpClient,private route:Router) { }
 
 
-  async createSeekerProfile(seeker: JobSeeker) {
+  createSeekerProfile(seeker: JobSeeker) {
 
-    let tokenString = "Bearer "+localStorage.getItem("token");
+    let tokenString = "Bearer " +localStorage.getItem("token");
 
     const headers =  new HttpHeaders({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization",tokenString);
 
-    await this.http.post<string>("http://localhost:8080/api/seeker/createprofile",seeker,{headers})
-    .subscribe(
-      (res)=>{
-        this.response = res
-      });
+    return this.http.post<string>("http://localhost:8080/api/seeker/createprofile",seeker,{headers});
 
-    return this.response;
+  }
+
+  updateSeekerProfile(seeker: JobSeeker){
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.put<string>("http://localhost:8080/api/seeker/updateprofile",seeker,{headers});
   }
 
   async uploadProfilePicture(profilepic:any){

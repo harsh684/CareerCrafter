@@ -21,7 +21,7 @@ export class LoginEmployerComponent {
     if(localStorage.getItem("token")!==''){
       alert(`logged in`);
       // this.router.navigate(['/home']);
-      this.router.navigate(['/create-employer-profile']);
+      this.router.navigate(['/manage-listings']);
       console.log(localStorage.getItem("token"));
     }else{
       alert(`Wrong credentials`);

@@ -18,6 +18,16 @@
 .submit-button button{
     font-size: large;
 }
+.profile-pic{
+    width: 32%;
+    margin: 10px auto;
+    border-radius: 50%;
+}
+.profile-pic-btn{
+    width: fit-content;
+    background-color: aliceblue;
+    margin: 10px auto;
+}
 @media only screen and (min-width: 1201px){
     .dropdown-container{
         width: 97%;
@@ -95,5 +105,8 @@
     .submit-button button{
         font-size: small;
         width: 100%;
+    }
+    .profile-pic-btn{
+        font-size: x-small;
     }
 }

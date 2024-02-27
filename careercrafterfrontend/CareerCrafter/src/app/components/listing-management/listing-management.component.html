@@ -1,0 +1,31 @@
+<div class="parent-container">
+  <div class="mx-5 text-center">
+    <h2 class="heading">Listings</h2>
+    <table class="table table-striped shadow">
+        <thead class="table-header">
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Profile</th>
+            <th scope="col">Post Date</th>
+            <th scope="col">Department</th>
+            <th scope="col">Experience</th>
+            <th scope="col">Status</th>
+            <th scope="col">Check Applications</th>
+            <th scope="col">Change Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let listing of listingList; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{listing.profile}}</td>
+            <td>{{listing.postDate}}</td>
+            <td>{{listing.department}}</td>
+            <td>{{listing.experienceReqFrom}}-{{listing.experienceReqTo}}</td>
+            <td>{{listing.listingStatus}}</td>
+            <td><div class="btn btn-success" (click)="checkApplications(listing.listingId)">Check Applications</div></td>
+            <td><div class="btn btn-warning text-white" (click)="closeListing(listing.listingId)">Change Status</div></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+</div>

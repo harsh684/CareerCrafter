@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+
+.parent-container{
+    height: 100vh;
+    background-color: rgb(247, 239, 255);
+    padding: 20px 0 0 0;
+}
+
+table{
+    border-radius: 3px;
+}
+
+.table-header{
+    background-color: black;
+    color: white;
+    font-weight: 200 !important;
+}
+
+.heading{
+    font-family: "Protest Riot", sans-serif;
+    margin-bottom: 20px;
+}

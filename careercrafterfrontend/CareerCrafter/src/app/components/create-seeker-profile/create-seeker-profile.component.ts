@@ -5,6 +5,7 @@ import { UserInfo } from 'src/app/model/UserInfo';
 import { JobSeeker } from 'src/app/model/jobseeker.model';
 import { CreateSeekerProfileService } from 'src/app/services/CreateSeekerProfile/create-seeker-profile.service';
 import { GetCurrentUserService } from 'src/app/services/GetCurrentUser/get-current-user.service';
+import { GetSeekerProfileService } from 'src/app/services/GetSeekerProfile/get-seeker-profile.service';
 
 @Component({
   selector: 'app-create-seeker-profile',
@@ -71,7 +72,9 @@ export class CreateSeekerProfileComponent {
     },
   }
 
-  constructor(private formBuilder:FormBuilder,private userInfo:GetCurrentUserService, private createSeekerProfileService:CreateSeekerProfileService,private route:Router){}
+  constructor(private formBuilder:FormBuilder,private userInfo:GetCurrentUserService,
+     private createSeekerProfileService:CreateSeekerProfileService,private route:Router,
+     private getSeekerProfile:GetSeekerProfileService){}
 
   ngOnInit():void{
 
@@ -93,6 +96,36 @@ export class CreateSeekerProfileComponent {
       country: ['',Validators.required],
       currentSalary: ['',Validators.required] //,Validators.pattern('^\d+(\.\d+)?$')
     })
+
+    this.getSeekerProfile.getSeeker().subscribe(
+      (seeker)=>{
+        this.createProfileForm.patchValue({
+          tagline: seeker.tagline, 
+          seekerGender: seeker.seekerGender!=null?seeker.seekerGender:'Select a Gender',
+          summary: seeker.summary,
+          dateOfBirth: seeker.dateOfBirth,
+          phoneNumber: seeker.phoneNumber,
+          address: seeker.address,
+          country: seeker.country,
+          currentSalary: seeker.currentSalary
+        })
+
+        this.getSeekerProfile.getProfilePic().subscribe((response)=>{
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.pictureUrlLink = reader.result as string;
+          };
+          reader.readAsDataURL(response);   
+        },
+        (err)=>{
+          console.log(err);
+        })
+        console.log(this.pictureUrlLink);
+      },
+      (err)=>{
+        console.log(err);
+      }
+    );
   }
 
   get f(){
@@ -131,20 +164,66 @@ export class CreateSeekerProfileComponent {
 
       let response;
 
-      this.createSeekerProfileService.createSeekerProfile(this.seeker).then((res)=>{
-        response=res;
-      });
-
-      this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
-        response=res;
-      },
-      (err)=>{
-        alert(`Error occured`);
-        console.log(err);
-      })
+      this.createSeekerProfileService.createSeekerProfile(this.seeker).subscribe(
+        (res)=>{
+          response=res;
+        }
+      )
 
       if(response!=""){
         alert( `Profile created`);
+        // window.location.reload();
+        this.route.navigate(['/edit-resume']);
+      }else{
+        alert('Some Error occured');
+        this.route.navigate(['/create-employer-profile']);
+      };
+
+    }else{
+      this.submitted=false;
+      return ;
+    }
+
+  }
+
+  updateProfile(){
+    this.submitted=true;
+
+    if(!this.createProfileForm.invalid){
+      this.seeker.seekerName=this.currentUser.name;
+      this.seeker.email=this.currentUser.email;
+      this.seeker.tagline=this.f['tagline'].value;
+      this.seeker.address=this.f['address'].value;
+      this.seeker.seekerGender=this.f['seekerGender'].value;
+      this.seeker.country=this.f['country'].value;
+      this.seeker.currentSalary=this.f['currentSalary'].value;
+      this.seeker.phoneNumber=this.f['phoneNumber'].value;
+      this.seeker.summary=this.f['summary'].value;
+      this.seeker.dateOfBirth=this.f['dateOfBirth'].value;
+
+      console.log(this.seeker);
+
+      let response;
+
+      this.createSeekerProfileService.updateSeekerProfile(this.seeker).subscribe(
+        (res)=>{
+          response=res;
+        }
+      )
+
+      if(this.pictureFile!=null){
+        this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
+          response=res;
+        },
+        (err)=>{
+          alert(`Error occured`);
+          console.log(err);
+        })
+      }
+
+      if(response!=""){
+        alert( `Profile created`);
+        // window.location.reload();
         this.route.navigate(['/edit-resume']);
       }else{
         alert('Some Error occured');
@@ -166,6 +245,21 @@ export class CreateSeekerProfileComponent {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload=(event: any)=>{
         this.pictureUrlLink=event.target.result;
+      }
+
+      if(this.pictureFile!=null){
+        this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
+          if(res !== ''){
+            alert(`Successfully uploaded`);
+          }
+        },
+        (err)=>{
+          if(err.status === 200){
+            alert(`Successfully uploaded`);
+          }else{
+            alert(`Error in uploading file`)
+          }
+        })
       }
     }
   }

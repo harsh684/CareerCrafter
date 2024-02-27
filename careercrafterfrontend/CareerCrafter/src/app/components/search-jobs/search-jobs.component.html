@@ -1,4 +1,4 @@
-<div class="container border border-1">
+<!-- <div class="container border border-1">
     <table class="table">
         <thead>
           <tr>
@@ -35,4 +35,89 @@
             </tr>
         </tbody>
       </table>        
+</div> -->
+
+<div class="super-container d-flex container-fluid m-0 p-0">
+  <div class="filter-super-container d-none d-lg-flex col-lg-4">
+    <div class="filter-container shadow">
+      <div class="filter-icon-container d-flex gap-2 mx-auto">
+        <i class="fa fa-filter text-primary my-auto" aria-hidden="true"></i>
+        <div class="my-auto">Filter</div>
+      </div>
+      <div class="filter">
+        <div class="departmentFilter">
+          <div class="mx-1">Filter by Department</div>
+          <select name="category" id="category" [(ngModel)]="filterDepartment" (change)="doFilter()">
+            <option value="All">All</option>
+            <option *ngFor="let listing of allList" [value]="listing.department">{{ listing.department }}</option>
+          </select>
+        </div>
+        <div class="roleFilter">
+          <div class="mx-1">Filter by Role</div>
+          <select name="category" id="category" [(ngModel)]="filterRole" (change)="doFilter()">
+            <option value="All">All</option>
+            <option *ngFor="let listing of allList" [value]="listing.profile">{{ listing.profile }}</option>
+          </select>
+        </div>
+        <div class="locationFilter">
+          <div class="mx-1">Filter by Location</div>
+          <select name="category" id="category" [(ngModel)]="filterLocation" (change)="doFilter()">
+            <option value="All">All</option>
+            <option *ngFor="let listing of allList" [value]="listing.location">{{ listing.location }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="listing-list-container d-flex flex-column container mx-auto m-0 p-0">
+    <div *ngFor="let listing of jobsList" class="listing-container container shadow my-2 py-2 py-lg-3 px-3">
+      <div *ngIf="true">
+        <div class="listing-detail">
+          <div class="d-flex flex-column justify-content-center">
+            <div class="listing-headers mb-sm-2">
+              <p class="listing-title m-0">{{listing.profile}}</p>
+              <!-- company name -->
+              <p class="listing-companyName m-0">{{listing.companyName}}</p>
+              <p class="listing-department m-0">{{listing.department}}</p>
+            </div>
+            <div class="all-listing-icon-containers mb-sm-1">
+              <div class="listing-icon-container">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <p class="listing-body-contents my-auto">{{listing.location}}</p>
+              </div>
+                <div class="d-md-flex flex-md-row justify-content-md-between">
+                  <div class="d-flex justify-content-between">
+                    <div class="listing-icon-container">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">Date posted: {{listing.postDate}}</p>
+                    </div>
+                    <div class="listing-icon-container d-md-none">
+                      <i class="fa fa-inr" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">{{listing.salary}}</p>
+                    </div>
+                  </div>
+                    <div class="listing-icon-container">
+                      <i class="fa fa-briefcase" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">Experience: {{listing.experienceReqFrom}}-{{listing.experienceReqTo}} years</p>
+                    </div>
+                    <div class="listing-icon-container d-none d-md-flex">
+                      <i class="fa fa-inr" aria-hidden="true"></i>
+                      <p class="listing-body-contents my-auto">{{listing.salary}}</p>
+                    </div>
+                </div>
+              </div>
+                <div class="listing-footer mt-2">
+                  <div *ngIf="listing.listingStatus.toLowerCase() ==='open'" class="listing-status-open px-2">Listing {{listing.listingStatus}}</div>
+                  <div *ngIf="listing.listingStatus.toLowerCase() ==='closed'" class="listing-status-closed px-2">Listing {{listing.listingStatus}}</div>
+                </div>
+          </div>
+          <div class="w-100 border border-1 my-2"></div>
+          <div class="btn-container d-flex justify-content-end px-2">
+            <button class="apply-btn btn btn-primary" routerLink="/apply-for-job" (click)="apply(listing)">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cursor"></div>
 </div>
