@@ -8,10 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
@@ -58,7 +60,7 @@ public class UserServiceImp implements IUserService {
 	
 	@Override
 	public boolean createProfile(JobSeeker seeker) throws UserAlreadyExistsException {
-		if(seekerRepository.findByPhoneNumber(seeker.getPhoneNumber()).orElse(null)==null) {
+		if((seekerRepository.findByPhoneNumber(seeker.getPhoneNumber()).orElse(null)==null)) {
 			UserInfo currentUser;
 			try {
 				
@@ -94,20 +96,31 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public boolean updateProfile(JobSeeker seeker) {
-		UserInfo currentUser;
+		UserInfo currentUser = null;
+		logger.info("inside update seeker profile");
 		try {
-			currentUser = getCurrentUserInfo();
-			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
-				logger.info("Getting Seeker id from current active user id");
+				currentUser = getCurrentUserInfo();
+				logger.info("Getting Seeker id from current active user id: "+currentUser);
 				seeker.setSeekerId(currentUser.getRoleId());
-				currentUser.setEmail(seeker.getEmail());
-				userInfoRepository.save(currentUser);
-			}
+//				currentUser.setEmail(seeker.getEmail());
+//				entityManager.merge(seeker);
+//				userInfoRepository.save(currentUser);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
-	    logger.info("Updating profile for job seeker with ID: {}");
+	    
+		logger.info("Updating profile for job seeker with ID: {}");
+	    
+		JobSeeker existingSeeker = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+	    
+		System.out.println(existingSeeker);
+		seeker.setSeekerId(existingSeeker.getSeekerId());
+		seeker.setApplications(existingSeeker.getApplications());
+		seeker.setResume(existingSeeker.getResume());
+		seeker.setProfilePic(existingSeeker.getProfilePic());
+		
+	    entityManager.merge(seeker);
 		return seekerRepository.save(seeker) != null;
 	}
 
@@ -119,8 +132,12 @@ public class UserServiceImp implements IUserService {
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				temp = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
 				logger.info("Updating resume for job seeker in database: {}"+resume);
+				if(temp.getResume().getResumeFile()!=null) {
+				}
 				temp.setResume(resume);
-				seekerRepository.save(temp);
+				temp.getResume().setResumeFile(temp.getResume().getResumeFile());
+				entityManager.merge(temp);
+				//				seekerRepository.save(temp);
 			}
 		} catch (Exception e) {
 			
@@ -150,6 +167,7 @@ public class UserServiceImp implements IUserService {
             	temp.setPostDate(e.getPostDate());
             	temp.setReqSkills(e.getReqSkills());
             	temp.setJd(e.getJd());
+            	temp.setCompanyName(e.getCompanyName());
             	temp.setListingStatus(e.getListingStatus());
             	temp.setBenefitsProvided(e.getBenefitsProvided());
             	abstractList.add(temp);
@@ -252,6 +270,40 @@ public class UserServiceImp implements IUserService {
 		return null;
 	}
 
+	public JobSeeker getUserProfile(){
+		JobSeeker seeker = new JobSeeker();
+		try {
+			UserInfo currentSeeker = getCurrentUserInfo();
+			JobSeeker temp = seekerRepository.findById(currentSeeker.getRoleId()).orElse(null);
+			
+			seeker.setAddress(temp.getAddress());
+			seeker.setApplications(temp.getApplications());
+			seeker.setCountry(temp.getCountry());
+			seeker.setCurrentSalary(temp.getCurrentSalary());
+			seeker.setDateOfBirth(temp.getDateOfBirth());
+			seeker.setEmail(temp.getEmail());
+			seeker.setPhoneNumber(temp.getPhoneNumber());
+			seeker.setSeekerGender(temp.getSeekerGender());
+			seeker.setSeekerName(temp.getSeekerName());
+			seeker.setSeekerId(temp.getSeekerId());
+			seeker.setSummary(temp.getSummary());
+			seeker.setTagline(temp.getTagline());
+			Resume resume = temp.getResume();
+			resume.setResumeFile(null);
+			seeker.setResume(resume);
+			seeker.setProfilePic(null);
+			
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+		
+		if(seeker==null) {
+			throw new UsernameNotFoundException("Seeker account not found");
+		}
+		
+		return seeker;
+	}
+	
 	private UserInfo getCurrentUserInfo() throws AuthenticationException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
@@ -262,10 +314,6 @@ public class UserServiceImp implements IUserService {
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);
-	}
-	
-	public JobSeeker getUserProfile(long seekerId){
-		return seekerRepository.findById(seekerId).orElse(null);
 	}
 
 

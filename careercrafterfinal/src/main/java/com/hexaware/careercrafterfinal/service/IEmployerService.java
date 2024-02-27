@@ -1,13 +1,16 @@
 package com.hexaware.careercrafterfinal.service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
@@ -38,5 +41,13 @@ public interface IEmployerService {
 	public boolean changeApplicationStatus(long applicationId, String status) throws ApplicationException;
 	
 	public List<Resume> manageResumeDb();
+
+	public Employer getProfile();
+
+//	public List<Listing> getAllListings();
+
+	public List<Listing> getEmployerListings();
+
+	public Resume getResumeById(long resumeId);
 	
 }

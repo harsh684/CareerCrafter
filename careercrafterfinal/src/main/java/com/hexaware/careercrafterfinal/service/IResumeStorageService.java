@@ -30,5 +30,7 @@ public interface IResumeStorageService {
 	 public List<ResponseFile> getListFiles() ;
 	 
 	 public ResponseFile getSingleResumeResponse(String docId);
+
+	public ResponseEntity<ByteArrayResource> getSingleResumeResponseById(long resumeId) throws Exception;
 		       
 }

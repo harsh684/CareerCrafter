@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hexaware.careercrafterfinal.entities.ProfilePic;
 import com.hexaware.careercrafterfinal.entities.ResumeDoc;
+import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.message.ResponseFile;
 import com.hexaware.careercrafterfinal.service.IResumeStorageService;
 
@@ -66,6 +70,12 @@ public class ResumeFileRestController {
 //	  public ResponseEntity<ByteArrayResource> downloadResumeFile(@PathVariable String docId) throws Exception{
 //		  return storageService.downloadFile(docId);
 //	  }
+	  
+	  @GetMapping("/downloadbyresumeid/{resumeId}")
+	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
+	  public ResponseEntity<ByteArrayResource> getResumeFileByResumeId(@PathVariable long resumeId) throws Exception{
+		  return storageService.getSingleResumeResponseById(resumeId);
+	  }
 	  
 	  @GetMapping("/download/{docId}")
 	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")

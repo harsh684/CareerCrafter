@@ -27,7 +27,7 @@ public interface IUserService {
 	
 	public String trackStatus(long applicationId) throws ApplicationException ;
 
-	public JobSeeker getUserProfile(long seekerId);
+	public JobSeeker getUserProfile();
 	
 	public boolean editResume(Resume resume);
 }
