@@ -1,0 +1,217 @@
+.hero-section-wrapper{
+  height: min-content;
+}
+.hero-title{
+  font-size: 3.4rem;
+  font-weight: 600;
+}
+.hero-text{
+  color: rgb(112, 112, 112);
+  font-weight: 500;
+}
+.hero-section{
+  gap: 10%;
+  background-color: rgb(255, 251, 247);
+}
+.hero-img{
+  height: fit-content;
+  /* margin-top: 0;
+  text-align: center;
+  border-radius:40%;  */
+  /* background: rgb(238,122,208);
+  background: linear-gradient(90deg, rgba(238,122,208,1) 25%, rgba(0,212,255,1) 100%); */
+
+}
+.hero-img img{
+  height: 90%;
+  /* border-top-left-radius: 49%;
+  border-top-right-radius: 49%;
+  background: rgb(238,122,208);
+  background: linear-gradient(90deg, rgba(238,122,208,1) 25%, rgba(0,212,255,1) 100%); */
+}
+.divider{
+  background: rgb(186,113,255);
+  background: linear-gradient(180deg, rgba(186,113,255,1) 11%, rgba(210,162,255,1) 68%, rgba(241,225,255,1) 97%);
+}
+.recommendation-bg{
+  background: rgb(186,113,255);
+  background: linear-gradient(131deg, rgba(186,113,255,1) 11%, rgba(186,113,255,1) 57%, rgba(255,98,247,1) 100%);
+}
+.listing-container{
+    border-radius: 10px;
+    width: 70%;
+    border: 1px solid rgb(180, 180, 180);
+}
+.listing-companyName{
+    font-weight: 600;
+}
+.listing-department{
+    color: rgb(123, 123, 123);
+    font-weight: 500;
+}
+.listing-title{
+    font-weight: 500;
+    font-size: 23px;
+}
+.listing-icon-container{
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+    font-size: 17px;
+    gap: 7px;
+}
+.listing-status-open,.listing-status-closed{
+    border-radius: 5px;
+    width: fit-content;
+}
+.listing-status-open{
+    background-color: rgb(149, 255, 149);
+    color: green;
+}
+.listing-status-closed{
+    background-color: rgb(255, 141, 141);
+}
+
+  .dropdownmenu ul , .dropdownmenu li{
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdownmenu ul{
+    background-color: gray;
+    list-style: none;
+    width: 100%;
+  }
+  .dropdownmenu li{
+    position: relative;
+    width: auto;
+  }
+  .dropdownmenu a{
+    background-color: #30a6e6;
+    color: white;
+    display: block;
+    font-weight: bold;
+    
+  }
+  @media only screen and (max-width: 1200px){
+    .listing-container{
+        width: 70%;
+    }
+    .listing-title{
+        font-size: 23px;
+    }
+    .listing-department{
+        font-size: 19px;
+    }
+    .listing-icon-container{
+        margin: 3px 0;
+        font-size: 17px;
+        gap: 7px;
+    }
+  }
+  @media only screen and (max-width: 992px){
+    .listing-container{
+        width: 80%;
+    }
+    .listing-title{
+        font-size: 23px;
+    }
+    .listing-department{
+        font-size: 19px;
+    }
+    .listing-icon-container{
+        margin: 3px 0;
+        font-size: 17px;
+        gap: 7px;
+    }
+  }
+  @media only screen and (min-width: 768px){
+    .hero-text{
+      font-size: 1.1rem;
+    }
+    .get-started-btn{
+      margin: 10px 0 0 0;
+    }
+    .get-started-btn button{
+      width: 20%;
+      font-size: 1.1rem;
+    }
+  }
+  @media only screen and (max-width: 768px){
+    .hero-title{
+      font-size: 27px;
+    }
+  .hero-img{
+      margin-top: 0;
+      width: 100%;
+      text-align: center;
+      border-radius:49%; /* This makes the element circular */
+      background: rgb(238,122,208);
+      background: linear-gradient(90deg, rgba(238,122,208,1) 25%, rgba(0,212,255,1) 100%);
+  }
+  .hero-img img{
+      position: relative;
+      width: 70%;
+  }
+    .listing-container{
+        width: 90%;
+    }
+    .listing-title{
+        font-size: 23px;
+        font-weight: 500;
+    }
+    .listing-department{
+        font-size: 19px;
+        font-weight: 500;
+    }
+    .listing-icon-container{
+        font-size: 17px;
+        gap: 3px;
+    }
+    .listing-body-contents{
+        font-size: medium;
+        margin: 2px;
+    }
+    .listing-footer{
+        font-size: medium;
+    }
+  }
+
+  @media only screen and (max-width: 576px){
+
+    .hero-title{
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .hero-text{
+      font-size: 1rem;
+    }
+    .recommendation-title{
+      margin-top: 10px;
+      font-size: 1.5rem;
+    }
+    .listing-container{
+        width: 90%;
+        border-radius: 10px;
+    }
+    .listing-title{
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .listing-department{
+        font-size: 15px;
+        font-weight: 500;
+        color: rgb(123, 123, 123);
+    }
+    .listing-icon-container{
+        gap: 3px;
+    }
+    .listing-body-contents{
+        font-size: smaller;
+        margin: 2px;
+    }
+    .listing-footer{
+        font-size: smaller;
+    }
+  }
+  

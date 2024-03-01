@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import '/node_modules/font-awesome/css/font-awesome.css';
+
+.parent-container{
+    height: 100vh;
+    background-color: rgb(247, 239, 255);
+    padding: 20px 0 0 0;
+}
+.date-picker-conainer{
+    height: fit-content;
+}
+.search-bar{  
+    margin-bottom: 14px;
+    justify-content: end;
+    display: flex;
+}
+.search-input-container{
+    width: fit-content;
+}
+table{
+    border-radius: 3px;
+}
+
+.table-header{
+    background-color: black;
+    color: white;
+    font-weight: 200 !important;
+}
+
+.heading{
+    font-family: "Protest Riot", sans-serif;
+    margin-bottom: 20px;
+}

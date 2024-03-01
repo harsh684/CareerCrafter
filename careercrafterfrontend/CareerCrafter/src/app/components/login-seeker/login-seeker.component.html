@@ -1,6 +1,6 @@
-<div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-    <h2>Login Seeker</h2>
-    <div class="container myForm d-flex flex-column justify-content-center align-items-center border border-1 p-3">
+<div class="super-container container-fluid d-flex flex-column justify-content-center align-items-center">
+    <h2 class="text-white">Login Seeker</h2>
+    <div class="container myForm shadow d-flex flex-column justify-content-center align-items-center border border-1 p-3">
         <form class="container" #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" >
             <div class="form-group">
                 <label class="labels" for="username">Username</label>
@@ -18,6 +18,6 @@
         </form>
     </div>
     <div class="other-options">
-        Register as an <a routerLink="/register-seeker">Job Seeker</a>
+        Register as a <a routerLink="/register-seeker">Job Seeker</a>
     </div>
 </div>

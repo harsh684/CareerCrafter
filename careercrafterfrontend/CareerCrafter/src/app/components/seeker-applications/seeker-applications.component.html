@@ -1,0 +1,27 @@
+<div class="parent-container">
+    <div class="mx-5 text-center">
+      <h2 class="heading my-5">Applications</h2>
+      <table class="table bg-white table-striped shadow">
+          <thead class="table-header">
+            <tr>
+              <th scope="col">Application No.</th>
+              <th scope="col">Your profile</th>
+              <th scope="col">Applied Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Check Job Post</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let application of applications; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{application.profile}}</td>
+              <td>{{application.appliedDate}}</td>
+              <td [ngClass]="{'text-success': application.status === 'Selected', 'text-danger': application.status !== 'Selected'}">{{application.status}}</td>
+              <td>
+                <button class="btn btn-primary" (click)="getListing(application.applicationId)">View Job Post</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  </div>

@@ -1,3 +1,9 @@
+.parent-container{
+    background-image: url('src\assets\marten-bjork-6dW3xyQvcYE-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}
 .myForm{
     width: 30%;
     border-radius: 10px;

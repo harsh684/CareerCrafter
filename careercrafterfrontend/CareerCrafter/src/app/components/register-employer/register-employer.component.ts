@@ -57,8 +57,7 @@ export class RegisterEmployerComponent {
       this.user.password=this.f['password'].value;
       this.user.role='EMPLOYER';
       console.log(this.user);
-      this.registrationService.register(this.user)
-      alert("Account Created!");
+      this.registrationService.register(this.user);
       this.route.navigate(['/create-employer-profile']);
     }else{
       this.submitted=false;

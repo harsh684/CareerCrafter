@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import '/node_modules/font-awesome/css/font-awesome.css';
+
+.super-container{
+    height: max-content;
+    background-color: rgb(247, 239, 255);
+}
+.form-parent{
+    width: 60%;
+    border-radius: 10px;
+}
+.heading{
+    font-family: 'Protest';
+}
 .dropdown-container{
     background: transparent;
     height: fit-content;
-    width: 100%;
+    width: 97%;
 }
 .dropdown{
     width: 100%;
 }
 .disabled-fields,.enabled-fields{
-    gap: 8%;
+    gap: 4%;
 }
 .form-control{
     width: 80%;
@@ -28,16 +42,6 @@
     width: fit-content;
     background-color: aliceblue;
     margin: 10px auto;
-}
-@media only screen and (min-width: 1201px){
-    .dropdown-container{
-        width: 97%;
-        height: fit-content;
-    }
-    .form-parent{
-        width: 40%;
-    }
-    
 }
 @media only screen and (max-width: 1200px){
     .disabled-fields, .enabled-fields{

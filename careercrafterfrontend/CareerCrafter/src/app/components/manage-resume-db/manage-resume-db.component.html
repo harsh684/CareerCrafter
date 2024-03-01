@@ -1,0 +1,31 @@
+<div class="parent-container">
+    <div class="mx-5 text-center">
+      <h2 class="heading">Resume Database</h2>
+      <table class="table bg-white table-striped shadow">
+          <thead class="table-header">
+            <tr>
+              <th scope="col">S.No</th>
+              <th scope="col">Address</th>
+              <th scope="col">Resume File</th>
+              <th scope="col">View Crafter Resume</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resume of allResume; let i = index;">
+              <th scope="row">{{i+1}}</th>
+              <td>{{resume.address}}</td>
+              <td><button class="btn btn-primary" (click)="getResumeById(resume.resumeId)">Download Resume</button></td>
+              <td><button class="btn btn-primary" (click)="getCrafterResumeById(resume.resumeId)">View Resume</button></td>
+               <!-- <td *ngFor="let skill of {resume.skills}">
+                {{skill}}
+                </td> -->
+              <!--<td>{{}}</td>
+              <td>{{}}-{{}}</td>
+              <td>{{}}</td>
+              <td><div class="btn btn-success" (click)="checkApplications(listing.listingId)">Check Applications</div></td>
+              <td><div class="btn btn-warning text-white" (click)="closeListing(listing.listingId)">Change Status</div></td> -->
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  </div>

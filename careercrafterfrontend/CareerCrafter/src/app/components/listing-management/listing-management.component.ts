@@ -13,6 +13,8 @@ export class ListingManagementComponent {
 
   listingList:Listing[]=[]
   allListingList:Listing[]=[];
+  filteredApplication:Applications[]=[];
+  filterProfile='';
 
   constructor(private listingService:ListingService,private route:Router){}
 
@@ -24,10 +26,25 @@ export class ListingManagementComponent {
       this.allListingList=listings;
     },
     (error)=>{
+      if(error.status === 403){
+        localStorage.clear();
+        this.route.navigate(['/login-employer']);
+      }
       console.log(error);
     });
   }
 
+  filter(){
+    this.listingList=this.allListingList;
+      if (this.filterProfile === '' || this.filterProfile.toLowerCase() === 'all') {
+        // If no profile is selected, assign all applications to filteredApplications
+        this.listingList = this.allListingList;
+      } else {
+        // If a profile is selected, filter applications by profile and assign the filtered list
+        this.listingList = this.allListingList.filter(app => app.profile.toLowerCase().includes(this.filterProfile.toLowerCase()));
+      }
+    
+  }
   checkApplications(listingId:number){
     let applicationsForListing:Applications[]=[];
     this.listingService.viewApplicationsForListing(listingId).subscribe(

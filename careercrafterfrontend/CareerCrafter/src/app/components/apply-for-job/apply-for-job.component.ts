@@ -70,9 +70,23 @@ export class ApplyForJobComponent {
     this.seekerApplication.coverLetter = this.summary;
     this.seekerApplication.appliedDate = new Date();
     console.log(this.seekerApplication);
-    this.applicationyService.apply(this.listingId,this.seekerApplication);
-    this.route.navigate(['/search-jobs'],{queryParams: {
-      listingId: this.listingId
-    }});
+    this.applicationyService.apply(this.listingId,this.seekerApplication).subscribe(
+      (res)=>{
+        alert("Applied");
+        this.route.navigate(['/search-jobs'],{queryParams: {
+          listingId: this.listingId
+        }});
+      },
+      (err)=>{
+        if(err.status === 200){
+          alert("Applied");
+          this.route.navigate(['/search-jobs'],{queryParams: {
+            listingId: this.listingId
+          }});
+        }else{
+          alert("Failed to apply");
+        }
+      }
+    );
   }
 }

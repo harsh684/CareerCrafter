@@ -56,8 +56,7 @@ export class RegisterSeekerComponent {
       this.user.password=this.f['password'].value;
       this.user.role='SEEKER';
       console.log(this.user);
-      this.registrationService.register(this.user)
-      alert("Account Created!");
+      this.registrationService.register(this.user);
       this.route.navigate(['/create-seeker-profile']);
     }else{
       this.submitted=false;

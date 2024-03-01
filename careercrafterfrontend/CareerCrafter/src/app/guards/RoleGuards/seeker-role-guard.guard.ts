@@ -20,11 +20,10 @@ export class seekerRoleGuardGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
       return new Observable<boolean | UrlTree>((observer) => {
-        const role = localStorage.getItem('currentRole');
   
-        console.log(`Inside Seeker Role guard. Role is: ${role}`);
+        console.log(`Inside Seeker Role guard. Role is: ${localStorage.getItem('currentRole')}`);
   
-        if (role === 'SEEKER') {
+        if (localStorage.getItem('currentRole') === 'SEEKER') {
           observer.next(true);
           observer.complete();
         } else { 

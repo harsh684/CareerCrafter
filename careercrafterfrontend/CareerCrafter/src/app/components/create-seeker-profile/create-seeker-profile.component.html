@@ -1,8 +1,8 @@
-<div class="container-fluid pt-2">
-    <div class="container-fluid p-0 m-0 px-lg-5 text-center">
-        <h1 class="heading">Create Profile</h1>
-        <div class="container border border-1 rounded-2 p-3 px-sm-4 px-md-5 col-lg-8 pt-md-5 mx-auto form-parent">
-            <form [formGroup]="createProfileForm" (ngSubmit)="createProfile()">
+<div class="container-fluid pt-2 super-container pb-5">
+    <div class="container-fluid p-0 m-0 my-5 px-lg-5 text-center">
+        <div class="form-parent container border border-1 shadow bg-white p-3 px-sm-4 px-md-5 py-md-4 mb-5 mx-auto">
+            <h1 class="heading">Create/Update Profile</h1>
+            <form class="w-100" [formGroup]="createProfileForm" (ngSubmit)="createProfile()">
                 <div class="form-group">
                     <div class="d-flex container m-0 mb-2 mb-sm-3 mb-md-4 p-0">
                         <div class="enabled-fields form-group d-flex flex-column justify-content-center container m-0 mb-2 p-0" >

@@ -21,12 +21,19 @@ import { PostListingComponent } from './components/post-listing/post-listing.com
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CurrentUserReducer } from './store/reducers/current-user.reducer';
 import { EditResumeComponent } from './components/edit-resume/edit-resume.component';
-import { GroupByPipe } from './Custom Pipes/group-by.pipe';
 import { ApplyForJobComponent } from './components/apply-for-job/apply-for-job.component';
 import { ListingManagementComponent } from './components/listing-management/listing-management.component';
 import { ViewApplicationsComponent } from './components/view-applications/view-applications.component';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { DisplayResumeComponent } from './components/display-resume/display-resume.component'
+import { DisplayResumeComponent } from './components/display-resume/display-resume.component';
+import { ManageResumeDbComponent } from './components/manage-resume-db/manage-resume-db.component';
+import { SeekerApplicationsComponent } from './components/seeker-applications/seeker-applications.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { BodyComponent } from './components/body/body.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { HomepageComponent } from './components/homepage/homepage.component'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -44,11 +51,16 @@ import { DisplayResumeComponent } from './components/display-resume/display-resu
     PostListingComponent,
     NavBarComponent,
     EditResumeComponent,
-    GroupByPipe,
     ApplyForJobComponent,
     ListingManagementComponent,
     ViewApplicationsComponent,
-    DisplayResumeComponent
+    DisplayResumeComponent,
+    ManageResumeDbComponent,
+    SeekerApplicationsComponent,
+    SidenavComponent,
+    BodyComponent,
+    CarouselComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +70,9 @@ import { DisplayResumeComponent } from './components/display-resume/display-resu
     FormsModule,
     StoreModule.forRoot({currentUsers: CurrentUserReducer}),
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,14 +20,7 @@ export class ApplyForJobService {
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization",tokenString);
 
-    this.http.post<any>("http://localhost:8080/api/seeker/apply/"+listingId,application,{headers}).subscribe(
-      (res)=>{
-        alert("Applied");
-        console.log(res.value);
-        this.response=res;
-        return this.response;
-      }
-    );
-      return this.response;
+    return this.http.post<any>("http://localhost:8080/api/seeker/apply/"+listingId,application,{headers});
+    
   }
 }

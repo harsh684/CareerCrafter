@@ -1,3 +1,7 @@
+.super-container{
+    background-image: url('src\assets\login_background.jpg') ;
+    height: 100vh;
+}
 .myForm{
     width: 30%;
     border-radius: 10px;
@@ -5,6 +9,9 @@
 .labels{
     margin: 4px 5px;
     font-weight: 500 ;
+}
+.other-options,.myForm,form{
+    color: white;
 }
 
 

@@ -1,7 +1,22 @@
 <div class="parent-container">
-  <div class="mx-5 text-center">
+  <div class="sub-parent-container mx-auto container text-center m-0 p-0">
     <h2 class="heading">Listings</h2>
-    <table class="table table-striped shadow">
+    <div class="search-bar container justify-content-end">
+      <div class="input-group search-input-container">
+        <div class="input-group rounded">
+          <input type="search" class="form-control rounded" [(ngModel)]="filterProfile" placeholder="Search Profile by Keyword" aria-label="Search" aria-describedby="search-addon" />
+          <span class="input-group-text bg-primary border-0" id="search-addon" (click)="filter()" >
+            <i class="fa fa-search text-white" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+        <div class="input-group search-input-container">
+          <div class="input-group rounded">
+            <button class="btn btn-success" routerLink="/post-listing">Post a New Job</button>
+          </div>
+        </div>
+    </div>
+    <table class="table bg-white table-striped shadow">
         <thead class="table-header">
           <tr>
             <th scope="col">S.No</th>

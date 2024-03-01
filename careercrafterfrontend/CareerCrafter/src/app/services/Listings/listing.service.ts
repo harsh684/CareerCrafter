@@ -15,6 +15,18 @@ export class ListingService {
 
   constructor(private http:HttpClient) { }
 
+  postListing(listing:Listing){
+
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.post<any>(this.requestURL+'postlisting',listing,{headers});
+  }
+
   viewApplicationsForListing(listingId:number){
     let tokenString = "Bearer " +localStorage.getItem("token");
 
@@ -71,12 +83,17 @@ export class ListingService {
 
     let pdfUrlLink='';
 
-    this.http.get('http://localhost:8080/api/resumedoc/downloadbyresumeid/'+8,{ responseType: 'blob' , headers})
+    this.http.get('http://localhost:8080/api/resumedoc/downloadbyresumeid/'+resumeId,{ responseType: 'blob' , headers})
     .subscribe((response)=>{
         
         var fileURL = URL.createObjectURL(response);
         window.open(fileURL); 
-    })
+    },
+    (err)=>{
+      if(err.status !== 200)
+        alert(`No Resume File Found`);
+    }
+    )
 
     
   }
