@@ -130,6 +130,12 @@ public class EmployerRestController {
 		return employerService.getResumeById(resumeId);
 	}
 	
+	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public String getSeekerNameByResumeId(@PathVariable long resumeId){
+		return employerService.getSeekerNameByResumeId(resumeId);
+	}
+	
 	@GetMapping("/v1/managecrafterresume")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Resume> manageResumeDb(){

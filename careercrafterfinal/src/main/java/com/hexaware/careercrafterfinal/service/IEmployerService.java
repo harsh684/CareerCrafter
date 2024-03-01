@@ -49,5 +49,7 @@ public interface IEmployerService {
 	public List<Listing> getEmployerListings();
 
 	public Resume getResumeById(long resumeId);
+
+	public String getSeekerNameByResumeId(long resumeId);
 	
 }
