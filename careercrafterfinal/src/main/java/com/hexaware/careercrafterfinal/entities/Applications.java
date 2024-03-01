@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 import com.hexaware.careercrafterfinal.message.ResponseFile;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Future;
@@ -40,6 +42,8 @@ public class Applications {
 	@NotBlank
 	private String status;
 	
+	@Lob
+	@Column(columnDefinition = "TEXT")
 	private String coverLetter;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

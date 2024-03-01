@@ -30,4 +30,6 @@ public interface IUserService {
 	public JobSeeker getUserProfile();
 	
 	public boolean editResume(Resume resume);
+
+	public Listing getListingByApplicationId(long applicationId);
 }

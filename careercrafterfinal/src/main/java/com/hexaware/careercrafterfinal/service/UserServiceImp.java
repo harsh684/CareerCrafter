@@ -17,12 +17,14 @@ import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
+import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
+import com.hexaware.careercrafterfinal.repository.ApplicationRepository;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeRepository;
@@ -44,6 +46,9 @@ public class UserServiceImp implements IUserService {
 	
 	@Autowired
 	ListingRepository listingRepository;
+	
+	@Autowired
+	ApplicationRepository applicationRepository;
 	
 	@Autowired
 	ResumeRepository resumeRepository;
@@ -149,6 +154,31 @@ public class UserServiceImp implements IUserService {
 	}
 	
 	@Override
+	public Listing getListingByApplicationId(long applicationId) {
+	    logger.info("Get listing from database");
+	    Listing original = listingRepository.findById(applicationRepository.getListingId(applicationId)).orElse(null);
+        Listing temp=new Listing();
+        
+        		temp=new Listing();
+            	temp.setListingId(original.getListingId());
+            	temp.setProfile(original.getProfile());
+            	temp.setDepartment(original.getDepartment());
+            	temp.setLocation(original.getLocation());
+            	temp.setExperienceReqFrom(original.getExperienceReqFrom());
+            	temp.setExperienceReqTo(original.getExperienceReqTo());
+            	temp.setSalary(original.getSalary());
+            	temp.setPostDate(original.getPostDate());
+            	temp.setReqSkills(original.getReqSkills());
+            	temp.setJd(original.getJd());
+            	temp.setCompanyName(original.getCompanyName());
+            	temp.setListingStatus(original.getListingStatus());
+            	temp.setBenefitsProvided(original.getBenefitsProvided());
+        
+        
+	    return temp;
+	}
+	
+	@Override
 	public List<Listing> searchJobs() {
 	    logger.info("Searching for jobs from database");
 	    List<Listing> original = listingRepository.findAll();
@@ -231,13 +261,51 @@ public class UserServiceImp implements IUserService {
 	public List<Applications> getAppliedJobs() {
 		
 		JobSeeker seeker;
-		
+		Resume resumeTemp = null;
+		List<Applications> seekerApplications = new ArrayList<>();
+	    Applications temp;
+	    
 		try {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				seeker  = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
 			    logger.info("Fetching applied jobs for current job seeker");
-				return seeker.getApplications();
+			    
+			    for(Applications app:seeker.getApplications()) {
+			    	temp=new Applications();
+			    	temp.setApplicationId(app.getApplicationId());
+			    	temp.setAppliedDate(app.getAppliedDate());
+			    	temp.setCompanyName(app.getCompanyName());
+			    	temp.setCoverLetter(app.getCoverLetter());
+			    	temp.setProfile(app.getProfile());
+			    	
+			    	Resume resume = app.getResume();
+//			    	ResumeDoc tempDoc =  resume.getResumeFile();
+			    	
+					if(resume!=null) {
+		    			resumeTemp=new Resume();
+		    			resumeTemp.setResumeId(resume.getResumeId());
+		    			resumeTemp.setAccomplishments(resume.getAccomplishments());
+		    			resumeTemp.setAddress(resume.getAddress());
+		    			resumeTemp.setCertifications(resume.getCertifications());
+		    			resumeTemp.setEducation(resume.getEducation());
+		    			resumeTemp.setExperiences(resume.getExperiences());
+		    			resumeTemp.setLanguages(resume.getLanguages());
+		    			resumeTemp.setProjects(resume.getProjects());
+		    			resumeTemp.setReferenceLinks(resume.getReferenceLinks());
+		    			resumeTemp.setSkills(resume.getSkills());
+					}
+					
+//					seeker.setResume(resumeTemp);
+//			    	resume.setResumeFile(tempDoc);
+			    	temp.setResume(resumeTemp);
+			    	//temp.setResponseFile(app.getResponseFile());
+			    	temp.setStatus(app.getStatus());
+			    	
+			    	seekerApplications.add(temp);
+			    }
+			    
+					return seekerApplications;
 			}
 		} catch (Exception e) {
 	        logger.error("Error occurred while fetching applied jobs for job seeker", e);
@@ -270,14 +338,16 @@ public class UserServiceImp implements IUserService {
 		return null;
 	}
 
+	@Override
 	public JobSeeker getUserProfile(){
 		JobSeeker seeker = new JobSeeker();
+		Resume resumeTemp = null;
 		try {
 			UserInfo currentSeeker = getCurrentUserInfo();
 			JobSeeker temp = seekerRepository.findById(currentSeeker.getRoleId()).orElse(null);
 			
 			seeker.setAddress(temp.getAddress());
-			seeker.setApplications(temp.getApplications());
+			seeker.setApplications(filterApplications(temp.getApplications()));
 			seeker.setCountry(temp.getCountry());
 			seeker.setCurrentSalary(temp.getCurrentSalary());
 			seeker.setDateOfBirth(temp.getDateOfBirth());
@@ -289,8 +359,21 @@ public class UserServiceImp implements IUserService {
 			seeker.setSummary(temp.getSummary());
 			seeker.setTagline(temp.getTagline());
 			Resume resume = temp.getResume();
-			resume.setResumeFile(null);
-			seeker.setResume(resume);
+			if(temp.getResume()!=null) {
+    			resumeTemp=new Resume();
+    			resumeTemp.setResumeId(resume.getResumeId());
+    			resumeTemp.setAccomplishments(resume.getAccomplishments());
+    			resumeTemp.setAddress(resume.getAddress());
+    			resumeTemp.setCertifications(resume.getCertifications());
+    			resumeTemp.setEducation(resume.getEducation());
+    			resumeTemp.setExperiences(resume.getExperiences());
+    			resumeTemp.setLanguages(resume.getLanguages());
+    			resumeTemp.setProjects(resume.getProjects());
+    			resumeTemp.setReferenceLinks(resume.getReferenceLinks());
+    			resumeTemp.setSkills(resume.getSkills());
+			}
+			
+			seeker.setResume(resumeTemp);
 			seeker.setProfilePic(null);
 			
 		} catch (AuthenticationException e) {
@@ -302,6 +385,39 @@ public class UserServiceImp implements IUserService {
 		}
 		
 		return seeker;
+	}
+	
+	private List<Applications> filterApplications(List<Applications> applications){
+		List<Applications> res = new ArrayList<>();
+		Resume resumeTemp = null;
+	    Applications application = null;
+	    
+	    for(Applications app:applications) {
+    		application=new Applications();
+    		application.setApplicationId(app.getApplicationId()); // Set the applicationId
+    		application.setCompanyName(app.getCompanyName()); // Set the companyName
+    		application.setProfile(app.getProfile()); // Set the profile
+    		application.setAppliedDate(app.getAppliedDate()); // Set the appliedDate
+    		application.setStatus(app.getStatus()); // Set the status
+    		application.setCoverLetter(app.getCoverLetter());
+    		if(app.getResume()!=null) {
+    			resumeTemp=new Resume();
+    			resumeTemp.setResumeFile(null);
+    			resumeTemp.setResumeId(app.getResume().getResumeId());
+    			resumeTemp.setAccomplishments(app.getResume().getAccomplishments());
+    			resumeTemp.setAddress(app.getResume().getAddress());
+    			resumeTemp.setCertifications(app.getResume().getCertifications());
+    			resumeTemp.setEducation(app.getResume().getEducation());
+    			resumeTemp.setExperiences(app.getResume().getExperiences());
+    			resumeTemp.setLanguages(app.getResume().getLanguages());
+    			resumeTemp.setProjects(app.getResume().getProjects());
+    			resumeTemp.setReferenceLinks(app.getResume().getReferenceLinks());
+    			resumeTemp.setSkills(app.getResume().getSkills());
+    			application.setResume(resumeTemp);
+    		}
+    		res.add(application);
+	    }
+	    return res;
 	}
 	
 	private UserInfo getCurrentUserInfo() throws AuthenticationException {

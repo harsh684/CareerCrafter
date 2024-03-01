@@ -80,6 +80,13 @@ public class JobSeekerRestController {
 		return userService.getUserProfile();
 	}
 	
+	@GetMapping("/getListingByApplicationId/{applicationId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public Listing searchJobs(@PathVariable long applicationId){
+        logger.info("Getting job post");
+		return userService.getListingByApplicationId(applicationId);
+	}
+	
 	@GetMapping("/searchjobs")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public List<Listing> searchJobs(){
@@ -99,7 +106,7 @@ public class JobSeekerRestController {
 
 	@GetMapping("/getyourapplications")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public List<Applications> getAppliedJobs(JobSeekerDto seeker){
+	public List<Applications> getAppliedJobs(){
         logger.info("Fetching applied jobs for seeker: {}");
 
 		return userService.getAppliedJobs();
