@@ -1,6 +1,11 @@
 @import '/node_modules/font-awesome/css/font-awesome.css';
 
+.super-container{
+    height: 100vh;
+    background-color: rgb(247, 239, 255);
+}
 .form-container{
+    background-color: white;
     border-radius: 10px;
     width: 53%;
     padding: 19px 8px;

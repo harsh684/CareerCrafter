@@ -1,5 +1,9 @@
 @import '/node_modules/font-awesome/css/font-awesome.css';
 
+.super-container{
+    height: 100vh;
+    background-color: rgb(247, 239, 255);
+}
 .content-container{
     display: flex;
     flex-direction: column;
@@ -7,6 +11,7 @@
     align-items: center;
 }
 .listing-container{
+    background-color: white;
     border-radius: 10px;
     width: 66%;
     border: 1px solid rgb(180, 180, 180);

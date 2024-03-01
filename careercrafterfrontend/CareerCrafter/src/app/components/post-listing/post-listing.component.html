@@ -1,1 +1,71 @@
-<p>post-listing works!</p>
+<div class="body">
+    
+   <div class="super-container">
+    <div class="sub-parent-container bg-white shadow">
+        <h1 class="text-center mb-4">Post Listing</h1>
+        <form [formGroup]="jobForm" (ngSubmit)="submitForm()">
+            <!-- Existing form fields -->
+            <div class="form-group d-flex">
+                <div class="input-container">
+                    <label for="profile">Profile:</label>
+                    <input type="text" formControlName="profile" class="form-control" required>
+                </div>
+                <div class="input-container">
+                    <label for="companyName">Company Name:</label>
+                    <input type="text" formControlName="companyName" class="form-control" required>
+                  </div>
+              </div>
+              <div class="form-group d-flex">
+                <div class="input-container">
+                    <label for="department">Department:</label>
+                    <input type="text" formControlName="department" class="form-control" required>
+                </div>
+                <div class="input-container">
+                    <label for="location">Location:</label>
+                    <input type="text" formControlName="location" class="form-control" required>
+                  </div>
+              </div>
+              <div class="form-group d-flex">
+                <div class="input-container">
+                    <label for="experienceReqFrom">Experience Required (From):</label>
+                    <input type="number" formControlName="experienceReqFrom" class="form-control" required>
+                </div>
+                <div class="input-container">
+                    <label for="experienceReqTo">Experience Required (To):</label>
+                    <input type="number" formControlName="experienceReqTo" class="form-control" required>
+                  </div>
+              </div>
+              <div class="form-group d-flex">
+                <div class="input-container">
+                    <label for="salary">Salary:</label>
+                    <input type="number" formControlName="salary" class="form-control" required>
+                </div>
+                <div class="input-container d-flex flex-column">
+                    <label for="reqSkills">Required Skills:</label>
+                    <div class="d-flex">
+                        <input type="text" formControlName="newSkill" class="form-control mb-3" placeholder="Enter a new skill">
+                    </div>
+                    <div><button type="button" class="btn btn-primary" (click)="addSkill()">Add Skill</button></div>
+                    <div class="mt-2"><ul class="skill-list d-flex" *ngIf="addedSkills.length > 0">
+                        <li *ngFor="let skill of addedSkills"><div class="d-flex gap-1">{{ skill }}<i class="fa fa-times my-auto" (click)="removeSkill(skill)" aria-hidden="true"></i></div></li>
+                    </ul></div>
+                </div>
+            </div>
+              <div class="form-group d-flex flex-column">
+                <div>
+                    <label for="benefitsProvided">Benefits Provided:</label>
+                    <textarea formControlName="benefitsProvided" class="form-control" rows="3" required></textarea>
+                </div>
+                <div>
+                    <label for="jd">Job Description:</label>
+                    <textarea formControlName="jobDescription" class="form-control" rows="5" required></textarea>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-center w-100">
+                <button type="submit" class="w-25 btn btn-primary mt-4">Post</button>
+            </div>
+          </form>        
+    </div>
+   </div>
+</div>

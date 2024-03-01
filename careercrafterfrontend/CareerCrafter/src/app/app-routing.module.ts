@@ -18,24 +18,34 @@ import { ListingManagementComponent } from './components/listing-management/list
 import { ViewApplicationsComponent } from './components/view-applications/view-applications.component';
 import { EmployerRoleGuardGuard } from './guards/RoleGuards/employer-role-guard.guard';
 import { DisplayResumeComponent } from './components/display-resume/display-resume.component';
-
+import { SeekerApplicationsComponent } from './components/seeker-applications/seeker-applications.component';
+import { ManageResumeDbComponent } from './components/manage-resume-db/manage-resume-db.component';
+import { PostListingComponent } from './components/post-listing/post-listing.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 const routes: Routes = [
-  {path: '',redirectTo: 'home',pathMatch:'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'register-employer',component: RegisterEmployerComponent},
-  {path: 'register-seeker',component: RegisterSeekerComponent},
-  {path: 'login-employer',component: LoginEmployerComponent},
-  {path: 'login-seeker',component: LoginSeekerComponent},
-  {path: 'create-seeker-profile',component: CreateSeekerProfileComponent,canActivate: [authGuard, seekerRoleGuardGuard]},
-  {path: 'create-employer-profile',component: CreateEmployerProfileComponent,canActivate: [authGuard, EmployerRoleGuardGuard]},
-  {path: 'search-jobs',component: SearchJobsComponent, canActivate: [authGuard, seekerRoleGuardGuard]},
-  {path: 'show-listing-details',component: ShowListingDetails,canActivate: [authGuard, seekerRoleGuardGuard]},
-  {path: 'apply-for-job/:listingId',component: ApplyForJobComponent,canActivate: [authGuard,seekerRoleGuardGuard]},
-  {path: 'edit-resume',component: EditResumeComponent,canActivate: [authGuard,seekerRoleGuardGuard]},
-  {path: 'manage-listings',component: ListingManagementComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
-  {path: 'view-applications',component: ViewApplicationsComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
-  {path: 'display-resume',component: DisplayResumeComponent,canActivate: [authGuard,EmployerRoleGuardGuard]}
-
+  {path: '', component: HomeComponent, children: [
+    { path: '', redirectTo: 'homepage', pathMatch: 'full' },
+    { path: 'homepage', component: HomepageComponent },
+    {path: 'register-employer',component: RegisterEmployerComponent},
+    {path: 'register-seeker',component: RegisterSeekerComponent},
+    {path: 'login-employer',component: LoginEmployerComponent},
+    {path: 'login-seeker',component: LoginSeekerComponent},
+    {path: 'create-seeker-profile',component: CreateSeekerProfileComponent,canActivate: [authGuard, seekerRoleGuardGuard]},
+    {path: 'create-employer-profile',component: CreateEmployerProfileComponent,canActivate: [authGuard, EmployerRoleGuardGuard]},
+    {path: 'search-jobs',component: SearchJobsComponent, canActivate: [authGuard, seekerRoleGuardGuard]},
+    {path: 'show-listing-details',component: ShowListingDetails,canActivate: [authGuard, seekerRoleGuardGuard]},
+    {path: 'apply-for-job/:listingId',component: ApplyForJobComponent,canActivate: [authGuard,seekerRoleGuardGuard]},
+    {path: 'edit-resume',component: EditResumeComponent,canActivate: [authGuard,seekerRoleGuardGuard]},
+    {path: 'manage-listings',component: ListingManagementComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
+    {path: 'view-applications',component: ViewApplicationsComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
+    {path: 'display-resume',component: DisplayResumeComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
+    {path: 'post-listing',component: PostListingComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
+    {path: 'myapplications',component: SeekerApplicationsComponent,canActivate: [authGuard,seekerRoleGuardGuard]},
+    {path: 'manage-resumedb',component: ManageResumeDbComponent,canActivate: [authGuard,EmployerRoleGuardGuard]},
+  ]
+  },
+  // {path: '',redirectTo: 'home',pathMatch:'full'},
+  // {path: 'homepage',component: HomepageComponent},
 ];
 
 @NgModule({

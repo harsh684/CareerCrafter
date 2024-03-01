@@ -1,24 +1,46 @@
-<!-- <header class="header-container container-fluid shadow-lg">
-    <div class="logo">CareerCrafter</div>
-    <div class="nav-container d-flex flex-row align-items-center">
-        <div class="nav-links"><a >Home</a></div>
-        <div class="nav-links">
-            <a href="">Jobs</a>
-            <ul class="dropdown mt-4">
-                <li class="dropdown-item"><a href="">By Categories</a></li>
-                <li class="dropdown-item"><a href="">By Location</a></li>
-            </ul>
-        </div>
-        
-        <div class="nav-links"><a href="">About Us</a></div>
-    </div>
-    <div class="authOption">
-        <div>
-            <a routerLink="/register-employer">Register</a>
-            /
-            <a routerLink="/login-employer">Login</a>
-        </div>
-    </div>
-</header> -->
+
 <!-- <app-nav-bar></app-nav-bar> -->
-this is home
+<!-- <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+<app-body
+[collapsed]="isSideNavCollapsed"
+[screenWidth]="screenWidth"
+></app-body> -->
+<!-- <router-outlet></router-outlet> -->
+
+<body>
+    <nav>
+        <ul class="menu">
+            <li class="logo"><a href="#">Career Crafter</a></li>
+            <li class="item"><a routerLink="/homepage">Home</a></li>
+            <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/search-jobs">Jobs</a></li>
+            <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/myapplications">Your Applications</a></li>
+            <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/create-seeker-profile">My Profile</a></li>
+            <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/edit-resume">Edit Resume</a></li>
+            
+
+            <li *ngIf="!isLoggedIn" class="item button"><a class="text-white" (click)="login()">Log In</a></li>
+            <li *ngIf="!isLoggedIn" class="item button secondary"><a class="text-white" routerLink="/register-employer">Sign Up</a></li>
+            
+            <li *ngIf="loginService.session && currentRole === 'EMPLOYER'" class="dropdownmenu">
+                <div class="">
+                    <div>
+                        <img [src]="this.profileIImage" alt="">
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </li>
+
+            
+            <li *ngIf="isLoggedIn" class="item button secondary"><a routerLink="/logout" (click)="logout()">Logout</a></li>
+            
+            <li class="toggle" (click)="toggleMenu()"><span class="bars"></span></li>
+
+        </ul>
+    </nav>
+    <router-outlet></router-outlet>
+</body>
+
+
+

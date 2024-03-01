@@ -19,7 +19,6 @@ export class LoginEmployerComponent {
   async login(userData:AuthInfo){
     await this.loginService.loginUser(userData);
     if(localStorage.getItem("token")!==''){
-      alert(`logged in`);
       // this.router.navigate(['/home']);
       this.router.navigate(['/manage-listings']);
       console.log(localStorage.getItem("token"));

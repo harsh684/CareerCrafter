@@ -19,10 +19,9 @@ export class LoginSeekerComponent {
   async login(userData:AuthInfo){
     await this.loginService.loginUser(userData);
     if(localStorage.getItem("token")!==''){
-      alert(`logged in`);
       // this.router.navigate(['/home']);
-      this.router.navigate(['/search-jobs'],{ replaceUrl: true });
       console.log(localStorage.getItem("token"));
+      console.log(localStorage.getItem('currentRole'));
     }else{
       alert(`Wrong credentials`);
     }

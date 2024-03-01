@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import '/node_modules/font-awesome/css/font-awesome.css';
+
+.super-container{
+    width: 100%;
+    height: max-content;
+    background-color: rgb(247, 239, 255);
+    display: flex;
+    justify-content: center;
+    padding: 40px 0 20px 0;
+}
+.sub-parent-container{
+    width: 59%;
+    padding: 20px 50px;
+    border-radius: 3%;
+}
+h1{
+    font-family: 'Protest';
+}
+label{
+    font-weight: 500;
+}
+.form-group{
+    gap: 25px;
+    margin-top: 8px;
+}
+.form-control{
+    width: 100%;
+}
+.input-container{
+    width: 100%;
+}
+.skill-list{
+    list-style: none;
+}
+i{
+    cursor: pointer;
+}
+@media only screen and (max-width: 1200px){
+    *:not(h1){
+        font-size: medium;
+    }
+    h1{
+        font-size: xx-large;
+    }
+    label,input{
+        padding-left: 5px;
+    }
+    .form-group{
+        gap: 18px;
+    }
+    .sub-parent-container{
+        margin-top: 20px;
+        width: 63%;
+        padding: 20px 50px;
+        border-radius: 3%;
+    }
+    .addSkill-btn{
+        margin: 10px 0;
+    }
+}
+@media only screen and (max-width: 992px){
+    *:not(h1){
+        font-size: medium;
+    }
+    h1{
+        font-size: x-large;
+    }
+        label,input{
+        padding-left: 5px;
+    }
+    .form-group{
+        gap: 15px;
+    }
+    .sub-parent-container{
+        margin-top: 20px;
+        width: 63%;
+        padding: 20px 50px;
+        border-radius: 3%;
+    }
+    .addSkill-btn{
+        margin: 10px 0;
+    }
+}
+@media only screen and (max-width: 768px){
+    *:not(h1){
+        font-size: small;
+    }
+    h1{
+        font-size: x-large;
+    }
+        label,input{
+        padding-left: 5px;
+    }
+    .form-group{
+        gap: 8px;
+    }
+    .sub-parent-container{
+        margin-top: 20px;
+        width: 65%;
+        padding: 15px;
+        border-radius: 3%;
+    }
+    .addSkill-btn{
+        margin: 10px 0;
+    }
+}
+@media only screen and (max-width: 576px){
+*:not(h1){
+    font-size: small;
+}
+h1{
+    font-size: x-large;
+}
+    label,input{
+    padding-left: 5px;
+}
+.form-group{
+    gap: 8px;
+}
+.sub-parent-container{
+    margin-top: 20px;
+    width: fit-content;
+    padding: 15px;
+    border-radius: 3%;
+}
+.addSkill-btn{
+    margin: 10px 0;
+}
+}

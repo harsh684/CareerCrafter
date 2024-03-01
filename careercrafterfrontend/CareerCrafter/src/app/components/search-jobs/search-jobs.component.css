@@ -1,5 +1,10 @@
 @import '/node_modules/font-awesome/css/font-awesome.css';
 
+.super-container{
+    height: max-content;
+    background-color: rgb(247, 239, 255);
+}
+
 .listing-container{
     border-radius: 10px;
     width: 70%;

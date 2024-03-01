@@ -1,1 +1,136 @@
-<p>display-resume works!</p>
+<div class="super-container pt-md-4">
+    <div class="sub-parent-container shadow bg-white">
+        <h2 class="text-center">Crafter Resume</h2>
+        <div class="seperator mx-auto w-25 mt-2 mb-4 border"></div>
+        <div class="resume-details">
+            <div class="resume-head mx-md-2">
+                <h3>{{this.seekerName}}</h3>
+                <div class="mt-1">{{this.seekerMail}}</div>
+                <div>{{this.resume.address}}</div>
+            </div>
+            <div class="seperator my-3 border"></div>
+            <div class="resume-body">
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Education</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let education of this.resume.education">
+                            <p class="section-title">{{education.degree}}, {{education.specialization}}</p>
+                            <p>{{education.collegeName}}</p>
+                            <p>{{education.startdate | date}} - {{education.endDate | date}}</p>
+                            <p>{{education.percentage}}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Work Experience</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let experience of this.resume.experiences">
+                            <p class="section-title">{{experience.companyName}}</p>
+                            <p>{{experience.description}}</p>
+                            <p>{{experience.startDate| date}} - {{experience.endDate| date}}</p>
+                            <p>{{experience.salary | currency:'INR'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Projects</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let project of this.resume.projects">
+                            <p class="section-title">{{project.title}}</p>
+                            <p>{{project.description}}</p>
+                            <p>{{project.startDate| date}} - {{project.endDate| date}}</p>
+                            <p><a href="{{project.referenceLink}}">{{project.referenceLink}}</a></p>
+                            <p><a href="{{project.hostedlink}}">{{project.hostedlink}}</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Certifications</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let certification of this.resume.certifications">
+                            <p class="section-title">{{certification.title}}</p>
+                            <p>{{certification.description}}</p>
+                            <p>{{certification.startDate| date}} - {{certification.endDate| date}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Skills</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let skill of this.resume.skills">
+                            <p>{{skill.skillName}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Languages</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let language of this.resume.languages">
+                            <p>{{language.languageName}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Accomplishments</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let accomplishment of this.resume.accomplishments">
+                            <p>{{accomplishment.description}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+                <div class="section-container d-flex justify-content-between">
+                    <div class="section-left">
+                        <p>Reference Links</p>
+                    </div>
+                    <div class="section-right">
+                        <div *ngFor="let link of this.resume.referenceLinks">
+                            <p><a href="{{link.link}}">{{link.link}}</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+<div class="form-group">
+    <div><div>{{this.seekerName}}</div></div>
+    <div><div>Address: {{this.resume.address}}</div></div>
+</div>
+<div class="form-group">
+    <div>
+        <div>Languages</div>
+        <div class="d-flex flex-row" *ngFor="let language of this.resume.languages">
+            <span>{{language.languageName}}</span>
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <div>Skills:</div>
+        <div class="d-flex gap-1">
+            <div class="sub-array-item" *ngFor="let skill of this.resume.skills">
+                {{skill.skillName}}
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -20,6 +20,7 @@ export class RegistrationService {
     username:"",
     password:""
   };
+
   loginService=inject(LoginService);
 
   async register(userInfo:UserInfo){
@@ -32,13 +33,18 @@ export class RegistrationService {
         console.log(this.response);
         this.authObj.username=userInfo.name.toString();
         this.authObj.password=userInfo.password.toString();
-        this.loginService.loginUser(this.authObj);
-        return this.response;
+        this.loginService.loginUserAfterRegistration(this.authObj,"SEEKER");
+        this.route.navigate(['/create-seeker-profile']);
       },
-      err=>{
-        alert(`Error in Service ${err}`);
-        this.route.navigate(['/login-seeker']);
+      (err)=>{
+        if(err.status !== 200){
+          alert(`Email id already registered`);
+          this.route.navigate(['/login-seeker']);
+        }else{
+          alert(`Profile Created`);
+        }
     });
+
     }
     else if(userInfo.role === "EMPLOYER"){
       await this.httpClient.post<string>(this.baseURL+"employer",userInfo,requestOptions).subscribe(res=>{
@@ -46,12 +52,16 @@ export class RegistrationService {
         console.log(this.response);
         this.authObj.username=userInfo.name.toString();
         this.authObj.password=userInfo.password.toString();
-        this.loginService.loginUser(this.authObj);
-        return this.response;
+        this.loginService.loginUserAfterRegistration(this.authObj,"EMPLOYER");
+        this.route.navigate(['/create-employer-profile']);
       },
       err=>{
-        alert(`Error in Service ${err}`);
-        this.route.navigate(['/login-employer']);
+        if(err.status !== 200){
+          alert(`Email id already registered`);
+          this.route.navigate(['/login-employer']);
+        }else{
+          alert(`Profile Created`);
+        }
     });
     }
   }
