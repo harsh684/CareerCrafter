@@ -132,25 +132,62 @@ public class UserServiceImp implements IUserService {
 	@Override
 	public boolean editResume(Resume resume) {
 		JobSeeker temp = null;
+		Resume seekerResume = null;
 		try {
 			UserInfo currentUser = getCurrentUserInfo();
 			if(currentUser.getRole().equalsIgnoreCase(compareRole)) {
 				temp = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
 				logger.info("Updating resume for job seeker in database: {}"+resume);
-				if(temp.getResume().getResumeFile()!=null) {
+				seekerResume = temp.getResume();
+				if(seekerResume.getResumeFile()!=null) {
+					resume.setResumeFile(temp.getResume().getResumeFile());
 				}
-				temp.setResume(resume);
-				temp.getResume().setResumeFile(temp.getResume().getResumeFile());
-				entityManager.merge(temp);
-				//				seekerRepository.save(temp);
+				resume.setResumeId(seekerResume.getResumeId());
+				resume = resumeRepository.save(resume);
+//				temp.setResume(resume);
+//				temp = seekerRepository.save(temp);
+				//	entityManager.merge(temp);
 			}
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
-		logger.info("Seeker after updating resume"+temp);
-		return temp!=null;
+		logger.info("Seeker's resume after updating"+seekerResume);
+		return seekerResume!=null;
 		//return resumeRepository.save(resume)!=null;
+	}
+	
+	@Override
+	public Resume getCrafterResume() throws AuthenticationException {
+		logger.info("Getting seeker profile");
+		UserInfo currentUser = getCurrentUserInfo();
+		JobSeeker seeker = seekerRepository.findById(currentUser.getRoleId()).orElse(null);
+		Resume resumeTemp = null;
+		
+		logger.info("Getting resume from seeker profile");
+		
+		Resume seekerResume = seeker.getResume();
+		
+		resumeTemp=new Resume();
+		resumeTemp.setResumeId(seekerResume.getResumeId());
+		resumeTemp.setAccomplishments(seekerResume.getAccomplishments());
+		resumeTemp.setAddress(seekerResume.getAddress());
+		resumeTemp.setCertifications(seekerResume.getCertifications());
+		resumeTemp.setEducation(seekerResume.getEducation());
+		resumeTemp.setExperiences(seekerResume.getExperiences());
+		resumeTemp.setLanguages(seekerResume.getLanguages());
+		resumeTemp.setProjects(seekerResume.getProjects());
+		resumeTemp.setReferenceLinks(seekerResume.getReferenceLinks());
+		resumeTemp.setSkills(seekerResume.getSkills());
+		
+		logger.info("Returning Crafter resume");
+		
+		return resumeTemp;
+	}
+	
+	@Override
+	public String getSeekerNameByResumeId(long resumeId) {
+		return seekerRepository.getNameByResumeId(resumeId);
 	}
 	
 	@Override

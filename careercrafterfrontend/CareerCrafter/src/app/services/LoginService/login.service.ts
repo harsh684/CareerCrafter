@@ -19,7 +19,7 @@ export class LoginService {
 
   cu!:UserInfo[];
 
-  currentUser$:UserInfo={
+  currentUser:UserInfo={
     id: 0,
     email:'',
     name:'',
@@ -28,13 +28,14 @@ export class LoginService {
     roleId:0
   }
 
-  constructor(private httpClient:HttpClient,private route:Router,private getCurrentUserService:GetCurrentUserService) {
+  constructor(private httpClient:HttpClient,private route:Router,private getCurrentUserService:GetCurrentUserService,
+    private store:Store<{currentUser:{currentUser:UserInfo}}>) {
     
    }
 
   baseURL="http://localhost:8080/api/register/";
 
-  loginUser(authInfo: AuthInfo):Promise<string>{
+  loginUser(authInfo: AuthInfo){
     console.log(authInfo);
     localStorage.removeItem("token");
     localStorage.removeItem('loggedIn');
@@ -49,16 +50,19 @@ export class LoginService {
         localStorage.setItem('loggedIn','true');
         resolve(res);
         this.getCurrentUserService.getCurrentUser().subscribe((res)=>{
-          this.currentUser$.id = res.id;
-          this.currentUser$.email = res.email;
-          this.currentUser$.name= res.name;
-          this.currentUser$.password = res.password;
-          this.currentUser$.role = res.role;
-          this.currentUser$.roleId = res.roleId;
-          localStorage.setItem("currentRole",this.currentUser$.role);
+          this.currentUser.id = res.id;
+          this.currentUser.email = res.email;
+          this.currentUser.name= res.name;
+          this.currentUser.password = res.password;
+          this.currentUser.role = res.role;
+          this.currentUser.roleId = res.roleId;
+          localStorage.setItem("currentRole",this.currentUser.role);
           this.session = "logged in";
           this.route.navigate(['/']);
-            // this.store.dispatch(updateCurrentUserState({currentUser: currentUser$}));
+          this.store.dispatch(updateCurrentUserState({currentUser: this.currentUser}));
+          this.store.select('currentUser').subscribe((state:{currentUser:UserInfo})=>{
+          localStorage.setItem('currentUser',JSON.stringify(state.currentUser));
+          })
         });
       },
       (err)=>{
@@ -67,17 +71,12 @@ export class LoginService {
           localStorage.setItem('loggedIn','true');
           alert('Logged in')
           this.route.navigate(['/home']);
-        }else{
-          if(err.status === 200){
-            localStorage.setItem('loggedIn','true');
-            alert('Logged in');
-          this.route.navigate(['/home']);
-          }else if(err.status === 403){
+        }else if(err.status === 403 || err.status === 417){
             alert('Wrong Credentials');
+            window.location.reload();
           }else{
             alert('Something went wrong');
           }
-        }
       });
     })
   }
@@ -99,12 +98,12 @@ export class LoginService {
         resolve(res);
         this.getCurrentUserService.getCurrentUser().subscribe((res)=>{
           
-          this.currentUser$.id = res.id;
-          this.currentUser$.email = res.email;
-          this.currentUser$.name= res.name;
-          this.currentUser$.password = res.password;
-          this.currentUser$.role = res.role;
-          this.currentUser$.roleId = res.roleId;
+          this.currentUser.id = res.id;
+          this.currentUser.email = res.email;
+          this.currentUser.name= res.name;
+          this.currentUser.password = res.password;
+          this.currentUser.role = res.role;
+          this.currentUser.roleId = res.roleId;
 
           this.session = "logged in";
           if(role === "SEEKER"){
@@ -112,7 +111,7 @@ export class LoginService {
           }else if(role === "EMPLOYER"){
             this.route.navigate(['/create-employer-profile']);
           }
-            // this.store.dispatch(updateCurrentUserState({currentUser: currentUser$}));
+            this.store.dispatch(updateCurrentUserState({currentUser: this.currentUser}));
         });
       },
       (err)=>{
@@ -121,17 +120,12 @@ export class LoginService {
           localStorage.setItem('loggedIn','true');
           alert('Logged in')
           this.route.navigate(['/home']);
-        }else{
-          if(err.status === 200){
-            localStorage.setItem('loggedIn','true');
-            alert('Logged in');
-          this.route.navigate(['/home']);
-          }else if(err.status === 403){
+        }else if(err.status === 403 || err.status === 417){
             alert('Wrong Credentials');
+            window.location.reload();
           }else{
             alert('Something went wrong');
           }
-        }
       });
     })
   }
@@ -142,7 +136,7 @@ export class LoginService {
       localStorage.clear();
       this.route.navigate(['/homepage']);
     }else{
-      window.location.reload();
+      this.route.navigate(['/']);
     }
 }
 }

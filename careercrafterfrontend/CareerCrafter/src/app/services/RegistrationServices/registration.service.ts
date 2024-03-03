@@ -4,6 +4,7 @@ import { AuthInfo } from 'src/app/model/AuthRequest';
 import { UserInfo } from 'src/app/model/UserInfo';
 import { LoginService } from '../LoginService/login.service';
 import { Router } from '@angular/router';
+import emailjs from '@emailjs/browser'; 
 
 @Injectable({
   providedIn: 'root'
@@ -65,4 +66,5 @@ export class RegistrationService {
     });
     }
   }
+
 }

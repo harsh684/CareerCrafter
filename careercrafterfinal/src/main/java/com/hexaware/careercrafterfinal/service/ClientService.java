@@ -20,21 +20,29 @@ public class ClientService implements IClientService {
 	@Autowired
     private UserInfoRepository userInfoRepository;
 
+	@Autowired
+	EmailService emailService;
+	
     @Autowired
     private PasswordEncoder passwordEncoder;
 	
     private static final Logger logger=LoggerFactory.getLogger(ClientService.class); 
 	
     @Override
-	public String addUser(UserInfo userInfo) throws UserAlreadyExistsException {
+	public String addUser(UserInfo userInfo) throws Exception {
 		UserInfo temp = userInfoRepository.findByEmail(userInfo.getEmail()).orElse(null);
 		if(temp!=null ) {
 			throw new UserAlreadyExistsException("Account already Exists");
 		}
 		
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-        userInfoRepository.save(userInfo);
+        boolean isTrue = userInfoRepository.save(userInfo)!=null;
         logger.info("User added to system");
+        
+        if(isTrue) {
+        	emailService.sendRegistrationMail(userInfo.getEmail());
+        }
+        
         return "user added to system ";
     }
 	

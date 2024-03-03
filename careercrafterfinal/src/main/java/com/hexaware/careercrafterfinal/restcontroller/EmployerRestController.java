@@ -108,13 +108,6 @@ public class EmployerRestController {
 		return employerService.getEmployerListings();
 	}
 	
-//	@GetMapping("/v1/getallListings/")
-//	@PreAuthorize("hasAuthority('EMPLOYER')")
-//	public List<Listing> getAllListings(){
-////		PageRequest pr = PageRequest.of(page, pageSize);
-//		return employerService.getAllListings();
-//	}
-	
 	@PutMapping("/v1/changeapplicationstatus/{applicationId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String changeApplicationStatus(@PathVariable long applicationId,@RequestBody String status) throws ApplicationException {

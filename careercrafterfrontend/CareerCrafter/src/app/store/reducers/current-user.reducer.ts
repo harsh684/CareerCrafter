@@ -11,16 +11,14 @@ export interface UserState{
 }
 
 export const initialState: UserState ={
-    currentUser: null,
-
-    // {
-    //     id: 0,
-    //     name: "",
-    //     email: "",
-    //     password: "",
-    //     role: "",
-    //     roleId: 0
-    // }
+    currentUser:{
+        id: 0,
+        name: "",
+        email: "",
+        password: "",
+        role: "",
+        roleId: 0
+    }
 }
 
 

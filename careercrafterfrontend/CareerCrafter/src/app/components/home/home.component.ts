@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, Routes } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { UserInfo } from 'src/app/model/UserInfo';
 import { GetSeekerProfileService } from 'src/app/services/GetSeekerProfile/get-seeker-profile.service';
 import { LoginService } from 'src/app/services/LoginService/login.service';
 
@@ -19,7 +21,8 @@ export class HomeComponent {
   currentRole:string|null = '';
   profileIImage = '';
 
-  constructor(private getProfileService:GetSeekerProfileService,public loginService:LoginService,private route:Router){
+  constructor(private getProfileService:GetSeekerProfileService,public loginService:LoginService,private route:Router,
+    private store:Store<{currentUser:{currentUser: UserInfo}}>){
     // this.checkLoginStatus();
     this.currentRole = localStorage.getItem('currentRole');
     console.log(this.currentRole);
@@ -27,6 +30,13 @@ export class HomeComponent {
 
   ngOnInit(){
     this.isLoggedIn=localStorage.getItem('loggedIn')!=null||this.loginService.session!=null;
+    const parseStr = localStorage.getItem('currentUser');
+      if(parseStr){
+        const user=JSON.parse(parseStr);
+        if(user.id!==0){
+          this.isLoggedIn=true;
+        }
+      }
     if(this.loginService.session!=null){
       this.getProfileService.getProfilePic().subscribe(
         (response)=>{
@@ -45,24 +55,9 @@ export class HomeComponent {
         console.log(this.profileIImage);
         }
     }
-  
-    // async checkLoginStatus() {
-    //   // Use async/await to wait for the localStorage.getItem() call to complete
-    //   const loggedInValue = await this.getLoggedInValue();
-    //   this.isLoggedIn = loggedInValue === 'true';
-    //   console.log(this.isLoggedIn);
-    // }
-
-    // getLoggedInValue(): Promise<string | null> {
-    //   // Wrap localStorage.getItem() in a Promise to make it asynchronous
-    //   return new Promise(resolve => {
-    //     const value = localStorage.getItem('loggedIn');
-    //     resolve(value);
-    //   });
-    // }
    
     login(){
-      this.isLoggedIn=true;
+      // this.isLoggedIn=true;
       this.route.navigate(['/login-seeker']);
     }
 

@@ -8,6 +8,7 @@ import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
@@ -32,4 +33,8 @@ public interface IUserService {
 	public boolean editResume(Resume resume);
 
 	public Listing getListingByApplicationId(long applicationId);
+
+	public Resume getCrafterResume() throws AuthenticationException;
+
+	public String getSeekerNameByResumeId(long resumeId);
 }

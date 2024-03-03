@@ -6,7 +6,7 @@ import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 
 public interface IClientService {
 
-	public String addUser(UserInfo userInfo) throws UserAlreadyExistsException;
+	public String addUser(UserInfo userInfo) throws UserAlreadyExistsException, Exception;
 	
 	public UserInfo getCurrentUserInfo() throws AuthenticationException;
 }

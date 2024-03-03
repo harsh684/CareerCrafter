@@ -1,13 +1,309 @@
-<div class="">
-    <div class="">
-
+<div class="container-fluid py-md-5 p-0 m-0">
+  <div class="form-container shadow">
+    <h1 class="text-center mt-md-2 mb-md-4">Crafter Resume</h1>
+    <div class="border mb-md-4 w-100"></div>
+    <div class="mb-md-4">
+      <h2>{{seekerName}}</h2>
+      <div>{{seekerMail}}</div>
+      <div>{{this.resume.address}}</div>
     </div>
+    <div class="border mb-md-4 w-100"></div>
+    <form class="d-flex flex-column gap-md-4" [formGroup]="formData" (ngSubmit)="onSubmit()">
+      
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Education</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <div class="d-flex flex-column gap-1">
+                <input type="text" class="form-control" formControlName="educationCollegeName" placeholder="Enter Institution Name">
+                <input type="text" class="form-control" formControlName="educationDegree" placeholder="Enter Degree/Grade">
+                <input type="text" class="form-control" formControlName="educationSpecialization" placeholder="Enter Specialization(NA if none)">
+                <div class="d-flex">
+                  <input type="date" class="form-control" formControlName="educationStartDate" placeholder="Enter startDate">
+                  <input type="date" class="form-control" formControlName="educationEndDate" placeholder="Enter endDate">
+                </div>
+                <input type="text" class="form-control" formControlName="educationPercentage" placeholder="Enter Percentage">
+            </div>
+            <div class="add-btn"><button type="button" (click)="addEducation()" class="btn btn-primary">Add Education</button></div>
+          </div>  
+          <div class="d-flex flex-column mt-md-3 gap-2">
+            <div class="skill-div bg-white text-dark px-1" *ngFor="let education of this.educationsList">
+              <div class="d-flex flex-column gap-1">
+                <div class="section-object-title">{{education.collegeName}}</div>
+                <div class="section-object-text">{{education.degree}}({{education.specialization}})</div>
+                <div class="section-object-text">{{education.startdate|date}} - {{education.endDate|date}}</div>
+                <div class="section-object-text">{{education.percentage/100 | percent}}</div>
+              </div>
+              <i class="fa fa-close my-auto" (click)="removeEducation(education)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border w-100"></div>
+      
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Work Experience</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <div class="d-flex flex-column gap-1">
+                <input type="text" class="form-control" formControlName="experienceCompanyName" placeholder="Enter Company Name">
+                <div class="d-flex">
+                  <input type="date" class="form-control" formControlName="experienceStartDate" placeholder="Enter startDate">
+                  <input type="date" class="form-control" formControlName="experienceEndDate" placeholder="Enter endDate">
+                </div>
+                <input type="number" class="form-control" formControlName="experienceSalary" placeholder="Enter Salary">
+                <textarea class="w-100" name="projectDescription" id="experienceDescription" cols="30" rows="3" formControlName="experienceDescription" placeholder="Enter description"></textarea>
+            </div>
+            <div class="add-btn"><button type="button" (click)="addExperience()" class="btn btn-primary">Add Experience</button></div>
+          </div>  
+          <div class="d-flex flex-column mt-md-3 gap-2">
+            <div class="skill-div bg-white text-dark px-1" *ngFor="let experience of this.resume.experiences">
+              <div class="d-flex flex-column gap-1">
+                <div class="section-object-title">{{experience.companyName}}</div>
+                <div class="section-object-text">{{experience.startDate|date}} - {{experience.endDate|date}}</div>
+                <div class="section-object-text">{{experience.salary | currency:'INR'}} pa</div>
+                <div class="section-object-text">{{experience.description}}</div>  
+              </div>
+              <i class="fa fa-close my-auto" (click)="removeExperience(experience)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border w-100"></div>
+
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Certifications</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <div class="d-flex flex-column gap-1">
+                <input type="text" class="form-control" formControlName="certificationTitle" placeholder="Enter Certification Title">
+                <div class="d-flex">
+                  <input type="date" class="form-control" formControlName="certificationStartDate" placeholder="Enter startDate">
+                  <input type="date" class="form-control" formControlName="certificationEndDate" placeholder="Enter endDate">
+                </div>
+                <textarea class="w-100" name="certificationDescription" id="certificationDescription" cols="30" rows="3" formControlName="certificationDescription" placeholder="Enter certification description"></textarea>
+            </div>
+            <div class="add-btn"><button type="button" (click)="addCertification()" class="btn btn-primary">Add Project</button></div>
+          </div>  
+          <div class="d-flex flex-column mt-md-3 gap-2">
+            <div class="skill-div bg-white text-dark px-1" *ngFor="let certification of this.certificationsList">
+              <div class="d-flex flex-column gap-1">
+                <div class="section-object-title">{{certification.title}}</div>
+                <div class="section-object-text">{{certification.startDate|date}} - {{certification.endDate|date}}</div>
+                <div class="section-object-text">{{certification.description}}</div>  
+              </div>
+              <i class="fa fa-close my-auto" (click)="removeCertifiation(certification)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border w-100"></div>
+
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Projects</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <div class="d-flex flex-column gap-1">
+                <input type="text" class="form-control" formControlName="projectTitle" placeholder="Enter project Title">
+                <div class="d-flex">
+                  <input type="date" class="form-control" formControlName="projectStartDate" placeholder="Enter project startDate">
+                  <input type="date" class="form-control" formControlName="projectEndDate" placeholder="Enter project endDate">
+                </div>
+                <textarea class="w-100" name="projectDescription" id="projectDescription" cols="30" rows="3" formControlName="projectDescription" placeholder="Enter project description"></textarea>
+                <input type="text" class="form-control" formControlName="projectReferenceLink" placeholder="Enter project reference link">
+                <input type="text" class="form-control" formControlName="projectHostedLink" placeholder="Enter project hosted link">
+            </div>
+            <div class="add-btn"><button type="button" (click)="addProject()" class="btn btn-primary">Add Project</button></div>
+          </div>  
+          <div class="d-flex flex-column mt-md-3 gap-2">
+            <div class="skill-div bg-white text-dark px-1" *ngFor="let project of this.projectsList">
+              <div class="d-flex flex-column gap-1">
+                <div class="section-object-title">{{project.title}}</div>
+                <div class="section-object-text">{{project.startDate|date}}-{{project.endDate}}</div>
+                <div class="section-object-text">{{project.description}}</div>
+                <div class="section-object-text">{{project.referenceLink}}</div>
+                <div class="section-object-text">{{project.hostedlink}}</div>  
+              </div>
+              <i class="fa fa-close my-auto" (click)="removeProject(project.title)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border w-100"></div>
+
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Skills</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <input type="text" formControlName="skills" class="form-control" placeholder="Enter a new skill">
+            <div class="add-btn"><button type="button" (click)="addSkill()" class="btn btn-primary">Add Skill</button></div>
+          </div>  
+          <div class="d-flex flex-column flex-md-row mt-md-3 gap-2">
+            <div class="skill-div px-1" *ngFor="let skill of this.skillsList">
+              <div class="d-flex gap-1">
+                <div>{{skill}}</div>
+                <i class="fa fa-close my-auto" (click)="removeSkill(skill)"></i>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border w-100"></div>
+
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Reference Links</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <input type="text" formControlName="referenceLinks" class="form-control" placeholder="Enter Reference Link">
+            <div class="add-btn"><button type="button" (click)="addReferenceLinks()" class="btn btn-primary">Add Link</button></div>
+          </div>  
+          <div class="d-flex flex-column flex-md-row mt-md-3 gap-2">
+            <div class="skill-div px-1" *ngFor="let link of this.referenceLinksList">
+              <div class="d-flex gap-1">
+                <div><a class="link-light" href="{{link}}" target="_blank">{{link}}</a></div>
+                <i class="fa fa-close my-auto" (click)="removeLink(link)"></i>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border w-100"></div>
+
+      <div class="d-flex justify-content-between section">
+        <div class="section-left">
+          <p>Accomplishments</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <input type="text" formControlName="accomplishments" class="form-control" placeholder="Enter Accomplishment">
+            <div class="add-btn"><button type="button" (click)="addAccomplishment()" class="btn btn-primary">Add Accomplishment</button></div>
+          </div>  
+          <div class="d-flex flex-column flex-md-row mt-md-3 gap-2">
+            <div class="skill-div px-1" *ngFor="let accomplishment of this.accomplishmentsList">
+              <div class="d-flex gap-1">
+                <div>{{accomplishment}}</div>
+                <i class="fa fa-close my-auto" (click)="removeAccomplishment(accomplishment)"></i>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border w-100"></div>
+
+      <div class="submit-btn text-center mb-md-4"><button class="btn btn-primary" type="submit">Update</button></div>
+    
+    </form>
+  
+  </div>
 </div>
-<form (ngSubmit)="onSubmit()">
-    <input type="text" [(ngModel)]="newLanguage" >
-    <button type="button" (click)="addLanguage()">Add Language</button>
-    <ul>
-      <li *ngFor="let language of languages">{{ language }}</li>
-    </ul>
-    <button type="submit">Submit</button>
-  </form>
+  
+
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="address" class="form-label">Address:</label>
+          <input type="text" id="address" class="form-control" formControlName="address">
+        </div>
+        <div class="mb-3">
+          <label for="languages" class="form-label">Languages:</label>
+          <div *ngFor="let language of availableLanguages; let i = index">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input">
+              <label class="form-check-label">{{ language }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="skills" class="form-label">Skills:</label>
+          <div *ngFor="let skill of availableSkills; let i = index">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" >
+              <label class="form-check-label">{{ skill }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="referenceLink" class="form-label">Reference Links:</label>
+          <div *ngFor="let link of availableReferanceLink; let i = index">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" >
+              <label class="form-check-label">{{ link }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="accomplishment" class="form-label">accomplishment Links:</label>
+          <div *ngFor="let link of availableaccomplishment; let i = index">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" >
+              <label class="form-check-label">{{ link }}</label>
+            </div>
+          </div>
+        </div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form [formGroup]="formData" (ngSubmit)="onSubmit()"> 
+        <div *ngFor="let experience of availableexperience; let i = index" class="mb-3">
+          <h5>Experience {{ i + 1 }}</h5>
+          <div class="mb-3">
+            <label for="companyName" class="form-label">Company Name:</label>
+            <input type="text" id="companyName" class="form-control" formControlName="availableexperience(i).companyName">
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="startDate" class="form-label">Start Date:</label>
+                <input type="date" id="startDate" class="form-control" formControlName="availableexperience(i).startDate">
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="endDate" class="form-label">End Date:</label>
+                <input type="date" id="endDate" class="form-control" formControlName="availableexperience(i).endDate">
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="salary" class="form-label">Salary:</label>
+            <input type="number" id="salary" class="form-control" formControlName="availableexperience(i).salary">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" class="form-control" formControlName="availableexperience(i).description"></textarea>
+          </div>
+        </div>
+        <button type="button">Add more</button>
+      </form>
+    </div>
+  </div>
+</div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div> -->

@@ -42,6 +42,12 @@ export class SearchJobsComponent {
       this.allList=list;
       this.jobsList = this.jobsList.filter(listing => !this.removeListing.includes(listing.listingId));
       console.log(this.jobsList);
+    },
+    (err)=>{
+      if(err.status===403){
+        localStorage.clear();
+        this.route.navigate(['/']);
+      }
     });
   }
 

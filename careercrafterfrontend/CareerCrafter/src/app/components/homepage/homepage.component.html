@@ -1,6 +1,6 @@
 <div class="hero-section-wrapper container-fluid p-0">
     <div class="hero-section d-flex flex-column flex-md-row justify-content-md-center">
-        <div class="d-flex flex-column px-3 p-md-0 mt-3 my-md-auto col-md-5 gap-2">
+        <div class="d-flex flex-column px-3 py-md-0 mt-3 my-md-auto col-md-5 gap-2">
             <div>
                 <h2 class="hero-title text-center text-md-start">{{heroTitle}}</h2>
             </div>
@@ -8,7 +8,9 @@
                 <div class="d-flex flex-column gap-2">
                     <p class="hero-text p-0 m-0">{{heroText}}</p>
                     <div class="get-started-btn">
-                        <button class="btn btn-primary px-2 py-1" routerLink="/create-seeker-profile">Get Started</button>
+                        <button *ngIf="this.currentRole !== 'SEEKER' && this.currentRole !== 'EMPLOYER'" class="btn shadow px-2 py-md-2" routerLink="/register-seeker">Get Started</button>
+                        <button *ngIf="this.currentRole==='SEEKER'" class="btn shadow px-2 py-md-2" routerLink="/create-seeker-profile">Get Started</button>
+                        <button *ngIf="this.currentRole==='EMPLOYER'"  class="btn shadow px-2 py-md-2" routerLink="/create-employer-profile">Get Started</button>
                     </div>
                 </div>
             </div>
@@ -19,7 +21,7 @@
     </div>
     <div class="container-fluid divider p-0 m-0">
     </div>
-    <div *ngIf="this.currentRole === 'SEEKER'" class="recommendation-bg py-3">
+    <div *ngIf="this.currentRole === 'SEEKER' && this.recommendedJobs.length>0" class="recommendation-bg py-3">
         <h2 class="recommendation-title text-center text-white my-md-4"><strong>Recommended Jobs For You</strong></h2>
         <div class="mt-md-5">
             <div class="listing-list-container d-flex flex-column flex-md-row container mx-auto gap-md-2 gap-lg-5 m-0 p-0 py-4 pb-md-5">
@@ -72,10 +74,62 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center mt-2"><button class="btn btn-primary" routerLink="/search-jobs">Apply Now</button></div>
+              <div class="text-center mt-2 apply-btn"><button class="btn btn-primary px-md-3 py-md-2 shadow" routerLink="/search-jobs">Apply Now</button></div>
         </div>
     </div>
-    <div *ngIf="this.currentRole === 'EMPLOYER'" class="recommendation-bg py-3">
-      <h2 class="recommendation-title text-center text-white my-md-4"><strong>Post a listing</strong></h2>
+    <div *ngIf="this.currentRole === 'EMPLOYER'" class="recommendation-bg emp-section-2 py-3 pb-md-5">
+      <!-- <div class="container ">
+        <div class="row">
+          <div class="w-100 justify-content-center">
+            <div class="content m-2 text-center">
+              <h2 class="text-white">Hiring an Employee?</h2>
+              <p class="text-white mt-md-4">Welcome to our job posting section! We're thrilled to offer you the opportunity to attract top talent to your organization. Crafting a compelling job posting is the first step towards finding the perfect candidate for your role.</p>
+              <p class="text-white">Your job post should be more than a list of requirements — it should inspire job seekers to take action. Here are some tips and best practices to make your job posting appeal to candidates while also strengthening your company brand.</p>
+              <button class="btn btn-primary">Post a Job</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    
+      <h2 class="text-white text-center mb-md-5">Searching For Candidates?</h2>
+
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title">Streamlined Recruitment Process</h5>
+                <p class="card-text">Take charge of your hiring journey with our comprehensive job post management system. From creating engaging job listings to optimizing them for maximum exposure, our platform empowers you to attract top talent effortlessly. Stay organized and in control as you manage all your job posts in one centralized location, ensuring a seamless recruitment experience from start to finish.</p>
+                <a routerLink="/manage-listings" class="section-2-btn shadow btn">Manage Listings</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title">Make Informed Decisions</h5>
+                <p class="card-text">Stay ahead of the competition by efficiently managing and reviewing job applications with our advanced application tracking system. Easily track the status of each application, filter candidates based on specific criteria, and prioritize your time with our intuitive sorting options. With real-time notifications and instant access to applicant profiles, you can stay informed and make informed hiring decisions with confidence.</p>
+                <a routerLink="/manage-listings" class="section-2-btn shadow btn">Track Applications</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title">Unlock the Potential</h5>
+                <p class="card-text">Delve deeply into candidate qualifications and expertise with our comprehensive resume review platform. Explore intricate profiles showcasing skills, experience, and achievements to pinpoint the ideal addition to your team. Seamlessly integrated with our application tracking system, navigate candidates through the hiring process from initial review to final offer, ensuring an efficient and streamlined recruitment journey.</p>
+                <a routerLink="/manage-listings" class="section-2-btn shadow btn">Hire Candidates</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-container">
+      <div>
+        <div class="footer">
+          
+        </div>
+      </div>
     </div>
 </div>

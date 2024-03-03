@@ -70,11 +70,11 @@ public class ResumeFileRestController {
 		  return storageService.getSingleResumeResponseById(resumeId);
 	  }
 	  
-	  @GetMapping("/download/{docId}")
-	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
-	  public ResponseFile downloadResumeFile(@PathVariable String docId) throws Exception{
-		  return storageService.getSingleResumeResponse(docId);
-	  }
+//	  @GetMapping("/download/{docId}")
+//	  @PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
+//	  public ResponseFile downloadResumeFile(@PathVariable String docId) throws Exception{
+//		  return storageService.getSingleResumeResponse(docId);
+//	  }
 	  
 	  
 }

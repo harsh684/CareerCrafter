@@ -64,6 +64,24 @@ public class JobSeekerRestController {
 		return "Resume Updated";
 	}
 	
+	@GetMapping("/getCrafterResume")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public Resume getCrafterResume() throws Exception {
+		logger.info("Getting Crafter resume for job seeker profile: {}");
+		Resume response = userService.getCrafterResume();
+		if(response==null) {
+			throw new Exception("Some error occured while fetching resume");
+		}
+		
+		return response;
+	}
+	
+	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public String getSeekerNameByResumeId(@PathVariable long resumeId){
+		return userService.getSeekerNameByResumeId(resumeId);
+	}
+	
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String updateProfile(@RequestBody JobSeeker seeker) throws ProfileUpdateException {
