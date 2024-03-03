@@ -47,4 +47,27 @@ public class EmailService {
 		}
 	}
 	
+	@Async
+	public String sendRegistrationMail(String to) throws Exception {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+
+			mimeMessageHelper.setFrom(fromEmail);
+			mimeMessageHelper.setTo(to);
+			mimeMessageHelper.setSubject("Account Registered");
+			mimeMessageHelper.setText("You have Successfully Registered your accout with Career Crafter. "
+					+ "Next Steps are to create Your profile. \n Thank You,\nCareer Crafter");
+			
+			logger.info("Sending Email to the applicant");
+			mailSender.send(mimeMessage);
+			
+			return "mail sent";
+			
+		}catch(Exception e) {
+			throw new Exception();
+		}
+	}
+	
 }

@@ -1,6 +1,6 @@
 <div class="container-fluid pt-2">
-    <div class="container-fluid p-0 m-0 px-lg-5 text-center">
-        <h1 class="heading">Create/Update Profile</h1>
+    <div class="container-fluid p-0 m-0 px-lg-5 py-md-5 text-center">
+        <h1 class="heading mb-md-3">Employer Profile</h1>
         <div class="container border border-1 rounded-2 p-3 px-sm-4 px-md-5 col-lg-8 pt-md-5 mx-auto form-parent">
             <form [formGroup]="createProfileForm" (ngSubmit)="createProfile()">
                 <div class="form-group">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="enabled-fields form-group d-flex container justify-content-between m-0 p-0 ">
+                <div class="enabled-fields form-group d-flex container justify-content-between mt-md-4 m-0 p-0 ">
                     <div class="w-100">
                         <input class="form-control w-100" type="text" placeholder="Company Name" formControlName="companyName" [ngClass]="{'is-invalid':submitted && f['companyName'].errors, 'is-valid': !f['companyName'].errors}" >    
                         <div class="warnings">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-                <div class="btn-container mt-3">
+                <div class="btn-container mt-4 mb-3">
                     <div class="submit-button">
                     <button type="submit" class="btn btn-primary w-100" [disabled]="createProfileForm.invalid">Save</button>
                     <button class="btn btn-success w-100 mt-2" (click)="updateProfile()" [disabled]="createProfileForm.invalid">Update</button>

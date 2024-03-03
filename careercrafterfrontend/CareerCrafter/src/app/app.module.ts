@@ -68,7 +68,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
-    StoreModule.forRoot({currentUsers: CurrentUserReducer}),
+    StoreModule.forRoot({currentUser: CurrentUserReducer}),
     HttpClientModule,
     BrowserAnimationsModule,
     MatDatepickerModule,

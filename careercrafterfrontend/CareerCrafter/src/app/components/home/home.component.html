@@ -16,12 +16,16 @@
             <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/myapplications">Your Applications</a></li>
             <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/create-seeker-profile">My Profile</a></li>
             <li *ngIf="this.currentRole === 'SEEKER'" class="item"><a routerLink="/edit-resume">Edit Resume</a></li>
+
+            <li *ngIf="this.currentRole === 'EMPLOYER'" class="item"><a routerLink="/manage-listings">Manage Jobs</a></li>
+            <li *ngIf="this.currentRole === 'EMPLOYER'" class="item"><a routerLink="/manage-resumedb">Resume DB</a></li>
+            <li *ngIf="this.currentRole === 'EMPLOYER'" class="item"><a routerLink="/create-employer-profile">My Profile</a></li>
             
 
             <li *ngIf="!isLoggedIn" class="item button"><a class="text-white" (click)="login()">Log In</a></li>
             <li *ngIf="!isLoggedIn" class="item button secondary"><a class="text-white" routerLink="/register-employer">Sign Up</a></li>
             
-            <li *ngIf="loginService.session && currentRole === 'EMPLOYER'" class="dropdownmenu">
+            <!-- <li *ngIf="loginService.session && currentRole === 'EMPLOYER'" class="dropdownmenu">
                 <div class="">
                     <div>
                         <img [src]="this.profileIImage" alt="">
@@ -30,7 +34,7 @@
 
                     </div>
                 </div>
-            </li>
+            </li> -->
 
             
             <li *ngIf="isLoggedIn" class="item button secondary"><a routerLink="/logout" (click)="logout()">Logout</a></li>

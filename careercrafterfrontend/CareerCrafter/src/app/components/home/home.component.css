@@ -109,6 +109,9 @@
         order: 1;
         display: block;
     }
+    .item.button a{
+      cursor: pointer;
+    }
     .toggle {
         order: 2;
     }

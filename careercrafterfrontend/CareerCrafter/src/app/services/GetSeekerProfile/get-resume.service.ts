@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Resume } from 'src/app/model/resume.model';
 import { ResumeDoc } from 'src/app/model/resumedoc.model';
 
 @Injectable({
@@ -35,4 +36,38 @@ export class GetResumeService {
       });
   }
 
+
+
+  editresume(resume:Resume){
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.put('http://localhost:8080/api/seeker/createprofile/resume',resume,{headers});
+   }
+
+   getCrafterResume(){
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.get<Resume>('http://localhost:8080/api/seeker/getCrafterResume',{headers});
+   }
+
+   getSeekerNameByResumeId(resumeId:number):Observable<string>{
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+    
+    return this.http.get<string>("http://localhost:8080/api/seeker/v1/getSeekerNameByResumeId/"+resumeId,{headers});
+  }
 }

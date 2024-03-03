@@ -224,7 +224,7 @@ export class CreateSeekerProfileComponent {
       if(response!=""){
         alert( `Profile created`);
         // window.location.reload();
-        this.route.navigate(['/edit-resume']);
+        this.route.navigate(['/']);
       }else{
         alert('Some Error occured');
         this.route.navigate(['/create-employer-profile']);
@@ -251,11 +251,13 @@ export class CreateSeekerProfileComponent {
         this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
           if(res !== ''){
             alert(`Successfully uploaded`);
+            this.route.navigate(['/edit-resume']);
           }
         },
         (err)=>{
           if(err.status === 200){
             alert(`Successfully uploaded`);
+            this.route.navigate(['/edit-resume'])
           }else{
             alert(`Error in uploading file`)
           }

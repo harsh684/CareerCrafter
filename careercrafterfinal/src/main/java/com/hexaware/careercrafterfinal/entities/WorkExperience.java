@@ -5,10 +5,12 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -30,6 +32,9 @@ public class WorkExperience {
 	private LocalDate endDate;
 	
 	private double salary;
+	
+	@Lob
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	
 	public WorkExperience() {}

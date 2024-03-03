@@ -11,10 +11,12 @@
 }
 .hero-section{
   gap: 10%;
-  background-color: rgb(255, 251, 247);
+  background-color: rgb(255, 249, 244);
 }
 .hero-img{
   height: fit-content;
+  /* display: flex;
+  justify-content: end; */
   /* margin-top: 0;
   text-align: center;
   border-radius:40%;  */
@@ -24,6 +26,7 @@
 }
 .hero-img img{
   height: 90%;
+  width: 100%;
   /* border-top-left-radius: 49%;
   border-top-right-radius: 49%;
   background: rgb(238,122,208);
@@ -37,10 +40,18 @@
   background: rgb(186,113,255);
   background: linear-gradient(131deg, rgba(186,113,255,1) 11%, rgba(186,113,255,1) 57%, rgba(255,98,247,1) 100%);
 }
+.get-started-btn button,.section-2-btn{
+  background-color: rgb(179, 98, 255);
+  color: white;
+}
 .listing-container{
     border-radius: 10px;
     width: 70%;
     border: 1px solid rgb(180, 180, 180);
+}
+.listing-container:hover{
+  transform: translateY(-5px);
+  transition: transform 0.3s ease-in-out;
 }
 .listing-companyName{
     font-weight: 600;
@@ -72,27 +83,39 @@
     background-color: rgb(255, 141, 141);
 }
 
-  .dropdownmenu ul , .dropdownmenu li{
-    margin: 0;
-    padding: 0;
-  }
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+.emp-section-2 h2{
+  margin: 10px 0 20px 0;
+  font-weight: 600;
+}
+.card {
+  margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+.card-title{
+  font-weight: 600;
+  margin: 10px 0 20px 0;
+}
+.card-text{
+  margin-bottom: 8px;
+  color: rgb(96, 96, 96);
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card-body a{
+  margin-top: 10px;
+}
 
-  .dropdownmenu ul{
-    background-color: gray;
-    list-style: none;
-    width: 100%;
-  }
-  .dropdownmenu li{
-    position: relative;
-    width: auto;
-  }
-  .dropdownmenu a{
-    background-color: #30a6e6;
-    color: white;
-    display: block;
-    font-weight: bold;
-    
-  }
   @media only screen and (max-width: 1200px){
     .listing-container{
         width: 70%;
@@ -126,6 +149,12 @@
     }
   }
   @media only screen and (min-width: 768px){
+    /* .hero-img{
+      flex-basis: 40%;
+    } */
+    .card-title{
+      font-size: 1.4rem;
+    }
     .hero-text{
       font-size: 1.1rem;
     }
@@ -138,6 +167,12 @@
     }
   }
   @media only screen and (max-width: 768px){
+    .card {
+      display: block;
+    }
+    .image-container {
+      order: -1;
+    }
     .hero-title{
       font-size: 27px;
     }
@@ -179,6 +214,10 @@
 
   @media only screen and (max-width: 576px){
 
+    .hero-img img{
+      width: 100%;
+      background: transparent;
+    }
     .hero-title{
       font-size: 2rem;
       font-weight: 700;

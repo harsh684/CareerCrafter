@@ -23,7 +23,7 @@ public class Education {
 	private String collegeName;
 	@NotBlank
 	private String degree;
-	@NotBlank
+	
 	private String specialization;
 	@NotNull
 	private LocalDate startdate;

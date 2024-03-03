@@ -1,0 +1,131 @@
+@import '/node_modules/font-awesome/css/font-awesome.css';
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+
+.section{
+    margin: 15px 0;
+}
+h1{
+    font-family: 'Protest';
+}
+.section-object-title{
+    font-weight: 600;
+}
+.section-object-text{
+    color: rgb(99, 99, 99);
+}
+.add-btn{
+    margin: 10px 0;
+    text-align: end;
+}
+i{
+    cursor: pointer;
+}
+.form-container{
+    padding: 0 20px;
+
+}
+.input-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.input-container input{
+    width: 100%;
+}
+textarea{
+    border: 1px solid rgb(203, 203, 203);
+}
+.skill-div{
+    width: 100%;
+}
+.skill-div{
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(157, 157, 255);
+    color: white;
+    border-radius: 3px;
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.form-control{
+    width: 70%;
+}
+@media only screen and (min-width: 1201px){
+    .form-container{
+        width: 60%;
+        margin: 40px auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 5px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1200px){
+    .form-container{
+        width: 80%;
+        margin: 0 auto;
+        border: 1px solid rgb(203, 203, 203);    
+    }
+    .form-container form{
+        padding-bottom: 10px;
+    }
+    
+}
+@media only screen and (max-width: 768px) {
+    .form-container{
+        padding: 0 20px;
+    }
+    .input-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+    .input-container input{
+        width: 100%;
+    }
+    .skill-div{
+        width: 100%;
+    }
+    .add-btn{
+        margin: 10px 0;
+        text-align: end;
+    }
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+    .form-control{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .form-container{
+        padding: 0 10px;
+    }
+    .input-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+    .input-container input{
+        width: 100%;
+    }
+    .skill-div{
+        width: 100%;
+    }
+    .add-btn{
+        margin: 10px 0;
+        text-align: end;
+    }
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+    .form-control{
+        width: 70%;
+    }
+}
