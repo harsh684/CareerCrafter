@@ -28,6 +28,9 @@ export class EditResumeComponent {
   seekerName:string ='';
   seekerMail:string ='';
 
+  submitted=false;
+  isAddressValid=true;
+
 resume:Resume={
   resumeId: 0,
   address: "",
@@ -169,19 +172,28 @@ emptyExperience:WorkExperience = {
     }
     onSubmit(){
      console.log(this.resume);
-     this.editresumeservice.editresume(this.resume).subscribe(
-      (res)=>{
-        alert('resume updated successfully '+res);
-      },
-      (err)=>{
-        if(err.status === 403){
-          alert('Session Expired');
-          this.router.navigate(['/login-seeker']);
-        }else if(err.status === 200){
-          alert('resume updated successfully');
+     if(this.f['address'].value!==''||this.f['address'].value!==null){
+      this.resume=this.f['address'].value;
+     }
+     if(this.resume.address !== ""||this.resume.address !== null){
+      this.isAddressValid = true;
+      this.editresumeservice.editresume(this.resume).subscribe(
+        (res)=>{
+          alert('resume updated successfully '+res);
+        },
+        (err)=>{
+          if(err.status === 403){
+            alert('Session Expired');
+            this.router.navigate(['/login-seeker']);
+          }else if(err.status === 200){
+            alert('resume updated successfully');
+          }
         }
-      }
-     );
+      );
+     }else{
+      this.isAddressValid = false;
+      return;
+     }
     }
 
     addSkill(){
