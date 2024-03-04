@@ -52,6 +52,7 @@ export class HomepageComponent {
             (err)=>{
               if(err.status === 403){
                 localStorage.clear();
+                this.currentRole=null;
                 this.route.navigate(['/login-seeker']);
               }
             }

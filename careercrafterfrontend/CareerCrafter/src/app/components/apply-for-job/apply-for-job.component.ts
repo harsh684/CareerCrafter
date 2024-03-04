@@ -83,8 +83,15 @@ export class ApplyForJobComponent {
           this.route.navigate(['/search-jobs'],{queryParams: {
             listingId: this.listingId
           }});
-        }else{
-          alert("Failed to apply");
+        }else if(err.status === 403){
+          console.log("Access denied (token expired)")
+          this.route.navigate(['/login-seeker']);
+        }else if(err.status === 417){
+          if(err.error.text === 'Resume Not Found!'){
+            alert('Please Upload file or Create Resume in Edit Resume Section');
+          }else{
+            alert("Failed to apply");
+          }
         }
       }
     );

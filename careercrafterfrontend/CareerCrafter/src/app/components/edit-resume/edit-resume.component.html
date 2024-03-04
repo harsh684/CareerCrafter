@@ -12,6 +12,21 @@
       
       <div class="d-flex justify-content-between section">
         <div class="section-left">
+          <p>Address</p>
+        </div>
+        <div class="section-right">
+          <div class="input-container">
+            <div class="d-flex flex-column gap-1" >
+              <input type="text" class="form-control" formControlName="address" placeholder="Enter Address">
+              <div *ngIf="!isAddressValid" class="text-danger">Address field is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+        <div class="d-flex justify-content-between section">
+        <div class="section-left">
           <p>Education</p>
         </div>
         <div class="section-right">
