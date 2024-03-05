@@ -90,7 +90,7 @@ class UserServiceImpTest {
 //		projects.add(new Project(1,"File Arranger Sytem","used to arrange file ",LocalDate.parse("2023-10-10"),LocalDate.parse("2023-11-11"),"localhost:8989/api/test","localhost:8787/api/test"));
 //		List<Certification> certifications=new ArrayList<>();
 //		certifications.add(new Certification(1,"Java FSD","Detailed architecure",LocalDate.parse("2023-10-10"),LocalDate.parse("2024-01-01")));
-//		Resume resume=new Resume(1,"J21 delhi",languages,skills,referenceLinks,accomplishments,workExperiences,educations,projects,certifications);
+//		Resume resume=new Resume(1,"J21 delhi",languages,skills,referenceLinks,accomplishments,workExperiences,educations,projects,certifications,null);
 //		
 //		JobSeeker jobSeeker = new JobSeeker();
 //		jobSeeker.setSeekerId(201);

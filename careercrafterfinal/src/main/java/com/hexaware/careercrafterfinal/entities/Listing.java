@@ -26,6 +26,8 @@ public class Listing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long listingId;
 	@NotBlank
+	private String companyName;
+	@NotBlank
 	private String profile;
 	@NotBlank
 	private String department;
@@ -52,7 +54,7 @@ public class Listing {
 	@JoinColumn(name = "listingId")
 	private List<Applications> applications;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="employerId")
 	private Employer employer;
 	
@@ -61,7 +63,7 @@ public class Listing {
 	public Listing(long listingId, @NotBlank String profile, @NotBlank String department, @NotBlank String location,
 			@Min(0) int experienceReqFrom, @Min(0) int experienceReqTo, double salary, @NotNull LocalDate postDate,
 			String listingStatus, List<Skills> reqSkills, String jd, String benefitsProvided,
-			List<Applications> applications, Employer employer) {
+			List<Applications> applications, Employer employer, @NotBlank String companyName ) {
 		super();
 		this.listingId = listingId;
 		this.profile = profile;
@@ -77,6 +79,7 @@ public class Listing {
 		this.benefitsProvided = benefitsProvided;
 		this.applications = applications;
 		this.employer = employer;
+		this.companyName=companyName;
 	}
 
 	public long getListingId() {
@@ -190,10 +193,18 @@ public class Listing {
 	public void setEmployer(Employer employer) {
 		this.employer = employer;
 	}
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	
+	public void setCompanyName(String companyName) {
+		this.companyName=companyName;
+	}
 
 	@Override
 	public String toString() {
-		return "Listing [listingId=" + listingId + ", profile=" + profile + ", department=" + department + ", location="
+		return "Listing [listingId=" + listingId + ", profile=" + profile + ", companyName="+ companyName + ", department=" + department + ", location="
 				+ location + ", experienceReqFrom=" + experienceReqFrom + ", experienceReqTo=" + experienceReqTo
 				+ ", salary=" + salary + ", postDate=" + postDate + ", listingStatus=" + listingStatus + ", reqSkills="
 				+ reqSkills + ", jd=" + jd + ", benefitsProvided=" + benefitsProvided + ", applications=" + applications

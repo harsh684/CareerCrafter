@@ -3,6 +3,7 @@ package com.hexaware.careercrafterfinal.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
+import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AccountNotCreatedException;
 import com.hexaware.careercrafterfinal.exception.ApplicationException;
+import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotCreatedException;
 import com.hexaware.careercrafterfinal.exception.ListingNotUpdatedException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.IEmployerService;
 
 import jakarta.validation.Valid;
@@ -36,7 +41,7 @@ public class EmployerRestController {
 	
 	@PostMapping("/v1/createprofile")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
-	public String createProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException {
+	public String createProfile(@RequestBody @Valid EmployerDto employer) throws AccountNotCreatedException, UserAlreadyExistsException {
 		if(!employerService.createProfile(employer)) {
 			throw new AccountNotCreatedException();
 		}
@@ -50,6 +55,12 @@ public class EmployerRestController {
 			throw new AccountNotCreatedException();
 		}
 		return "Profile updated!!";
+	}
+	
+	@GetMapping("/v1/getprofile")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public Employer getProfile() {
+		return employerService.getProfile();
 	}
 
 	@PostMapping("/v1/postlisting")
@@ -91,6 +102,12 @@ public class EmployerRestController {
 		return employerService.viewApplicationsForListing(listingId);
 	}
 	
+	@GetMapping("/v1/getemployerListings")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public List<Listing> getEmployerListings(){
+		return employerService.getEmployerListings();
+	}
+	
 	@PutMapping("/v1/changeapplicationstatus/{applicationId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String changeApplicationStatus(@PathVariable long applicationId,@RequestBody String status) throws ApplicationException {
@@ -100,9 +117,22 @@ public class EmployerRestController {
 		return "Application status changed";
 	}
 	
+//	@GetMapping("/v1/getresumebyid/{resumeId}")
+//	@PreAuthorize("hasAuthority('EMPLOYER')")
+//	public Resume getResumeById(@PathVariable long resumeId){
+//		return employerService.getResumeById(resumeId);
+//	}
+//	
+	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public String getSeekerNameByResumeId(@PathVariable long resumeId){
+		return employerService.getSeekerNameByResumeId(resumeId);
+	}
+	
 	@GetMapping("/v1/managecrafterresume")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public List<Resume> manageResumeDb(){
 		return employerService.manageResumeDb();
 	}
+	
 }

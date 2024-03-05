@@ -28,6 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
+import com.hexaware.careercrafterfinal.entities.ProfilePic;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
@@ -35,6 +36,7 @@ import com.hexaware.careercrafterfinal.exception.AuthenticationException;
 import com.hexaware.careercrafterfinal.message.ResponseFile;
 import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeDocRepository;
+import com.hexaware.careercrafterfinal.repository.ResumeRepository;
 import com.hexaware.careercrafterfinal.repository.UserInfoRepository;
 
 import jakarta.transaction.Transactional;
@@ -51,9 +53,13 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 	private UserInfoRepository userInfoRepository;
 	
 	@Autowired
+	private ResumeRepository resumeRepository;
+	
+	@Autowired
 	private JobSeekerRepository seekerRepository;
 
-	  public boolean store(MultipartFile file) throws IOException, SerialException, SQLException {
+	@Override
+	public boolean store(MultipartFile file) throws IOException, SerialException, SQLException {
 	    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 	    
 	    ResumeDoc resumeDoc = new ResumeDoc(fileName, file.getContentType(), new SerialBlob(file.getBytes()));
@@ -75,6 +81,7 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 		return seeker!=null;
 	  }
 	  
+	  @Override
 	  public ResponseEntity<ByteArrayResource> downloadFile(String fileId) throws Exception 
 	  {
 	      try
@@ -91,6 +98,7 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 	      }
 	  }
 
+	  @Override
 	  public List<ResponseFile> getListFiles()  {
 		    List<ResponseFile> files = getAllFiles().map(dbFile -> {
 		      String fileDownloadUri = ServletUriComponentsBuilder
@@ -117,6 +125,30 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 	      return files;
 		  }
 	  
+	  @Override
+	  public ResponseEntity<ByteArrayResource> getSingleResumeResponseById(long resumeId) throws Exception {
+		  Resume resume = resumeRepository.findById(resumeId).orElse(null);
+		  ResumeDoc resumeFile = null;
+			try
+		      {
+				UserInfo currentUser = getCurrentUserInfo();
+				if(resume.getResumeFile()!=null) {
+					resumeFile = resume.getResumeFile();
+				}else {
+					throw new Exception("Resume File not found");
+				}
+		          return ResponseEntity.ok()
+		              .contentType(MediaType.parseMediaType(resumeFile.getType()))
+		              .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resumeFile.getName() + "\"")
+		              .body(new ByteArrayResource(resumeFile.getData().getBytes(1, (int) resumeFile.getData().length())));
+		      }   
+		      catch(Exception e)
+		      {
+		          throw new Exception("Error downloading file");
+		      }
+	  }
+	  
+	  @Override
 	  public ResponseFile getSingleResumeResponse(String docId) {
 		  
 		  ResumeDoc resumeFile = getFile(docId);
@@ -146,14 +178,17 @@ public class ResumeStorageServiceImp implements IResumeStorageService {
 		  
 	  }
 	  
+	  @Override
 	  public ResumeDoc getFile(String id) {
 	    return resumeDocRepository.findById(id).get();
 	  }
 	  
+	  @Override
 	  public Stream<ResumeDoc> getAllFiles() {
 	    return resumeDocRepository.findAll().stream();
 	  }
 
+	  @Override
 	  public String extractTextFromPdf(byte[] pdfData) throws IOException {
 	        try (PDDocument document = PDDocument.load(new ByteArrayInputStream(pdfData))) {
 	            PDFTextStripper textStripper = new PDFTextStripper();

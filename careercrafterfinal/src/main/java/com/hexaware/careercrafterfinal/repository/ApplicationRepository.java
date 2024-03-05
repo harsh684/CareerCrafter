@@ -13,4 +13,10 @@ public interface ApplicationRepository extends JpaRepository<Applications, Long>
 	@Modifying
 	@Query("update Applications a set a.status = ?1 where a.applicationId= ?2")
 	public int updateStatus(String status,long applicationIds);
+	
+	@Query(value = "Select seeker_id from Applications where application_id=?",nativeQuery = true)
+	public int getSeekerId(long applicationId);
+	
+	@Query(value = "Select listing_id from Applications where application_id=?",nativeQuery = true)
+	public long getListingId(long applicationId);
 }

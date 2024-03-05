@@ -6,21 +6,26 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careercrafterfinal.config.UserDetailsImp;
 import com.hexaware.careercrafterfinal.dto.EmployerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
 import com.hexaware.careercrafterfinal.entities.Employer;
+import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
 import com.hexaware.careercrafterfinal.entities.ResumeDoc;
 import com.hexaware.careercrafterfinal.entities.UserInfo;
 import com.hexaware.careercrafterfinal.exception.AuthenticationException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.repository.ApplicationRepository;
 import com.hexaware.careercrafterfinal.repository.EmployerRepository;
+import com.hexaware.careercrafterfinal.repository.JobSeekerRepository;
 import com.hexaware.careercrafterfinal.repository.ListingRepository;
 import com.hexaware.careercrafterfinal.repository.ResumeRepository;
 import com.hexaware.careercrafterfinal.repository.UserInfoRepository;
@@ -35,7 +40,13 @@ public class EmployerServiceImp implements IEmployerService {
 	EmployerRepository employerRepo;
 	
 	@Autowired
+	JobSeekerRepository seekerRepository;
+	
+	@Autowired
 	ApplicationRepository applicationRepo;
+	
+	@Autowired
+	EmailService emailService;
 	
 	@Autowired
 	UserInfoRepository userInfoRepository;
@@ -51,41 +62,50 @@ public class EmployerServiceImp implements IEmployerService {
 	String compareRole = "Employer";
 	
 	@Override
-	public boolean createProfile(EmployerDto emp) {
-		UserInfo userInfo;
-		try {
-			userInfo = getCurrentUserInfo();
-			
-			Employer employer = new Employer();
-			employer.setAddress(emp.getAddress());
-			employer.setEmployerGender(emp.getEmployerGender());
-			employer.setCompanyName(emp.getCompanyName());
-			employer.setPhno(emp.getPhno());
-			employer.setListings(emp.getListings());
-			employer.setEmployerId(emp.getEmployerId());
-			
-			logger.info("Creating profile for employer: ", employer.getName());
-			
-			Employer temp = null;
-			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
-				
-				employer.setName(userInfo.getName());
-				employer.setEmail(userInfo.getEmail());
-				temp = employerRepo.save(employer);
-				
-				if(temp == null)
-					return false;
-				
-				userInfo.setRoleId(temp.getEmployerId());
-				logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
-
-				userInfoRepository.save(userInfo);
-			}
-			return temp!=null;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public boolean createProfile(EmployerDto emp) throws UserAlreadyExistsException {
 		
+		if(employerRepo.findByPhno(emp.getPhno()).orElse(null)==null) {
+			
+			UserInfo userInfo;
+			try {
+				userInfo = getCurrentUserInfo();
+				
+				Employer employer = new Employer();
+				employer.setAddress(emp.getAddress());
+				employer.setEmployerGender(emp.getEmployerGender());
+				employer.setCompanyName(emp.getCompanyName());
+				employer.setPhno(emp.getPhno());
+				
+//				hide h ye employer.setListings(emp.getListings());
+				
+				employer.setEmployerId(emp.getEmployerId());
+				
+				logger.info("Creating profile for employer: ", employer.getName());
+				
+				Employer temp = null;
+				if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
+					
+					employer.setName(userInfo.getName());
+					employer.setEmail(userInfo.getEmail());
+					temp = employerRepo.save(employer);
+					
+					if(temp == null)
+						return false;
+					
+					userInfo.setRoleId(temp.getEmployerId());
+					logger.info("Connecting profile for employer with current active user account: ", temp.getEmployerId());
+
+					userInfoRepository.save(userInfo);
+				}
+				
+				return temp!=null;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			throw new UserAlreadyExistsException("Profile already exists");
+		}
 		return false;
 	}
 
@@ -99,7 +119,7 @@ public class EmployerServiceImp implements IEmployerService {
 		employer.setEmail(emp.getEmail());
 		employer.setCompanyName(emp.getCompanyName());
 		employer.setPhno(emp.getPhno());
-		employer.setListings(emp.getListings());
+//		employer.setListings(emp.getListings());
 		employer.setEmployerId(emp.getEmployerId());
 		
 		
@@ -109,8 +129,9 @@ public class EmployerServiceImp implements IEmployerService {
 			if(userInfo.getRole().equalsIgnoreCase(compareRole)) {
 				long roleId = userInfo.getRoleId();
 				employer.setEmployerId(roleId);
-				userInfo.setEmail(employer.getEmail());
-				employer.setListings((employerRepo.findById(userInfo.getRoleId()).orElse(null).getListings()));
+				employer.setName(userInfo.getName());
+				employer.setEmail(userInfo.getEmail());
+				employer.setProfilePic(employerRepo.findById(userInfo.getRoleId()).orElse(null).getProfilePic());
 				userInfoRepository.save(userInfo);
 			}
 		} catch (Exception e) {
@@ -161,11 +182,9 @@ public class EmployerServiceImp implements IEmployerService {
 	@Override
 	public boolean changeListingStatus(long listingId,String status) {
 		
-	    logger.info("Deleting listing with ID: {}", listingId);
+	    logger.info("Changing listing status with ID: {}", listingId);
 
-		Listing listing = listingRepository.findById(listingId).orElse(null);
-		listing.setListingStatus(status);
-		return listingRepository.save(listing)!=null;
+		return listingRepository.updateListingStatus(status, listingId)!=0;
 	}
 
 	@Override
@@ -174,30 +193,38 @@ public class EmployerServiceImp implements IEmployerService {
 
 	    Listing listing = listingRepository.findById(listingId).orElse(null);
 
+	    Resume resumeTemp = null;
+	    
 	    List<Applications> res = new ArrayList<>();
-
-	    Applications temp;
+	   
+	    Applications application = null;
 	    
 	    for(Applications app:listing.getApplications()) {
-	    	temp=new Applications();
-	    	temp.setApplicationId(app.getApplicationId());
-	    	temp.setAppliedDate(app.getAppliedDate());
-	    	temp.setCompanyName(app.getCompanyName());
-	    	temp.setCoverLetter(app.getCoverLetter());
-	    	temp.setProfile(app.getProfile());
-	    	
-	    	Resume resume = app.getResume();
-	    	ResumeDoc tempDoc =  resume.getResumeFile();
-	    	if(tempDoc!=null) {
-	    		tempDoc.setData(null);
-	    	}
-	    	resume.setResumeFile(tempDoc);
-	    	temp.setResume(resume);
-	    	//temp.setResponseFile(app.getResponseFile());
-	    	temp.setStatus(app.getStatus());
-	    	
-	    	res.add(temp);
+    		application=new Applications();
+    		application.setApplicationId(app.getApplicationId()); // Set the applicationId
+    		application.setCompanyName(app.getCompanyName()); // Set the companyName
+    		application.setProfile(app.getProfile()); // Set the profile
+    		application.setAppliedDate(app.getAppliedDate()); // Set the appliedDate
+    		application.setStatus(app.getStatus()); // Set the status
+    		application.setCoverLetter(app.getCoverLetter());
+    		if(app.getResume()!=null) {
+    			resumeTemp=new Resume();
+    			resumeTemp.setResumeFile(null);
+    			resumeTemp.setResumeId(app.getResume().getResumeId());
+    			resumeTemp.setAccomplishments(app.getResume().getAccomplishments());
+    			resumeTemp.setAddress(app.getResume().getAddress());
+    			resumeTemp.setCertifications(app.getResume().getCertifications());
+    			resumeTemp.setEducation(app.getResume().getEducation());
+    			resumeTemp.setExperiences(app.getResume().getExperiences());
+    			resumeTemp.setLanguages(app.getResume().getLanguages());
+    			resumeTemp.setProjects(app.getResume().getProjects());
+    			resumeTemp.setReferenceLinks(app.getResume().getReferenceLinks());
+    			resumeTemp.setSkills(app.getResume().getSkills());
+    			application.setResume(resumeTemp);
+    		}
+    		res.add(application);
 	    }
+
 	    
 		return res;
 	}
@@ -215,17 +242,27 @@ public class EmployerServiceImp implements IEmployerService {
 	    	temp.setAppliedDate(app.getAppliedDate());
 	    	temp.setCompanyName(app.getCompanyName());
 	    	temp.setCoverLetter(app.getCoverLetter());
+	    	temp.setStatus(app.getStatus());
 	    	temp.setProfile(app.getProfile());
 	    	
 	    	Resume resume = app.getResume();
-	    	ResumeDoc tempDoc =  resume.getResumeFile();
-	    	if(tempDoc!=null) {
-	    		tempDoc.setData(null);
-	    	}
-	    	resume.setResumeFile(tempDoc);
-	    	temp.setResume(resume);
+	    	Resume resumeTemp = new Resume();
+	    	ResumeDoc tempDoc =  null;
+	    	
+	    	resumeTemp=new Resume();
+			resumeTemp.setResumeFile(null);
+			resumeTemp.setResumeId(app.getResume().getResumeId());
+			resumeTemp.setAccomplishments(app.getResume().getAccomplishments());
+			resumeTemp.setAddress(app.getResume().getAddress());
+			resumeTemp.setCertifications(app.getResume().getCertifications());
+			resumeTemp.setEducation(app.getResume().getEducation());
+			resumeTemp.setExperiences(app.getResume().getExperiences());
+			resumeTemp.setLanguages(app.getResume().getLanguages());
+			resumeTemp.setProjects(app.getResume().getProjects());
+			resumeTemp.setReferenceLinks(app.getResume().getReferenceLinks());
+			resumeTemp.setSkills(app.getResume().getSkills());
+	    	temp.setResume(resumeTemp);
 	    	//temp.setResponseFile(app.getResponseFile());
-	    	temp.setStatus(app.getStatus());
 	    	
 	    	res.add(temp);
 	    }
@@ -237,7 +274,66 @@ public class EmployerServiceImp implements IEmployerService {
 	public boolean changeApplicationStatus(long applicationId, String status) {
 	    logger.info("Changing status of application with ID: {} to {}", applicationId, status);
 
-		return applicationRepo.updateStatus(status,applicationId)>0;
+	    boolean isChanged = applicationRepo.updateStatus(status,applicationId)>0;
+	    Applications application = applicationRepo.findById(applicationId).orElse(null);
+	    String emailBody = "";
+	    String emailSubject = "";
+	    
+	    if(isChanged) {
+	    	long seekerId = applicationRepo.getSeekerId(applicationId);
+	    	JobSeeker seeker = seekerRepository.findById(seekerId).orElse(null);
+	    	if(seeker!=null) {
+	    		if(status.equalsIgnoreCase("Selected")) {
+	    			
+	    			emailSubject = "Resume Accepted For Application";
+	    			
+	    			emailBody = "Congratulations your resume is selected for your first round at "+application.getCompanyName()
+	    			+" for the role of "+application.getProfile();
+	    		
+	    		}else if(status.equalsIgnoreCase("Rejected")){
+	    			
+	    			emailSubject = "Resume Rejected For Application";
+	    			
+	    			emailBody = "We regret to Inform you that after thorough evaluation, we have decided not to go"
+	    					+ " forward with your application for the profile "+ application.getProfile()+
+	    					" at "+application.getCompanyName()+" we wish you best of luck in your future applications";
+	    		}
+	    		try {
+	    			
+					emailService.sendEmail(seeker.getEmail(), emailSubject, emailBody);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
+	    }
+	    
+		return isChanged;
+	}
+	
+//	@Override
+//	public Resume getResumeById(long resumeId){
+//		logger.info("Fetching resume");
+//	    Resume r = resumeRepository.findById(resumeId).orElse(null);
+//		Resume resume = new Resume();
+//			resume.setAccomplishments(r.getAccomplishments());
+//			resume.setAddress(r.getAddress());
+//			resume.setCertifications(r.getCertifications());
+//			resume.setEducation(r.getEducation());
+//			resume.setExperiences(r.getExperiences());
+//			resume.setLanguages(r.getLanguages());
+//			resume.setProjects(r.getProjects());
+//			resume.setReferenceLinks(r.getReferenceLinks());
+//			resume.setResumeId(r.getResumeId());
+//			resume.setSkills(r.getSkills());
+//		
+//		return resume;
+//	}
+	
+	@Override
+	public String getSeekerNameByResumeId(long resumeId) {
+		return seekerRepository.getNameByResumeId(resumeId);
 	}
 
 	@Override
@@ -263,6 +359,32 @@ public class EmployerServiceImp implements IEmployerService {
 		return resultList;
 	}
 	
+	@Override
+	public Employer getProfile() {
+		Employer employer = new Employer();
+		try {
+			UserInfo currentEmployer = getCurrentUserInfo();
+			Employer temp = employerRepo.findById(currentEmployer.getRoleId()).orElse(null);
+			
+			employer.setName(temp.getName());
+			employer.setAddress(temp.getAddress());
+			employer.setCompanyName(temp.getCompanyName());
+			employer.setEmail(temp.getEmail());
+			employer.setPhno(temp.getPhno());
+			employer.setEmployerGender(temp.getEmployerGender());
+			employer.setProfilePic(null);
+			
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+		
+		if(employer==null) {
+			throw new UsernameNotFoundException("Employer account not found");
+		}
+		
+		return employer;
+	}
+	
 	private UserInfo getCurrentUserInfo() throws AuthenticationException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(!authentication.isAuthenticated()) {
@@ -272,5 +394,69 @@ public class EmployerServiceImp implements IEmployerService {
 		}
 		UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
 		return userInfoRepository.findByName(userDetailsImp.getUsername()).orElse(null);
+	}
+
+	@Override
+	public List<Listing> getEmployerListings() {
+		
+		List<Listing> original = listingRepository.findAll();
+		Listing temp = null;
+		Resume resumeTemp = null;
+		List<Listing> abstractList = new ArrayList<>();
+		List<Applications> applications = new ArrayList();
+		Applications application = null;
+		try {
+			UserInfo user = getCurrentUserInfo();
+			Employer employer = employerRepo.findById(user.getRoleId()).orElse(null);
+		
+			for(Listing e:original) {
+		        if(e.getEmployer().getEmployerId()==user.getRoleId()) {
+		        		temp=new Listing();
+		            	temp.setListingId(e.getListingId());
+		            	temp.setProfile(e.getProfile());
+		            	temp.setDepartment(e.getDepartment());
+		            	temp.setLocation(e.getLocation());
+		            	temp.setExperienceReqFrom(e.getExperienceReqFrom());
+		            	temp.setExperienceReqTo(e.getExperienceReqTo());
+		            	temp.setSalary(e.getSalary());
+		            	temp.setPostDate(e.getPostDate());
+		            	temp.setReqSkills(e.getReqSkills());
+		            	temp.setJd(e.getJd());
+		            	temp.setCompanyName(e.getCompanyName());
+		            	temp.setListingStatus(e.getListingStatus());
+		            	temp.setBenefitsProvided(e.getBenefitsProvided());
+		            	for(Applications app:e.getApplications()) {
+		            		application=new Applications();
+		            		application.setApplicationId(app.getApplicationId()); // Set the applicationId
+		            		application.setCompanyName(app.getCompanyName()); // Set the companyName
+		            		application.setProfile(app.getProfile()); // Set the profile
+		            		application.setAppliedDate(app.getAppliedDate()); // Set the appliedDate
+		            		application.setStatus(app.getStatus()); // Set the status
+		            		application.setCoverLetter(app.getCoverLetter());
+		            		if(app.getResume()!=null) {
+		            			resumeTemp=new Resume();
+		            			resumeTemp.setResumeFile(null);
+		            			resumeTemp.setResumeId(app.getResume().getResumeId());
+		            			resumeTemp.setAccomplishments(app.getResume().getAccomplishments());
+		            			resumeTemp.setAddress(app.getResume().getAddress());
+		            			resumeTemp.setCertifications(app.getResume().getCertifications());
+		            			resumeTemp.setEducation(app.getResume().getEducation());
+		            			resumeTemp.setExperiences(app.getResume().getExperiences());
+		            			resumeTemp.setLanguages(app.getResume().getLanguages());
+		            			resumeTemp.setProjects(app.getResume().getProjects());
+		            			resumeTemp.setReferenceLinks(app.getResume().getReferenceLinks());
+		            			resumeTemp.setSkills(app.getResume().getSkills());
+		            			application.setResume(resumeTemp);
+		            		}
+		            		applications.add(application);
+		            	}
+		            	temp.setApplications(applications);
+		            	abstractList.add(temp);
+		        	}
+		        }
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		return abstractList;
 	}
 }

@@ -36,9 +36,9 @@ public class Employer {
 	private String address;
 	private String companyName;
 	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	@JoinColumn(name = "employerId")
-	private List<Listing> listings;
+//	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+//	@JoinColumn(name = "employerId")
+//	private List<Listing> listings;
 	
 	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name = "pictureId")
@@ -47,7 +47,7 @@ public class Employer {
 	public Employer() {}
 
 	public Employer(long employerId, String name, @NotBlank String employerGender, @Email String email,
-			@Pattern(regexp = "\\d{10}") String phno, String address, String companyName, List<Listing> listings,
+			@Pattern(regexp = "\\d{10}") String phno, String address, String companyName, 
 			ProfilePic profilePic) {
 		super();
 		this.employerId = employerId;
@@ -57,7 +57,7 @@ public class Employer {
 		this.phno = phno;
 		this.address = address;
 		this.companyName = companyName;
-		this.listings = listings;
+//		this.listings = listings;
 		this.profilePic = profilePic;
 	}
 
@@ -117,13 +117,13 @@ public class Employer {
 		this.companyName = companyName;
 	}
 
-	public List<Listing> getListings() {
-		return listings;
-	}
-
-	public void setListings(List<Listing> listings) {
-		this.listings = listings;
-	}
+//	public List<Listing> getListings() {
+//		return listings;
+//	}
+//
+//	public void setListings(List<Listing> listings) {
+//		this.listings = listings;
+//	}
 
 	public ProfilePic getProfilePic() {
 		return profilePic;
@@ -137,7 +137,7 @@ public class Employer {
 	public String toString() {
 		return "Employer [employerId=" + employerId + ", name=" + name + ", employerGender=" + employerGender
 				+ ", email=" + email + ", phno=" + phno + ", address=" + address + ", companyName=" + companyName
-				+ ", listings=" + listings + ", profilePic=" + profilePic + "]";
+				 + ", profilePic=" + profilePic + "]";
 	}
 
 	

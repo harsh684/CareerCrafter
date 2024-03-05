@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careercrafterfinal.dto.JobSeekerDto;
 import com.hexaware.careercrafterfinal.entities.Applications;
+import com.hexaware.careercrafterfinal.entities.Employer;
 import com.hexaware.careercrafterfinal.entities.JobSeeker;
 import com.hexaware.careercrafterfinal.entities.Listing;
 import com.hexaware.careercrafterfinal.entities.Resume;
@@ -27,6 +28,7 @@ import com.hexaware.careercrafterfinal.exception.ApplicationException;
 import com.hexaware.careercrafterfinal.exception.ListingNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileNotFoundException;
 import com.hexaware.careercrafterfinal.exception.ProfileUpdateException;
+import com.hexaware.careercrafterfinal.exception.UserAlreadyExistsException;
 import com.hexaware.careercrafterfinal.service.IUserService;
 
 
@@ -44,7 +46,7 @@ public class JobSeekerRestController {
 	
 	@PostMapping("/createprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+	public String createProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException, UserAlreadyExistsException {
         logger.info("Creating profile for job seeker: {}");
 		if(!userService.createProfile(seeker)) {
 			throw new ProfileUpdateException();
@@ -62,9 +64,27 @@ public class JobSeekerRestController {
 		return "Resume Updated";
 	}
 	
+	@GetMapping("/getCrafterResume")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public Resume getCrafterResume() throws Exception {
+		logger.info("Getting Crafter resume for job seeker profile: {}");
+		Resume response = userService.getCrafterResume();
+		if(response==null) {
+			throw new Exception("Some error occured while fetching resume");
+		}
+		
+		return response;
+	}
+	
+//	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
+//	@PreAuthorize("hasAuthority('SEEKER')")
+//	public String getSeekerNameByResumeId(@PathVariable long resumeId){
+//		return userService.getSeekerNameByResumeId(resumeId);
+//	}
+	
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public String updateProfile(@RequestBody @Valid JobSeeker seeker) throws ProfileUpdateException {
+	public String updateProfile(@RequestBody JobSeeker seeker) throws ProfileUpdateException {
         logger.info("Updating profile for seeker with ID: {}");
 		if(!userService.updateProfile(seeker)) {
 			throw new ProfileUpdateException();
@@ -72,10 +92,17 @@ public class JobSeekerRestController {
 		return "Profile updated!!";
 	}
 	
-	@GetMapping("/getallusers")
+	@GetMapping("/getseeker")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public List<JobSeeker> getAll(){
-		return userService.getAll();
+	public JobSeeker getUserProfile(){
+		return userService.getUserProfile();
+	}
+	
+	@GetMapping("/getListingByApplicationId/{applicationId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public Listing searchJobs(@PathVariable long applicationId){
+        logger.info("Getting job post");
+		return userService.getListingByApplicationId(applicationId);
 	}
 	
 	@GetMapping("/searchjobs")
@@ -97,7 +124,7 @@ public class JobSeekerRestController {
 
 	@GetMapping("/getyourapplications")
 	@PreAuthorize("hasAuthority('SEEKER')")
-	public List<Applications> getAppliedJobs(JobSeekerDto seeker){
+	public List<Applications> getAppliedJobs(){
         logger.info("Fetching applied jobs for seeker: {}");
 
 		return userService.getAppliedJobs();

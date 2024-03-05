@@ -23,7 +23,6 @@ public class Resume {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long resumeId;
 	
-	@NotBlank
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
@@ -67,7 +66,7 @@ public class Resume {
 	
 	public Resume() {}
 
-	public Resume(long resumeId, @NotBlank String address, List<Languages> languages, List<Skills> skills,
+	public Resume(long resumeId, String address, List<Languages> languages, List<Skills> skills,
 			List<ReferenceLinks> referenceLinks, List<Accomplishments> accomplishments,
 			List<WorkExperience> experiences, List<Education> education, List<Project> projects,
 			List<Certification> certifications, ResumeDoc resumeFile) {
