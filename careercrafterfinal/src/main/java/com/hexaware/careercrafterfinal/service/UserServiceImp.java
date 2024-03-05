@@ -185,10 +185,10 @@ public class UserServiceImp implements IUserService {
 		return resumeTemp;
 	}
 	
-//	@Override
-//	public String getSeekerNameByResumeId(long resumeId) {
-//		return seekerRepository.getNameByResumeId(resumeId);
-//	}
+	@Override
+	public String getSeekerNameByResumeId(long resumeId) {
+		return seekerRepository.getNameByResumeId(resumeId);
+	}
 	
 	@Override
 	public Listing getListingByApplicationId(long applicationId) {

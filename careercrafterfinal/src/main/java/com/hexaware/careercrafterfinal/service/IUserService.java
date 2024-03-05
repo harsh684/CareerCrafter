@@ -36,5 +36,5 @@ public interface IUserService {
 
 	public Resume getCrafterResume() throws AuthenticationException;
 
-//	public String getSeekerNameByResumeId(long resumeId);
+	public String getSeekerNameByResumeId(long resumeId);
 }

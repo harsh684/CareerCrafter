@@ -75,9 +75,7 @@ public class EmployerServiceImp implements IEmployerService {
 				employer.setEmployerGender(emp.getEmployerGender());
 				employer.setCompanyName(emp.getCompanyName());
 				employer.setPhno(emp.getPhno());
-				
-//				hide h ye employer.setListings(emp.getListings());
-				
+//				employer.setListings(emp.getListings());
 				employer.setEmployerId(emp.getEmployerId());
 				
 				logger.info("Creating profile for employer: ", employer.getName());
@@ -106,6 +104,8 @@ public class EmployerServiceImp implements IEmployerService {
 		}else {
 			throw new UserAlreadyExistsException("Profile already exists");
 		}
+		
+		
 		return false;
 	}
 
@@ -224,7 +224,26 @@ public class EmployerServiceImp implements IEmployerService {
     		}
     		res.add(application);
 	    }
-
+//	    for(Applications app:listing.getApplications()) {
+//	    	temp=new Applications();
+//	    	temp.setApplicationId(app.getApplicationId());
+//	    	temp.setAppliedDate(app.getAppliedDate());
+//	    	temp.setCompanyName(app.getCompanyName());
+//	    	temp.setCoverLetter(app.getCoverLetter());
+//	    	temp.setProfile(app.getProfile());
+//	    	
+//	    	Resume resume = app.getResume();
+//	    	ResumeDoc tempDoc =  resume.getResumeFile();
+//	    	if(tempDoc!=null) {
+//	    		tempDoc.setData(null);
+//	    	}
+//	    	resume.setResumeFile(tempDoc);
+//	    	temp.setResume(resume);
+//	    	//temp.setResponseFile(app.getResponseFile());
+//	    	temp.setStatus(app.getStatus());
+//	    	
+//	    	res.add(temp);
+//	    }
 	    
 		return res;
 	}
@@ -312,24 +331,24 @@ public class EmployerServiceImp implements IEmployerService {
 		return isChanged;
 	}
 	
-//	@Override
-//	public Resume getResumeById(long resumeId){
-//		logger.info("Fetching resume");
-//	    Resume r = resumeRepository.findById(resumeId).orElse(null);
-//		Resume resume = new Resume();
-//			resume.setAccomplishments(r.getAccomplishments());
-//			resume.setAddress(r.getAddress());
-//			resume.setCertifications(r.getCertifications());
-//			resume.setEducation(r.getEducation());
-//			resume.setExperiences(r.getExperiences());
-//			resume.setLanguages(r.getLanguages());
-//			resume.setProjects(r.getProjects());
-//			resume.setReferenceLinks(r.getReferenceLinks());
-//			resume.setResumeId(r.getResumeId());
-//			resume.setSkills(r.getSkills());
-//		
-//		return resume;
-//	}
+	@Override
+	public Resume getResumeById(long resumeId){
+		logger.info("Fetching resume");
+	    Resume r = resumeRepository.findById(resumeId).orElse(null);
+		Resume resume = new Resume();
+			resume.setAccomplishments(r.getAccomplishments());
+			resume.setAddress(r.getAddress());
+			resume.setCertifications(r.getCertifications());
+			resume.setEducation(r.getEducation());
+			resume.setExperiences(r.getExperiences());
+			resume.setLanguages(r.getLanguages());
+			resume.setProjects(r.getProjects());
+			resume.setReferenceLinks(r.getReferenceLinks());
+			resume.setResumeId(r.getResumeId());
+			resume.setSkills(r.getSkills());
+		
+		return resume;
+	}
 	
 	@Override
 	public String getSeekerNameByResumeId(long resumeId) {

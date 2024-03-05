@@ -117,12 +117,12 @@ public class EmployerRestController {
 		return "Application status changed";
 	}
 	
-//	@GetMapping("/v1/getresumebyid/{resumeId}")
-//	@PreAuthorize("hasAuthority('EMPLOYER')")
-//	public Resume getResumeById(@PathVariable long resumeId){
-//		return employerService.getResumeById(resumeId);
-//	}
-//	
+	@GetMapping("/v1/getresumebyid/{resumeId}")
+	@PreAuthorize("hasAuthority('EMPLOYER')")
+	public Resume getResumeById(@PathVariable long resumeId){
+		return employerService.getResumeById(resumeId);
+	}
+	
 	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
 	@PreAuthorize("hasAuthority('EMPLOYER')")
 	public String getSeekerNameByResumeId(@PathVariable long resumeId){

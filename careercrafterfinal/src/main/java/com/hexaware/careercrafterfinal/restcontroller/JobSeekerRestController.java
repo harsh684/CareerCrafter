@@ -76,11 +76,11 @@ public class JobSeekerRestController {
 		return response;
 	}
 	
-//	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
-//	@PreAuthorize("hasAuthority('SEEKER')")
-//	public String getSeekerNameByResumeId(@PathVariable long resumeId){
-//		return userService.getSeekerNameByResumeId(resumeId);
-//	}
+	@GetMapping("/v1/getSeekerNameByResumeId/{resumeId}")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public String getSeekerNameByResumeId(@PathVariable long resumeId){
+		return userService.getSeekerNameByResumeId(resumeId);
+	}
 	
 	@PutMapping("/updateprofile")
 	@PreAuthorize("hasAuthority('SEEKER')")
