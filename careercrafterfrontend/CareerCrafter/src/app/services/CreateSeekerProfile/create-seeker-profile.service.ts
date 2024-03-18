@@ -58,4 +58,15 @@ export class CreateSeekerProfileService {
     return this.response;
   }
 
+  changePassword(password:string){
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.put<string>("http://localhost:8080/api/register/changePassword",password,{headers});
+  }
+
 }

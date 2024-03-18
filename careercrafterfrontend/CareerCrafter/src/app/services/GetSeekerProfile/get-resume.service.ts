@@ -31,7 +31,9 @@ export class GetResumeService {
         return this.response;
       },
       (err)=>{
-        alert(err);
+        if(err === 200){
+          alert(`Resume Uploaded`)
+        }
         console.log(err);
       });
   }

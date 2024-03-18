@@ -3,6 +3,7 @@ package com.hexaware.careercrafterfinal.restcontroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,6 +69,12 @@ public class RegistrationAuthRestController {
 		}
 		logger.info("Returning jwt token "+token);
 		return token;
+	}
+	
+	@PutMapping("/changePassword")
+	@PreAuthorize("hasAnyAuthority('EMPLOYER','SEEKER')")
+	public String changePassword(@RequestBody String password) throws Exception {
+		return clientService.changePassword(password);
 	}
 	
 	@GetMapping("/getCurrentUser")

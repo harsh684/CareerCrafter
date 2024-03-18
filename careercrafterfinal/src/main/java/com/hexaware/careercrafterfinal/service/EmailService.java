@@ -70,4 +70,26 @@ public class EmailService {
 		}
 	}
 	
+	@Async
+	public String sendPasswordChangeMail(String to) throws Exception {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+
+			mimeMessageHelper.setFrom(fromEmail);
+			mimeMessageHelper.setTo(to);
+			mimeMessageHelper.setSubject("Password Changed");
+			mimeMessageHelper.setText("Your password was successfully changed.");
+			
+			logger.info("Sending Email to the applicant");
+			mailSender.send(mimeMessage);
+			
+			return "mail sent";
+			
+		}catch(Exception e) {
+			throw new Exception();
+		}
+	}
+	
 }

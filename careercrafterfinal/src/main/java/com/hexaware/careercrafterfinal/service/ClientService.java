@@ -46,6 +46,21 @@ public class ClientService implements IClientService {
         return "user added to system ";
     }
 	
+    @Override
+    public String changePassword(String password) throws Exception{
+    	UserInfo currentUser = getCurrentUserInfo();
+		currentUser.setPassword(passwordEncoder.encode(password));
+        boolean isTrue = userInfoRepository.save(currentUser)!=null;
+        
+        if(isTrue) {
+        	logger.info("Current user password changed");
+        	emailService.sendPasswordChangeMail(currentUser.getEmail());
+        	return "Password Changed";
+        }else {
+        	throw new Exception("Password could not be changed");
+        }
+    }
+    
 	@Override
 	public UserInfo getCurrentUserInfo() throws AuthenticationException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

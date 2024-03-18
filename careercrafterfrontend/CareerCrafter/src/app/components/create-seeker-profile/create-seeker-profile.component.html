@@ -39,7 +39,7 @@
                                 <input class="form-control w-100" type="text" placeholder="Your Tagline"  formControlName="tagline" [ngClass]="{'is-invalid': submitted && f['tagline'].errors, 'is-valid': !f['tagline'].errors}" />
                                 <div class="warnings">
                                     <div *ngIf="submitted && f['tagline'].errors" class="invalid-feedback"></div>
-                                    <div class="valid-feedback" *ngIf="!f['tagline'].errors">phone number is valid</div>
+                                    <div class="valid-feedback" *ngIf="!f['tagline'].errors">tagline is valid</div>
                                     <div *ngIf="f['tagline'].errors?.['required']" class="text-danger mx-1">tagline required</div>
                                     <div *ngIf="f['tagline'].errors?.['pattern']" class="text-danger">tagline invalid</div>
                                 </div>
@@ -129,12 +129,23 @@
                 </div>
 
             </div>
-                <div class="btn-container mt-3"><div class="submit-button">
-                    <button type="submit" class="btn btn-primary w-100" [disabled]="createProfileForm.invalid">Save</button>
-                    <button class="btn btn-success w-100 mt-2" (click)="updateProfile()" [disabled]="createProfileForm.invalid">Update</button>
+                <div class="btn-container mt-3">
+                    <div class="submit-button">
+                     <button type="submit" class="btn btn-primary w-100" [disabled]="createProfileForm.invalid">Save</button>
+                     <button class="btn btn-success w-100 mt-2" (click)="updateProfile()" [disabled]="createProfileForm.invalid">Update</button>
+                    </div>
+                </div>
+                <div class="seperator my-3 border"></div>
+            </form>
+            <div class="change-password-section">
+                <div>
+                    <h4>Change Password</h4>
+                    <div class="text-center w-100">
+                        <input class="form-control mx-auto my-2" type="text" name="changedPassword" placeholder="Change Password" [(ngModel)]="changedPassword" >
+                        <div><button class="btn btn-primary" (click)="changePassword()" type="button">Change</button></div>
+                    </div>
                 </div>
             </div>
-            </form>
         </div>
     </div>
     

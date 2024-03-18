@@ -29,6 +29,7 @@ export class RegistrationService {
       responseType: 'text'
     }
     if(userInfo.role === "SEEKER"){
+      console.log(`Inside Register User service seeker`);
       await this.httpClient.post<string>(this.baseURL+"user",userInfo,requestOptions).subscribe(res=>{
         this.response = res;
         console.log(this.response);
@@ -48,6 +49,7 @@ export class RegistrationService {
 
     }
     else if(userInfo.role === "EMPLOYER"){
+      console.log(`Inside Register User Employer`);
       await this.httpClient.post<string>(this.baseURL+"employer",userInfo,requestOptions).subscribe(res=>{
         this.response = res;
         console.log(this.response);

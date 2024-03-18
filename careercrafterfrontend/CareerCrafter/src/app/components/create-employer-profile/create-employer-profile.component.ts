@@ -17,6 +17,8 @@ import { GetEmployerProfileService } from 'src/app/services/GetEmployerProfile/g
 })
 export class CreateEmployerProfileComponent {
 
+  changedPassword:string='';
+
   employer:Employer={
     employerId:0,
     name:"",
@@ -134,6 +136,27 @@ export class CreateEmployerProfileComponent {
       this.submitted=false;
       return ;
     }
+  }
+
+  changePassword(){
+    this.createProfileService.changePassword(this.changedPassword).subscribe(
+      (res)=>{
+        alert( `Password changed`);
+        this.changedPassword = '';
+      },
+      (err)=>{
+        if(err.status === 200){
+          alert( `Password changed`);
+          this.changedPassword = '';
+        }else if(err.status === 403){
+          alert( `Session expired`);
+          this.route.navigate(['/']);
+        }else{
+          alert( 'Something went wrong');
+          this.changedPassword = '';
+        }
+      }
+    )
   }
 
   updateProfile(){

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserInfo } from 'src/app/model/UserInfo';
 import { JobSeeker } from 'src/app/model/jobseeker.model';
 import { CreateSeekerProfileService } from 'src/app/services/CreateSeekerProfile/create-seeker-profile.service';
-import { GetCurrentUserService } from 'src/app/services/GetCurrentUser/get-current-user.service';
 import { GetSeekerProfileService } from 'src/app/services/GetSeekerProfile/get-seeker-profile.service';
 
 @Component({
@@ -17,6 +16,8 @@ export class CreateSeekerProfileComponent {
   createProfileForm!:FormGroup;
 
   submitted=false;
+
+  changedPassword:string = '';
 
   isGenderSelected: boolean = false;
   isValidGender=false;
@@ -72,19 +73,30 @@ export class CreateSeekerProfileComponent {
     },
   }
 
-  constructor(private formBuilder:FormBuilder,private userInfo:GetCurrentUserService,
+  userInfo!:UserInfo;
+  // private userInfo:GetCurrentUserService
+  constructor(private formBuilder:FormBuilder,
      private createSeekerProfileService:CreateSeekerProfileService,private route:Router,
-     private getSeekerProfile:GetSeekerProfileService){}
+     private getSeekerProfile:GetSeekerProfileService){
+      const temp = localStorage.getItem('currentUser');
+      if(temp!=null){
+        this.userInfo = JSON.parse(temp);
+        this.currentUser = this.userInfo;
+      }
+     }
 
   ngOnInit():void{
 
-    this.userInfo.getCurrentUser().subscribe(user=>{
-      this.currentUser=user;
-    },
-    err=>{
-      console.log(err);
-      window.location.reload();
-    });
+    // this.userInfo.getCurrentUser().subscribe(user=>{
+    //   this.currentUser=user;
+    // },
+    // err=>{
+    //   console.log(err);
+    //   window.location.reload();
+    // });
+    // console.log(this.currentUser);
+
+    console.log(`Inside Create Seeker Profile Component`);
 
     this.createProfileForm = this.formBuilder.group({
       tagline: ['',Validators.required], //, Validators.pattern('^[^\d\W]*$')
@@ -166,19 +178,21 @@ export class CreateSeekerProfileComponent {
 
       this.createSeekerProfileService.createSeekerProfile(this.seeker).subscribe(
         (res)=>{
+          alert( `Profile created`);
+          this.route.navigate(['/edit-resume']);
           response=res;
+        },
+        (err)=>{
+          if(err.status === 200){
+            alert( `Profile created`);
+            this.route.navigate(['/edit-resume']);
+          }
+          else{
+            alert("Some error occurred");
+            this.route.navigate(['/create-employer-profile']);
+          }
         }
       )
-
-      if(response!=""){
-        alert( `Profile created`);
-        // window.location.reload();
-        this.route.navigate(['/edit-resume']);
-      }else{
-        alert('Some Error occured');
-        this.route.navigate(['/create-employer-profile']);
-      };
-
     }else{
       this.submitted=false;
       return ;
@@ -208,12 +222,24 @@ export class CreateSeekerProfileComponent {
       this.createSeekerProfileService.updateSeekerProfile(this.seeker).subscribe(
         (res)=>{
           response=res;
-        }
-      )
+        },
+        (err)=>{
+          if(err.status === 200){
+            alert( `Profile updated`);
+            this.route.navigate(['/']);
+          }
+          else{
+            alert("Some error occurred");
+            this.route.navigate(['/create-employer-profile']);
+          }
+        });
 
       if(this.pictureFile!=null){
         this.createSeekerProfileService.uploadProfilePicture(this.pictureFile).then((res)=>{
           response=res;
+          alert( `Profile updated`);
+        // window.location.reload();
+        this.route.navigate(['/']);
         },
         (err)=>{
           alert(`Error occured`);
@@ -222,7 +248,7 @@ export class CreateSeekerProfileComponent {
       }
 
       if(response!=""){
-        alert( `Profile created`);
+        alert( `Profile updated`);
         // window.location.reload();
         this.route.navigate(['/']);
       }else{
@@ -235,6 +261,27 @@ export class CreateSeekerProfileComponent {
       return ;
     }
 
+  }
+
+  changePassword(){
+    this.createSeekerProfileService.changePassword(this.changedPassword).subscribe(
+      (res)=>{
+        alert( `Password changed`);
+        this.changedPassword = '';
+      },
+      (err)=>{
+        if(err.status === 200){
+          alert( `Password changed`);
+          this.changedPassword = '';
+        }else if(err.status === 403){
+          alert( `Session expired`);
+          this.route.navigate(['/']);
+        }else{
+          alert( 'Something went wrong');
+          this.changedPassword = '';
+        }
+      }
+    )
   }
 
   selectFile(event: any){

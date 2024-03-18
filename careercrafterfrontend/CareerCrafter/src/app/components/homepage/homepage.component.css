@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import '/node_modules/font-awesome/css/font-awesome.css';
+
 .hero-section-wrapper{
   height: min-content;
 }
@@ -82,7 +85,9 @@
 .listing-status-closed{
     background-color: rgb(255, 141, 141);
 }
-
+.listing-body-contents{
+  color: rgb(87, 87, 87);
+}
 .image-container {
   display: flex;
   justify-content: center;

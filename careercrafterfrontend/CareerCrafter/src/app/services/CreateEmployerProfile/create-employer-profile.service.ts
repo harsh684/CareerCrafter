@@ -25,6 +25,17 @@ createEmployerProfile(employer: Employer):Observable<any> {
     return this.http.post<any>("http://localhost:8080/api/employer/v1/createprofile",employer,{observe: 'response',headers});
   }
 
+  changePassword(password:string){
+    let tokenString = "Bearer " +localStorage.getItem("token");
+
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+
+    return this.http.put<string>("http://localhost:8080/api/register/changePassword",password,{headers});
+  }
+  
   updateEmployerProfile(employer: Employer){
 
     let tokenString = "Bearer "+localStorage.getItem("token");
