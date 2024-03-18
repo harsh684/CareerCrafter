@@ -17,24 +17,43 @@ export class ShowListingDetails {
 
   requiredSkills:Skills[]= [];
 
+  appliedList:number[]=[]
+
   constructor(private getSeekerProfile:GetSeekerProfileService, private activatedRoute: ActivatedRoute,private route:Router){}
 
   ngOnInit(){
-    this.getSeekerProfile.getResumeFile().subscribe(
-      (res)=>{
-        this.resumeFile=res;
-      });
-
+    // this.getSeekerProfile.getResumeFile().subscribe(
+    //   (res)=>{
+    //     this.resumeFile=res;
+    //   });
+      console.log(`Inside show listing details component`);
+      
       this.activatedRoute.queryParams.subscribe(
         (params)=>{
           if(params['listing']){
             const decodedData = decodeURIComponent(params['listing']);
             this.listing = JSON.parse(decodedData);
-            console.log(this.listing);
+            // console.log(this.listing);
             this.requiredSkills = this.listing.reqSkills;
           }
         }
       )
+
+      this.getSeekerProfile.getAppliedListingIds().subscribe(
+        (res)=>{
+          this.appliedList = res;
+          console.log(res);
+        },
+        (err)=>{
+          if(err.status === 200){
+            console.log(err.error.text);
+          }else if(err.status === 403){
+            localStorage.clear();
+            this.route.navigate(['/login-employer']);
+          }else{
+            console.log(err);
+          }
+        })
   }
 
   apply(listingId:number){

@@ -16,7 +16,7 @@ export class SeekerApplicationsComponent {
     this.applicationService.getMyApplication().subscribe(
       (res)=>{
         this.applications = res;
-        console.log(this.applications);
+        console.log(`Inside Seeker Applications Component`);
       }
     )
   }

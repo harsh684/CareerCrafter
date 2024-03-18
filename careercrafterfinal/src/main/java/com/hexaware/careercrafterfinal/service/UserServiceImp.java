@@ -262,6 +262,10 @@ public class UserServiceImp implements IUserService {
 				if(seeker==null) 
 					throw new ProfileNotFoundException("Profile Not Found in the database");
 				
+				if(seeker.getResume()==null) {
+					throw new Exception("Resume Not Found!");
+				}
+				
 				application.setResume(seeker.getResume());
 //				if(seeker.getResume().getResumeFile()!=null) {
 //					application.setResponseFile(storageService.getSingleResumeResponse(
@@ -349,6 +353,19 @@ public class UserServiceImp implements IUserService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public List<Long> getListingIds(){
+		List<Long> listingIdList = null;
+		try {
+			UserInfo user = getCurrentUserInfo();
+			listingIdList = applicationRepository.getListingIds(user.getRoleId());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listingIdList;
 	}
 
 	@Override

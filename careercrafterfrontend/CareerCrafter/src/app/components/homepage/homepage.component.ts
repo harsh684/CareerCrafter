@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,6 +8,7 @@ import { GetSeekerProfileService } from 'src/app/services/GetSeekerProfile/get-s
 import { SearchJobsService } from 'src/app/services/SearchJobs/search-jobs.service';
 
 @Component({
+  providers: [CurrencyPipe],
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']

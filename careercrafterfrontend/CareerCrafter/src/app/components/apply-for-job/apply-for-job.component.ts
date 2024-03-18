@@ -50,16 +50,18 @@ export class ApplyForJobComponent {
   constructor(private activatedRoute: ActivatedRoute,private resumeService:GetResumeService,
     private applicationyService:ApplyForJobService,private route:Router){}
   ngOnInit(){
+    console.log(`Inside apply for job component`);
+    
     this.activatedRoute.params.subscribe(params=>{
       this.listingId=params['listingId'];
-      console.log(this.listingId)
+      // console.log(this.listingId)
     })
   }
 
   uploadResume(event:any){
     if(event.target.files){
       this.resumeFile =event.target.files[0];
-      console.log(this.resumeFile);
+      console.log(`Resume uploaded`);
       this.resumeService.uploadResumeDoc(this.resumeFile);
     }
   }

@@ -70,6 +70,16 @@
                 </div>
             </div>
             </form>
+            <div class="seperator my-3 border"></div>
+            <div class="change-password-section">
+                <div>
+                    <h4>Change Password</h4>
+                    <div class="text-center w-100">
+                        <input class="form-control mx-auto my-2" type="text" name="changedPassword" placeholder="Change Password" [(ngModel)]="changedPassword" >
+                        <div><button class="btn btn-primary" (click)="changePassword()" type="button">Change</button></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     

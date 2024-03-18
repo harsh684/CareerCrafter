@@ -130,6 +130,14 @@ public class JobSeekerRestController {
 		return userService.getAppliedJobs();
 	}
 	
+	@GetMapping("/getAppledListingList")
+	@PreAuthorize("hasAuthority('SEEKER')")
+	public List<Long> getListingIds(){
+		logger.info("Fetching applied jobs jobIds for seeker: {}");
+
+		return userService.getListingIds();
+	}
+	
 	@GetMapping("/trackStatus/{applicationId}")
 	@PreAuthorize("hasAuthority('SEEKER')")
 	public String trackStatus(@PathVariable @Valid long applicationId) throws ApplicationException {
