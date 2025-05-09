@@ -45,13 +45,17 @@ The platform connects **Job Seekers** with **Job Recruiters**, offering a seamle
 
 ---
 
-### ** Backend ** (Spring Boot)
+1️⃣ Backend (Spring Boot)
 ```bash
 cd backend
 # Configure application.properties with your MySQL credentials
 mvn spring-boot:run
 
-### ** Frontend ** (Angular)
+---
+
+
+2️⃣ Frontend (Angular)
+```bash
 cd frontend
 npm install
 ng serve
